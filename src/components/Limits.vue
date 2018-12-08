@@ -1,7 +1,5 @@
 <template>
   <div>
-    <pre>possible prefixes: {{ limitPrefixes }}</pre>
-    <pre>{{ comboValue }}</pre>
     <select
       :options="selectionOptions"
       v-model="selectedOption"
@@ -13,6 +11,14 @@
       v-model="comboValue"
       @save-combo-value="save"
       ></limit-setter>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card fluid"><pre>possible prefixes: {{ limitPrefixes }}</pre></div>
+        </div>
+        <div class="col-sm-6">
+          <div v-if="selectedOption" class="card fluid"><pre>{{ comboValue }}</pre></div>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -46,11 +52,16 @@ export default {
   },
   methods: {
     save() {
-      alert(JSON.stringify(this.comboValue))
+      if (this.comboValue.limitValue.trim()) {
+        this.$emit("save-limits", this.comboValue)
+        this.selectedOption = null // Reset selection
+      } else {
+        alert("Value must be present!")
+      }
     },
     optionSelected() {
       this.comboValue = {
-        for: this.selectedOption,
+        forWhat: this.selectedOption || "",
         limitValue: "",
         isHardLimit: false
       }
@@ -59,7 +70,7 @@ export default {
   computed: {
     selectionOptions() {
       return Object.entries(this.limits)
-        .filter(([k, v]) => v === null && this.limitPrefixes.includes(k))
+        .filter(([k, v]) => v.value === null && this.limitPrefixes.includes(k))
         .map(([prefix, _]) => ({
           id: prefix,
           text: startCase(prefix)

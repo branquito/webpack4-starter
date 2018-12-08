@@ -1,13 +1,22 @@
 <template>
   <div>
     <h5>Limit Setter</h5>
-    <input ref="ls_input" :value="value.limitValue" @input="updateComboValue" />
-    <p>
-      <label>
-        Hard limit: <input ref="ls_checkbox" type="checkbox" :checked="value.isHardLimit" @change="updateComboValue" />
-      </label>
-    </p>
-    <button @click="save">Save</button>
+    <form>
+      <fieldset>
+        <legend>Limit</legend>
+        <div clsas="row">
+          <div class="col-sm-12 col-md-6">
+            <label for="ls_input">Choose limit:</label>
+            <input id="ls_input" ref="ls_input" :value="value.limitValue" @input="updateComboValue" />
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <label for="ls_checkbox">Choose value:</label>
+            <input ref="ls_checkbox" type="checkbox" :checked="value.isHardLimit" @change="updateComboValue" />
+          </div>
+        </div>
+      </fieldset>
+    </form>
+    <button class="primary small" @click="save">Save</button>
   </div>
 </template>
 <script>

@@ -1,4 +1,4 @@
-// import style from "./main.css"
+import "mini.css"
 
 import Vue from "vue"
 
