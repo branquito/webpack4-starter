@@ -1,9 +1,10 @@
-import style from "./main.css"
+// import style from "./main.css"
 
-console.log("I am dummy entry point")
+import Vue from "vue"
 
-const arr = [1, 2, 3, 4, 5]
+import App from "./App.vue"
 
-const f = () => console.log(...arr)
-
-window.f = f
+new Vue({
+  el: "#app",
+  render: h => h(App)
+})
