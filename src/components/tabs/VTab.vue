@@ -1,6 +1,8 @@
 <template>
-  <div v-show="active" :id="hash">
-    <slot />
+  <div class="panel panel-default" v-show="active" :id="hash">
+    <div class="panel-body">
+      <slot />
+    </div>
   </div>
 </template>
 <script>
@@ -18,8 +20,16 @@ export default {
   },
   computed: {
     hash() {
-      return `${this.name.toLowerCase().replace(/ /g, '-')}`
+      return `${this.name.toLowerCase().replace(/ /g, "-")}`
     }
   }
 }
 </script>
+<style scoped>
+.panel-default {
+  border: none;
+}
+.panel-body {
+  min-height: 250px;
+}
+</style>
