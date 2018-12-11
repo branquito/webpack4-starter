@@ -48,7 +48,7 @@ module.exports = {
     }),
     new HtmlWebPackPlugin({
       chunks: ['page2'],
-      template: './src/index.html',
+      template: './src/index_alt.html',
       filename: 'index_alt.html'
     }),
     new MiniCssExtractPlugin({
