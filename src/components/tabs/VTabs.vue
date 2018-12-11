@@ -1,10 +1,36 @@
 <template>
   <div>
     <ul class="nav nav-tabs">
-      <li><a href="#">tab 1</a></li>
-      <li class="active"><a href="#">tab 2</a></li>
-      <li><a href="#">tab 3</a></li>
+      <li v-for="tab in tabs"><a @click.prevent="switchTab(tab.hash)">{{ tab.name }}</a></li>
     </ul>
     <slot />
   </div>
 </template>
+<script>
+export default {
+  name: 'tabs',
+  data() {
+    return {
+      tabs: []
+    }
+  },
+  methods: {
+    findTab(hash) {
+      return this.tabs.find(tab => tab.hash === hash)
+    },
+    switchTab(hash) {
+      const selectedTab = this.findTab(hash)
+      if (typeof selectedTab !== 'undefined') {
+        return
+      }
+      this.tabs.forEach(tab => (tab.active = tab.hash === selectedTab.hash))
+    }
+  },
+  mounted() {
+    this.switchTab(this.tabs[0].hash)
+  },
+  created() {
+    this.tabs = this.$children
+  }
+}
+</script>

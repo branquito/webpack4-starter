@@ -1,8 +1,8 @@
 <template>
   <v-tabs>
-    <v-tab></v-tab>
-    <v-tab></v-tab>
-    <v-tab></v-tab>
+    <v-tab name="Tab 1">tab 1 content</v-tab>
+    <v-tab name="Tab 2">tab 2 is slightly different</v-tab>
+    <v-tab name="Tab 3">tab 3 is the last tab for now</v-tab>
   </v-tabs>
 </template>
 <script>
