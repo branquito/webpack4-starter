@@ -20,24 +20,24 @@
         v-model="calculated"
        @change="calculationMethodSelected"
        >
-       <option v-for="opt in ['bill_rate', 'pay_rate', 'margin']" :value="opt">{{ opt }}</option>
+       <option v-for="opt in ['billRate', 'payRate', 'margin']" :value="opt">{{ opt }}</option>
       </select>
     </p>
     <p>
       <label for="bill_rate">Bill Rate</label>
       <input
-        v-model.number="fields.bill_rate"
+        v-model.number="fields.billRate"
         @input="inputChanged"
-        :disabled="calculated === 'bill_rate'"
+        :disabled="calculated === 'billRate'"
         id="bill_rate"
         type="text">
     </p>
     <p>
       <label for="pay_rate">Pay Rate</label>
       <input
-        v-model.number="fields.pay_rate"
+        v-model.number="fields.payRate"
         @input="inputChanged"
-        :disabled="calculated === 'pay_rate'"
+        :disabled="calculated === 'payRate'"
         id="pay_rate"
         type="text">
     </p>
@@ -78,55 +78,60 @@ const curriedSubstract = curry(substract)
 const curriedBillRate = curry(billRateFunc)
 const curriedPayRate = curry(payRateFunc)
 const curriedMargin = curry(marginFunc)
+
 export default {
   data() {
     return {
       margin_in_percent: false,
-      calculated: "bill_rate",
+      calculated: "billRate",
       frequencies: ["hourly", "weekly", "monthly"],
       fields: {
-        bill_rate: 0, // must be the first operand, because of reuduce() method below!
-        pay_rate: 0,
+        billRate: 0, // must be the first operand, because of reuduce() method below!
+        payRate: 0,
         margin: 0
       },
-      mutable: []
+      mutable: [],
+      funcRefs: {
+        curriedBillRate,
+        curriedPayRate,
+        curriedMargin
+      }
     }
   },
   methods: {
+    upperFirst(str) {
+      return str
+        .charAt(0)
+        .toUpperCase()
+        .concat(str.slice(1))
+    },
+
     reevaluateMargin(e) {
       this.inputChanged()
     },
+
     inputChanged() {
+      let f
       this.mutable = Object.entries(this.fields).filter(([type, value]) => {
         return type !== this.calculated
       })
       if (!this.margin_in_percent) {
-        const f =
-          this.calculated === "bill_rate" ? curriedAdd : curriedSubstract
-        const result = this.mutable.reduce(([t1, v1], [t2, v2]) => {
-          return f(Math.abs(v1))(Math.abs(v2))
-        })
-        this.fields[this.calculated] = result
+        f = this.calculated === "billRate" ? curriedAdd : curriedSubstract
       } else {
-        let f
-        if (this.calculated === "bill_rate") {
-          f = curriedBillRate
-        }
-        if (this.calculated === "pay_rate") {
-          f = curriedPayRate
-        }
-        if (this.calculated === "margin") {
-          f = curriedMargin
-        }
-        const result = this.mutable.reduce(([t1, v1], [t2, v2]) => {
-          return f(Math.abs(v1))(Math.abs(v2))
-        })
-        this.fields[this.calculated] = result
+        const funcName = `curried${this.upperFirst(this.calculated)}`
+        f = this.funcRefs[funcName]
       }
+
+      const result = this.mutable.reduce(([t1, v1], [t2, v2]) => {
+        return f(Math.abs(v1))(Math.abs(v2))
+      })
+      this.fields[this.calculated] = result
     },
+
     frequencySelected() {
       console.log("frequency selected")
     },
+
     calculationMethodSelected(e) {
       console.log("calculation method selected", e.target.value)
     }
@@ -137,12 +142,13 @@ export default {
         ? this.fields.margin / 100
         : this.fields.margin
     },
+
     marginRepresentation() {
-      if (this.fields.bill_rate !== 0) {
+      if (this.fields.billRate !== 0) {
         if (this.margin_in_percent) {
-          return this.realMargin * this.fields.bill_rate
+          return this.realMargin * this.fields.billRate
         }
-        return (this.fields.margin / this.fields.bill_rate) * 100
+        return (this.fields.margin / this.fields.billRate) * 100
       }
       return "division by zero"
     }
