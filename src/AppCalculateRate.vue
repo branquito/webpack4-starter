@@ -1,7 +1,9 @@
 <template>
   <div class="root">
     <h3>app calculate rate</h3>
-    <h5>mutable fields: {{ mutable }}</h5>
+    <h5>mutable fields: </h5>
+    <pre>{{ mutable[0] }}</pre>
+    <pre>{{ mutable[1] }}</pre>
     <p>
       <label for="frequency">Frequency:</label>
       <select
@@ -40,6 +42,15 @@
         type="text">
     </p>
     <p>
+      <label for="is_percent">Show in %</label>
+      <input
+        id="is_percent"
+        type="checkbox"
+        v-model="margin_in_percent"
+        @change="reevaluateMargin"
+        >
+    </p>
+    <p>
       <label for="margin">Margin</label>
       <input
         v-model.number="fields.margin"
@@ -48,7 +59,7 @@
         id="margin" type="text"
         >
     </p>
-    <p>Margin (percentage value): {{ marginPercent }}</p>
+    <p>Margin: {{ marginRepresentation }}</p>
   </div>
 </template>
 <script>
@@ -71,8 +82,8 @@ export default {
   data() {
     return {
       margin_in_percent: false,
-      calculated: 'bill_rate',
-      frequencies: ['hourly', 'weekly', 'monthly'],
+      calculated: "bill_rate",
+      frequencies: ["hourly", "weekly", "monthly"],
       fields: {
         bill_rate: 0, // must be the first operand, because of reuduce() method below!
         pay_rate: 0,
@@ -82,25 +93,29 @@ export default {
     }
   },
   methods: {
-    inputChanged(e) {
+    reevaluateMargin(e) {
+      this.inputChanged()
+    },
+    inputChanged() {
       this.mutable = Object.entries(this.fields).filter(([type, value]) => {
         return type !== this.calculated
       })
       if (!this.margin_in_percent) {
-        const f = this.calculated === 'bill_rate' ? curriedAdd : curriedSubstract
+        const f =
+          this.calculated === "bill_rate" ? curriedAdd : curriedSubstract
         const result = this.mutable.reduce(([t1, v1], [t2, v2]) => {
           return f(Math.abs(v1))(Math.abs(v2))
         })
         this.fields[this.calculated] = result
       } else {
         let f
-        if (this.calculated === 'bill_rate') {
+        if (this.calculated === "bill_rate") {
           f = curriedBillRate
         }
-        if (this.calculated === 'pay_rate') {
+        if (this.calculated === "pay_rate") {
           f = curriedPayRate
         }
-        if (this.calculated === 'margin') {
+        if (this.calculated === "margin") {
           f = curriedMargin
         }
         const result = this.mutable.reduce(([t1, v1], [t2, v2]) => {
@@ -110,29 +125,34 @@ export default {
       }
     },
     frequencySelected() {
-      console.log('frequency selected')
+      console.log("frequency selected")
     },
     calculationMethodSelected(e) {
-      console.log('calculation method selected', e.target.value)
+      console.log("calculation method selected", e.target.value)
     }
   },
   computed: {
     realMargin() {
-      return this.margin_in_percent ? this.fields.margin / 100 : this.fields.margin
+      return this.margin_in_percent
+        ? this.fields.margin / 100
+        : this.fields.margin
     },
-    marginPercent() {
+    marginRepresentation() {
       if (this.fields.bill_rate !== 0) {
         if (this.margin_in_percent) {
           return this.realMargin * this.fields.bill_rate
         }
-        return (this.fields.margin / this.fields.bill_rate) * 100 + '%'
+        return (this.fields.margin / this.fields.bill_rate) * 100
       }
-      return 'division by zero'
+      return "division by zero"
     }
   }
 }
 </script>
 <style scoped>
+pre {
+  white-space: normal;
+}
 .root {
   display: block;
   text-align: center;
