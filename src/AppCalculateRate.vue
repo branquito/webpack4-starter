@@ -54,10 +54,19 @@
 <script>
 const add = (m, n) => m + n
 const substract = (m, n) => m - n
+
+const billRateFunc = (pr, ma) => pr / (1 - ma / 100)
+const payRateFunc = (br, ma) => br * (1 - ma / 100)
+const marginFunc = (br, pr) => 100 * (1 - pr / br)
+
 const curry = f => x => y => f(x, y)
 
 const curriedAdd = curry(add)
 const curriedSubstract = curry(substract)
+
+const curriedBillRate = curry(billRateFunc)
+const curriedPayRate = curry(payRateFunc)
+const curriedMargin = curry(marginFunc)
 export default {
   data() {
     return {
@@ -77,13 +86,28 @@ export default {
       this.mutable = Object.entries(this.fields).filter(([type, value]) => {
         return type !== this.calculated
       })
-      const f = this.calculated === 'bill_rate' ? curriedAdd : curriedSubstract
-      const result = this.mutable.reduce(([t1, v1], [t2, v2]) => {
-        // v1 !== '' ? v1 : 0
-        // v2 !== '' ? v2 : 0
-        return f(Math.abs(v1))(Math.abs(v2))
-      })
-      this.fields[this.calculated] = result
+      if (!this.margin_in_percent) {
+        const f = this.calculated === 'bill_rate' ? curriedAdd : curriedSubstract
+        const result = this.mutable.reduce(([t1, v1], [t2, v2]) => {
+          return f(Math.abs(v1))(Math.abs(v2))
+        })
+        this.fields[this.calculated] = result
+      } else {
+        let f
+        if (this.calculated === 'bill_rate') {
+          f = curriedBillRate
+        }
+        if (this.calculated === 'pay_rate') {
+          f = curriedPayRate
+        }
+        if (this.calculated === 'margin') {
+          f = curriedMargin
+        }
+        const result = this.mutable.reduce(([t1, v1], [t2, v2]) => {
+          return f(Math.abs(v1))(Math.abs(v2))
+        })
+        this.fields[this.calculated] = result
+      }
     },
     frequencySelected() {
       console.log('frequency selected')
@@ -98,6 +122,9 @@ export default {
     },
     marginPercent() {
       if (this.fields.bill_rate !== 0) {
+        if (this.margin_in_percent) {
+          return this.realMargin * this.fields.bill_rate
+        }
         return (this.fields.margin / this.fields.bill_rate) * 100 + '%'
       }
       return 'division by zero'
