@@ -4,7 +4,12 @@
       <slot
         name="link"
         :link="link"
-        :bookmark="bookmark"
+        :bookmarkButtonAttrs="{
+        style: [link.bookmarked ? { display: 'none' } : {} ]
+        }"
+        :bookmarkButtonEvents="{
+          click: () => bookmark(link)
+        }"
         ></slot>
     </li>
   </div>
