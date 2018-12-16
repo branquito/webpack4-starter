@@ -1,8 +1,9 @@
-import Vue from 'vue'
+import Vue from "vue"
 
 // import App2 from "./App2.vue"
 // import App3 from './App3.vue'
-import AppCalculateRate from './AppCalculateRate.vue'
+// import AppCalculateRate from './AppCalculateRate.vue'
+import AppRenderlessTags from "./components/renderless/AppRenderlessTags.vue"
 
 // new Vue({
 //   el: '#app_alt3',
@@ -15,6 +16,6 @@ import AppCalculateRate from './AppCalculateRate.vue'
 // })
 
 new Vue({
-  el: '#app_alt2',
-  render: h => h(AppCalculateRate)
+  el: "#app_alt2",
+  render: h => h(AppRenderlessTags)
 })
