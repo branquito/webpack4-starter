@@ -1,7 +1,11 @@
 <template>
   <div>
     <li v-for="link in links">
-      <slot name="link" :link="link"></slot>
+      <slot
+        name="link"
+        :link="link"
+        :bookmark="bookmark"
+        ></slot>
     </li>
   </div>
 </template>
@@ -14,6 +18,11 @@ export default {
         {href: "#second", title: "Second link", bookmarked: false},
         {href: "#third", title: "Third link", bookmarked: false}
       ]
+    }
+  },
+  methods: {
+    bookmark(link) {
+      link.bookmarked = true
     }
   }
 }
