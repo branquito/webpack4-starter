@@ -1,11 +1,12 @@
 <template>
-  <renderless-tags-input>
-    <div slot-scope="{}" class="tags-input">
+  <renderless-tags-input v-model="tags">
+    <div slot-scope="{tags, removeTag}" class="tags-input">
       <input type="text" class="tags-input-text" placeholder="Add tag...">
       <span class="tags-input-tag">
-        <span>Testing</span>
-        <span>Design</span>
-        <button type="button" class="tags-input-remove">&times;</button>
+        <span v-for="tag in tags">
+          {{ tag }} <button type="button" @click="removeTag(tag)" class="tags-input-remove">&times;</button>
+        </span>
+
       </span>
     </div>
   </renderless-tags-input>
@@ -16,7 +17,9 @@ import RenderlessTagsInput from "./RenderlessTagsInput.vue"
 export default {
   components: {RenderlessTagsInput},
   data() {
-    return {}
+    return {
+      tags: ["tag one", "tag two", "tag three"]
+    }
   }
 }
 </script>
@@ -33,9 +36,10 @@ export default {
     padding: 5px;
     border: 1px solid green;
     display: inline-block;
+    margin-right: 1em;
   }
   &-remove {
-    background-color: red;
+    color: red;
   }
 }
 </style>
