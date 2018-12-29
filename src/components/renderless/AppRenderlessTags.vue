@@ -1,7 +1,13 @@
 <template>
   <renderless-tags-input v-model="tags">
-    <div slot-scope="{tags, removeTag}" class="tags-input">
-      <input type="text" class="tags-input-text" placeholder="Add tag...">
+    <div slot-scope="{tags, removeTag, inputAttrs, inputEvents}" class="tags-input">
+      <input
+        type="text"
+        class="tags-input-text"
+        placeholder="Add tag..."
+        v-bind="inputAttrs"
+        v-on="inputEvents"
+        >
       <span class="tags-input-tag">
         <span v-for="tag in tags">
           {{ tag }} <button type="button" @click="removeTag(tag)" class="tags-input-remove">&times;</button>

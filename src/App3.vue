@@ -12,6 +12,9 @@ export default {
         name: {
           type: "text"
         },
+        pin: {
+          type: "password"
+        },
         age: {
           type: "text"
         }
