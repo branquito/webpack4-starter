@@ -1,18 +1,11 @@
 <template>
   <div>
-    {{ perms }}
+    <div v-if="editMode">
+      {{ perms }}
+    </div>
   </div>
 </template>
 <script>
-export default {
-  props: {
-    perms: {
-      type: Array,
-      required: false,
-      default() {
-        return []
-      }
-    }
-  }
-}
+import ResourceBase from "../interface/ResourceBase"
+export default ResourceBase.extend({})
 </script>

@@ -12,24 +12,29 @@
       </div>
     </div>
     <div class="row col-md-12">
-      <v-tabs>
-        <v-tab v-for="role in Object.keys(roles)" :name="hf( role )" :key="role">
+      <v-tabs v-if="r.length">
+        <v-tab v-for="[ role, value ] in transformedRoles" :name="hf( role )" :key="role">
           <div class="row">
-            <div v-for="resource in roles[role]" class="animate" :class="[ resource.id === resourceStatus.isEditing ? 'col-md-8' : 'col-md-4' ]">
-              <div class="panel" :class="resourceStyle(resource)">
+            <div v-for="{id, cmp, props} in value" class="animate" :class="[ id === resourceStatus.isEditing ? 'col-md-8' : 'col-md-4' ]">
+              <div class="panel" :class="resourceStyle(id)">
                 <div class="panel-heading clearfix">
-                  {{ hf( resource.cmp ) }}
+                  {{ hf( cmp ) }}
                   <div class="pull-right">
-                    <a @click="edit(resource.id)" class="btn btn-default">
+                    <a @click="edit(id)" class="btn btn-default">
                       <span class="glyphicon glyphicon-pencil"></span>
                     </a>
-                    <a @click="remove(resource.id)" class="btn btn-default">
+                    <a @click="remove(id)" class="btn btn-default">
                       <span class="glyphicon glyphicon-trash"></span>
                     </a>
                   </div>
                 </div>
                 <div class="panel-body">
-                  <component :is="resource['cmp']+'-module'" v-bind="resource['props']"></component>
+                  <component
+                    :is="cmp + '-module'"
+                    :resource-id="id"
+                    :is-editing="resourceStatus.isEditing"
+                    v-bind="props"
+                    ></component>
                 </div>
               </div>
             </div><!-- module -->
@@ -55,38 +60,45 @@ export default {
     VTabs,
     VTab
   },
+  mounted() {
+    let fakeRoles = Array.from(new Array(6), this.createRandomRole)
+    this.r = [...fakeRoles]
+  },
   data() {
     return {
       resourceStatus: {
         isEditing: false,
         isRemoving: false
       },
-      roles: {
-        employee: [
-          {id: 1, cmp: "project", props: [{perms: ["ruleTwo"]}]},
-          {id: 2, cmp: "invoice", props: []}
-        ],
-        vendor: [
-          {id: 3, cmp: "general", props: [{perms: ["ruleTwo", "ruleThree"]}]}
-        ],
-        contractor: [{id: 4, cmp: "project", props: [{perms: ["ruleOne"]}]}]
-      }
+      r: []
     }
   },
   methods: {
-    createRole() {
-      return [
-        {
-          id: 5,
-          cmp: "invoice",
-          props: [{perms: ["ruleFour"]}]
-        },
-        {
-          id: 6,
-          cmp: "project",
-          props: [{perms: ["ruleTwo"]}]
+    t(r) {
+      return [Object.keys(r)[0], r[Object.keys(r)[0]]]
+    },
+    createRandomRole() {
+      return {
+        [this.$faker().lorem.word()]: [
+          {
+            id: this.$faker().random.number(),
+            cmp: "project",
+            props: [
+              {
+                perms: [...this.randomPerms()]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    randomPerms() {
+      return Array.from(new Array(3), () => {
+        return {
+          id: this.$faker().lorem.text(),
+          label: this.$faker().lorem.word()
         }
-      ]
+      })
     },
     edit(id) {
       console.log("editing resource ", id)
@@ -98,18 +110,23 @@ export default {
       this.resourceStatus.isEditing = null
     },
     addNewRole() {
-      this.$set(this.roles, "new_role", this.createRole())
+      this.r.push(this.createRandomRole())
     },
     hf(value) {
       return startCase(value)
     }
   },
   computed: {
+    transformedRoles() {
+      return this.r.map(item => {
+        return this.t(item)
+      })
+    },
     resourceStyle() {
-      return function(resource) {
+      return function(id) {
         return {
-          "panel-info": resource.id !== this.resourceStatus.isEditing,
-          "panel-warning": resource.id === this.resourceStatus.isEditing
+          "panel-info": id !== this.resourceStatus.isEditing,
+          "panel-warning": id === this.resourceStatus.isEditing
           // "panel-danger": resource.id === this.resourceStatus.isRemoving
         }
       }

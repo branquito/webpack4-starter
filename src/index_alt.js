@@ -1,5 +1,7 @@
 import Vue from "vue"
+import VueFaker from "vue-faker"
 
+Vue.use(VueFaker)
 // import App2 from "./App2.vue"
 // import App3 from './App3.vue'
 // import AppCalculateRate from './AppCalculateRate.vue'
