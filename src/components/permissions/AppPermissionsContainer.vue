@@ -13,9 +13,9 @@
     </div>
     <div class="row col-md-12">
       <v-tabs v-if="r.length">
-        <v-tab v-for="[ role, value ] in transformedRoles" :name="hf( role )" :key="role">
+        <v-tab v-for="[ role, value ] in transformedRoles" :name="hf( role )" :key="value.id">
           <div class="row">
-            <div v-for="{id, cmp, props} in value" class="animate" :class="[ id === resourceStatus.isEditing ? 'col-md-8' : 'col-md-4' ]">
+            <div v-for="{id, cmp, props} in value" class="animate" :class="[ id === resourceStatus.isEditing ? 'col-md-12' : 'col-md-4' ]">
               <div class="panel" :class="resourceStyle(id)">
                 <div class="panel-heading clearfix">
                   {{ hf( cmp ) }}
@@ -46,7 +46,6 @@
 </template>
 <script>
 import ProjectModule from "./resources/Project.vue"
-import InvoiceModule from "./resources/Invoice.vue"
 import GeneralModule from "./resources/General.vue"
 import VTab from "../tabs/VTab.vue"
 import VTabs from "../tabs/VTabs.vue"
@@ -55,7 +54,6 @@ import {startCase} from "lodash"
 export default {
   components: {
     ProjectModule,
-    InvoiceModule,
     GeneralModule,
     VTabs,
     VTab
@@ -74,15 +72,19 @@ export default {
     }
   },
   methods: {
+    uuid() {
+      return this.$faker().random.uuid()
+    },
     t(r) {
       return [Object.keys(r)[0], r[Object.keys(r)[0]]]
     },
     createRandomRole() {
+      const rnd = Math.floor(Math.random() * 2)
       return {
-        [this.$faker().lorem.word()]: [
+        [this.$faker().name.jobTitle()]: [
           {
             id: this.$faker().random.number(),
-            cmp: "project",
+            cmp: ["project", "project"][rnd],
             props: [
               {
                 perms: [...this.randomPerms()]
@@ -95,8 +97,26 @@ export default {
     randomPerms() {
       return Array.from(new Array(3), () => {
         return {
-          id: this.$faker().lorem.text(),
-          label: this.$faker().lorem.word()
+          id: this.$faker().random.uuid(),
+          label: this.$faker().lorem.word(),
+          children: [
+            {
+              id: this.$faker().random.uuid(),
+              label: "create"
+            },
+            {
+              id: this.$faker().random.uuid(),
+              label: "read"
+            },
+            {
+              id: this.$faker().random.uuid(),
+              label: "update"
+            },
+            {
+              id: this.$faker().random.uuid(),
+              label: "delete"
+            }
+          ]
         }
       })
     },
@@ -139,6 +159,6 @@ export default {
   padding: 1em 0;
 }
 .animate {
-  transition: width 0.3s ease-in-out;
+  transition: width 0.2s ease-in-out;
 }
 </style>

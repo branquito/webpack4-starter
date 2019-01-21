@@ -1,13 +1,22 @@
 <template>
-  <div v-if="editMode">
-    <treeselect v-model="value" :multiple="true" :options="options"></treeselect>
+  <div>
+    <div v-if="editMode">
+      <treeselect
+        v-model="value"
+        :multiple="true"
+        :options="options"
+        :showCount="true"
+        :backspaceRemoves="false"
+        :valueConsistsof="'ALL_WITH_INDETERMINATE'"
+        ></treeselect>
+    </div>
+    <div v-else>{{ value }}</div>
   </div>
-  <div v-else>{{ value }}</div>
 </template>
 <script>
+import ResourceBase from "../interface/ResourceBase"
 import Treeselect from "@riophae/vue-treeselect"
 import "@riophae/vue-treeselect/dist/vue-treeselect.css"
-import ResourceBase from "../interface/ResourceBase"
 export default ResourceBase.extend({
   components: {Treeselect},
   data() {

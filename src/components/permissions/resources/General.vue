@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div v-if="editMode">
-      {{ perms }}
-    </div>
+    {{ perms }}
   </div>
 </template>
 <script>
