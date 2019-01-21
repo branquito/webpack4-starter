@@ -26,6 +26,7 @@ import VTabs from '../tabs/VTabs.vue'
 import { startCase } from 'lodash'
 import data from './data/sample.json'
 import merge from 'deepmerge'
+import { get } from 'lodash'
 
 export default {
   components: {
@@ -59,7 +60,14 @@ export default {
           ...merge(acc, this.convertDotPathToNestedObject(perm.name, true))
         }
       }, {})
-      console.warn({ perms: result })
+      perms.map(perm => {
+        const noTail = perm.name.substring(0, perm.name.lastIndexOf('.'))
+        const target = get(result, noTail)
+        const { depends_on, default_sub_permissions } = perm
+        target.depends_on = depends_on
+        target.default_sub_permissions = default_sub_permissions
+      })
+      console.log(result)
     },
     uuid() {
       return this.$faker().random.uuid()
