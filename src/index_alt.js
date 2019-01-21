@@ -1,5 +1,5 @@
-import Vue from "vue"
-import VueFaker from "vue-faker"
+import Vue from 'vue'
+import VueFaker from 'vue-faker'
 
 Vue.use(VueFaker)
 // import App2 from "./App2.vue"
@@ -7,7 +7,8 @@ Vue.use(VueFaker)
 // import AppCalculateRate from './AppCalculateRate.vue'
 // import AppRenderlessTags from "./components/renderless/AppRenderlessTags.vue"
 // import AppRenderlessLog from "./components/renderless/AppRenderlessLog.vue"
-import AppPermissionsContainer from "./components/permissions/AppPermissionsContainer.vue"
+import AppPermissionsContainer from './components/permissions/AppPermissionsContainer.vue'
+import AppPermissionsContainer2 from './components/permissions/AppPermissionsContainer2.vue'
 
 // new Vue({
 //   el: '#app_alt3',
@@ -24,6 +25,6 @@ import AppPermissionsContainer from "./components/permissions/AppPermissionsCont
 //   render: h => h(AppRenderlessLog)
 // })
 new Vue({
-  el: "#app_alt3",
-  render: h => h(AppPermissionsContainer)
+  el: '#app_alt3',
+  render: h => h(AppPermissionsContainer2)
 })

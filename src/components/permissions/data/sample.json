@@ -1,0 +1,256 @@
+{
+  "id": 4,
+  "name": "Recruiter",
+  "created_at": "2016-04-20 12:15:05",
+  "updated_at": "2016-04-20 12:15:05",
+  "deleted_at": null,
+  "is_superuser": false,
+  "type": "employee",
+  "employees": [],
+  "permissions": [
+    {
+      "id": 1,
+      "name": "billing.activity_log.confidential.view",
+      "created_at": "2016-04-20 11:51:31",
+      "updated_at": "2016-04-20 11:51:31",
+      "tags": [],
+      "depends_on": [
+        "billing.activity_log.view"
+      ],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 1
+      }
+    },
+    {
+      "id": 6,
+      "name": "billing.activity_log.view",
+      "created_at": "2016-04-20 11:51:31",
+      "updated_at": "2016-04-20 11:51:31",
+      "tags": [],
+      "depends_on": [
+        "billing.view"
+      ],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 6
+      }
+    },
+    {
+      "id": 9,
+      "name": "billing.view",
+      "created_at": "2016-04-20 11:51:31",
+      "updated_at": "2016-04-20 11:51:31",
+      "tags": [],
+      "depends_on": [],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 9
+      }
+    },
+    {
+      "id": 12,
+      "name": "calendar.view",
+      "created_at": "2016-04-20 11:51:31",
+      "updated_at": "2016-04-20 11:51:31",
+      "tags": [],
+      "depends_on": [],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 12
+      }
+    },
+    {
+      "id": 15,
+      "name": "clientdev.activity_log.confidential.view",
+      "created_at": "2016-04-20 11:51:31",
+      "updated_at": "2016-04-20 11:51:31",
+      "tags": [],
+      "depends_on": [
+        "clientdev.activity_log.view"
+      ],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 15
+      }
+    },
+    {
+      "id": 20,
+      "name": "clientdev.activity_log.view",
+      "created_at": "2016-04-20 11:51:31",
+      "updated_at": "2016-04-20 11:51:31",
+      "tags": [],
+      "depends_on": [
+        "clientdev.view"
+      ],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 20
+      }
+    },
+    {
+      "id": 84,
+      "name": "companies.view",
+      "created_at": "2016-04-20 11:51:31",
+      "updated_at": "2016-04-20 11:51:31",
+      "tags": [
+        "company",
+        "companies",
+        "view"
+      ],
+      "depends_on": null,
+      "default_sub_permissions": null,
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 84
+      }
+    },
+    {
+      "id": 141,
+      "name": "contacts.update",
+      "created_at": "2016-04-20 11:51:31",
+      "updated_at": "2016-04-20 11:51:31",
+      "tags": [
+        "update",
+        "contact"
+      ],
+      "depends_on": [
+        "contacts.view"
+      ],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 141
+      }
+    },
+    {
+      "id": 142,
+      "name": "contacts.view",
+      "created_at": "2016-04-20 11:51:31",
+      "updated_at": "2016-04-20 11:51:31",
+      "tags": [
+        "view",
+        "contact"
+      ],
+      "depends_on": [],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 142
+      }
+    },
+    {
+      "id": 403,
+      "name": "clientdev.prospects.view",
+      "created_at": "2017-11-16 10:41:08",
+      "updated_at": "2017-11-16 10:41:08",
+      "tags": [],
+      "depends_on": [
+        "clientdev.view"
+      ],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 403
+      }
+    },
+    {
+      "id": 31,
+      "name": "clientdev.view",
+      "created_at": "2016-04-20 11:51:31",
+      "updated_at": "2017-11-16 10:41:08",
+      "tags": [],
+      "depends_on": [
+        "companies.view",
+        "clientdev.prospects.view"
+      ],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 31
+      }
+    },
+    {
+      "id": 595,
+      "name": "project.vendors.create",
+      "created_at": "2019-01-08 10:28:04",
+      "updated_at": "2019-01-08 10:28:04",
+      "tags": [],
+      "depends_on": [
+        "project.vendors.view"
+      ],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 595
+      }
+    },
+    {
+      "id": 596,
+      "name": "project.vendors.delete",
+      "created_at": "2019-01-08 10:28:04",
+      "updated_at": "2019-01-08 10:28:04",
+      "tags": [],
+      "depends_on": [
+        "project.vendors.view"
+      ],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 596
+      }
+    },
+    {
+      "id": 601,
+      "name": "project.vendors.update",
+      "created_at": "2019-01-08 10:28:04",
+      "updated_at": "2019-01-08 10:28:04",
+      "tags": [],
+      "depends_on": [
+        "project.vendors.view"
+      ],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 601
+      }
+    },
+    {
+      "id": 602,
+      "name": "project.vendors.view",
+      "created_at": "2019-01-08 10:28:04",
+      "updated_at": "2019-01-08 10:28:04",
+      "tags": [],
+      "depends_on": [
+        "project.view"
+      ],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 602
+      }
+    },
+    {
+      "id": 603,
+      "name": "project.view",
+      "created_at": "2019-01-08 10:28:04",
+      "updated_at": "2019-01-08 10:28:04",
+      "tags": [
+        "project"
+      ],
+      "depends_on": [],
+      "default_sub_permissions": [],
+      "pivot": {
+        "role_id": 4,
+        "permission_id": 603
+      }
+    }
+  ]
+}
+

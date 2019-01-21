@@ -45,11 +45,12 @@
   </div><!-- container -->
 </template>
 <script>
-import ProjectModule from "./resources/Project.vue"
-import GeneralModule from "./resources/General.vue"
-import VTab from "../tabs/VTab.vue"
-import VTabs from "../tabs/VTabs.vue"
-import {startCase} from "lodash"
+import ProjectModule from './resources/Project.vue'
+import GeneralModule from './resources/General.vue'
+import VTab from '../tabs/VTab.vue'
+import VTabs from '../tabs/VTabs.vue'
+import { startCase } from 'lodash'
+import data from './data/sample.json'
 
 export default {
   components: {
@@ -59,6 +60,7 @@ export default {
     VTab
   },
   mounted() {
+    this.parsePermissions(data.permissions)
     let fakeRoles = Array.from(new Array(6), this.createRandomRole)
     this.r = [...fakeRoles]
   },
@@ -72,6 +74,9 @@ export default {
     }
   },
   methods: {
+    parsePermissions(perms) {
+      perms.map(perm => console.log({ name: perm.name, pivot: perm.pivot }))
+    },
     uuid() {
       return this.$faker().random.uuid()
     },
@@ -84,7 +89,7 @@ export default {
         [this.$faker().name.jobTitle()]: [
           {
             id: this.$faker().random.number(),
-            cmp: ["project", "project"][rnd],
+            cmp: ['project', 'project'][rnd],
             props: [
               {
                 perms: [...this.randomPerms()]
@@ -102,30 +107,30 @@ export default {
           children: [
             {
               id: this.$faker().random.uuid(),
-              label: "create"
+              label: 'create'
             },
             {
               id: this.$faker().random.uuid(),
-              label: "read"
+              label: 'read'
             },
             {
               id: this.$faker().random.uuid(),
-              label: "update"
+              label: 'update'
             },
             {
               id: this.$faker().random.uuid(),
-              label: "delete"
+              label: 'delete'
             }
           ]
         }
       })
     },
     edit(id) {
-      console.log("editing resource ", id)
+      console.log('editing resource ', id)
       this.resourceStatus.isEditing = id
     },
     remove(id) {
-      console.log("removing resource ", id)
+      console.log('removing resource ', id)
       this.resourceStatus.isRemoving = id
       this.resourceStatus.isEditing = null
     },
@@ -145,8 +150,8 @@ export default {
     resourceStyle() {
       return function(id) {
         return {
-          "panel-info": id !== this.resourceStatus.isEditing,
-          "panel-warning": id === this.resourceStatus.isEditing
+          'panel-info': id !== this.resourceStatus.isEditing,
+          'panel-warning': id === this.resourceStatus.isEditing
           // "panel-danger": resource.id === this.resourceStatus.isRemoving
         }
       }
