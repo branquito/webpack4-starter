@@ -36,7 +36,6 @@ export default {
   },
   mounted() {
     this.parsePermissions()
-    let fakeRoles = Array.from(new Array(6), this.createRandomRole)
   },
   data() {
     return {
@@ -55,13 +54,12 @@ export default {
     parsePermissions() {
       const perms = this.roles.permissions
       const result = perms.reduce((acc, perm) => {
-        const prev = merge(acc, this.convertDotPathToNestedObject(perm.name, true))
         return {
           ...acc,
-          ...prev
+          ...merge(acc, this.convertDotPathToNestedObject(perm.name, true))
         }
       }, {})
-      console.log(result)
+      console.warn({ perms: result })
     },
     uuid() {
       return this.$faker().random.uuid()
