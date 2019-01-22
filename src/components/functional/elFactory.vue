@@ -11,24 +11,48 @@ export default {
       required: true
     }
   },
+  methods: {
+    createLabel(h, label) {
+      return h('p', [
+        h(
+          'label',
+          {
+            style: {
+              color: '#444'
+            }
+          },
+          label
+        )
+      ])
+    }
+  },
   render: function(createElement) {
     const self = this
     const [name, def] = self.control
     const model = self.model
-    return createElement('input', {
-      domProps: {
-        value: get(model, def.model),
-        type: def.type || 'text'
-      },
-      on: {
-        input: function(event) {
-          self.$emit('input', event.target.value, { schema_name: self.control[0], binding: def.model })
-          // Update model
-          // model[def.model] = event.target.value
-          // self.$emit('model-change', model)
+    return createElement(
+      'div',
+      {
+        style: {
+          backgroundColor: '#f1f0ee',
+          padding: '1em'
         }
-      }
-    })
+      },
+      [
+        def.label ? this.createLabel(createElement, def.label) : '', // optionally create label
+        createElement('input', {
+          domProps: {
+            value: get(model, def.model),
+            type: def.type || 'text'
+          },
+          on: {
+            input: function(event) {
+              self.$emit('input', event.target.value, { schema_name: self.control[0], binding: def.model })
+            }
+          }
+        })
+      ]
+    )
   }
 }
 </script>

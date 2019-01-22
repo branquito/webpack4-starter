@@ -1,9 +1,9 @@
 <template>
-  <ul>
-    <li v-for="control in controls">
+  <div>
+    <template v-for="control in controls">
       <el-factory :control="control" :model="value" @input="updateModel"></el-factory>
-    </li>
-  </ul>
+    </template>
+  </div>
 </template>
 
 <script>
@@ -28,8 +28,8 @@ export default {
   methods: {
     updateModel(newValue, instanceData) {
       const { schema_name, binding } = instanceData
-      console.warn('value updated, reemiting...')
-      console.table({ newValue, binding })
+      // console.warn('value updated, reemiting...')
+      // console.table({ newValue, binding })
       set(this.value, binding, newValue)
     }
   },

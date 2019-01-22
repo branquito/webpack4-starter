@@ -9,35 +9,18 @@
 </template>
 <script>
 import FormFactory from './components/FormFactory.vue'
+import schema from './components/form/schema.js'
 export default {
   name: 'app3',
   components: { FormFactory },
   data() {
     return {
+      schema,
       model: {
         user: {
           name: 'james bond',
           pass: 'my passw',
-          age: 44,
-          instrument: 'guitar'
-        }
-      },
-      schema: {
-        name: {
-          type: 'text',
-          model: 'user.name'
-        },
-        pin: {
-          type: 'password',
-          model: 'user.pass'
-        },
-        age: {
-          type: 'text',
-          model: 'user.age'
-        },
-        instrument: {
-          type: 'text',
-          model: 'user.instrument'
+          age: 44
         }
       }
     }
