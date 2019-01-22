@@ -28,7 +28,7 @@ export default {
   },
   render: function(createElement) {
     const self = this
-    const [name, def] = self.control
+    const [ctrlName, def] = self.control
     const model = self.model
     return createElement(
       'div',
@@ -41,13 +41,17 @@ export default {
       [
         def.label ? this.createLabel(createElement, def.label) : '', // optionally create label
         createElement('input', {
+          attrs: {
+            id: ctrlName,
+            'data-id': ctrlName
+          },
           domProps: {
             value: get(model, def.model),
             type: def.type || 'text'
           },
           on: {
             input: function(event) {
-              self.$emit('input', event.target.value, { schema_name: self.control[0], binding: def.model })
+              self.$emit('input', event.target.value, { ctrlName, binding: def.model })
             }
           }
         })

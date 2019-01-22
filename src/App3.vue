@@ -1,10 +1,13 @@
 <template>
   <div>
-    <pre>{{ model }}</pre>
     <form-factory
       :schema="schema"
       v-model="model"
-      ></form-factory>
+      >
+      <!-- possible to insert some custom element here, outside of form creation logic -->
+      <img src="https://placeimg.com/100/100/any" alt="">
+    </form-factory>
+    <pre>{{ model }}</pre>
   </div>
 </template>
 <script>

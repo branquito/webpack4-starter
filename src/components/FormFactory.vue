@@ -1,5 +1,6 @@
 <template>
   <div>
+    <slot></slot> <!-- Useful when you want some custom component out of form creation logic -->
     <template v-for="control in controls">
       <el-factory :control="control" :model="value" @input="updateModel"></el-factory>
     </template>
@@ -27,9 +28,9 @@ export default {
   },
   methods: {
     updateModel(newValue, instanceData) {
-      const { schema_name, binding } = instanceData
-      // console.warn('value updated, reemiting...')
-      // console.table({ newValue, binding })
+      const { ctrlName, binding } = instanceData
+      // console.log({ newValue, binding })
+      // console.log({ ctrlName })
       set(this.value, binding, newValue)
     }
   },
