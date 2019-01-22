@@ -1,16 +1,21 @@
 export default {
   name: {
-    type: 'text',
-    model: 'user.name',
-    label: 'Name'
+    type: "input",
+    model: "user.name",
+    label: "Name"
   },
   pin: {
-    type: 'password',
-    model: 'user.pass',
-    label: 'Password'
+    type: "input",
+    inputType: "password",
+    model: "user.pass",
+    label: "Password"
   },
   age: {
-    type: 'text',
-    model: 'user.age'
+    type: "input",
+    model: "user.age",
+    label: "Age"
+  },
+  submit: {
+    type: "button"
   }
 }
