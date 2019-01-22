@@ -11,22 +11,41 @@
         <a @click="" class="btn btn-warning" href="#">Add new role</a>
       </div>
     </div>
-    <div class="row col-md-12">
-      <pre>
-        {{ roles }}
-      </pre>
+    <div class="row buffer">
+      <div class="col-md-4">
+        <h3><span class="label label-default">resource</span></h3>
+      </div>
+      <div class="col-md-4">
+        <h3><span class="label label-primary">root perms</span></h3>
+      </div>
+      <div class="col-md-4">
+        <h3><span class="label label-danger">sub resource</span></h3>
+      </div>
     </div>
+    <div v-for="([ resource, value ], index) in resources">
+        <div class="row">
+          <div class="col-md-4">
+            {{ hf(resource) }}
+          </div>
+          <div class="col-md-4">
+            <pre>{{ {create: value.create, view: value.view, update: value.update, remove: value.delete} }}</pre>
+          </div>
+          <div class="col-md-4">
+            {{ Object.keys( value ) }}
+          </div>
+        </div>
+      </div>
   </div><!-- container -->
 </template>
 <script>
-import ProjectModule from './resources/Project.vue'
-import GeneralModule from './resources/General.vue'
-import VTab from '../tabs/VTab.vue'
-import VTabs from '../tabs/VTabs.vue'
-import { startCase } from 'lodash'
-import data from './data/sample.json'
-import merge from 'deepmerge'
-import { get } from 'lodash'
+import ProjectModule from "./resources/Project.vue"
+import GeneralModule from "./resources/General.vue"
+import VTab from "../tabs/VTab.vue"
+import VTabs from "../tabs/VTabs.vue"
+import {startCase} from "lodash"
+import data from "./data/sample.json"
+import merge from "deepmerge"
+import {get} from "lodash"
 
 export default {
   components: {
@@ -40,7 +59,8 @@ export default {
   },
   data() {
     return {
-      roles: data,
+      roleData: data,
+      perms: {},
       resourceStatus: {
         isEditing: false,
         isRemoving: false
@@ -49,11 +69,11 @@ export default {
   },
   methods: {
     convertDotPathToNestedObject(path, value) {
-      const [last, ...paths] = path.split('.').reverse()
-      return paths.reduce((acc, el) => ({ [el]: acc }), { [last]: value })
+      const [last, ...paths] = path.split(".").reverse()
+      return paths.reduce((acc, el) => ({[el]: acc}), {[last]: value})
     },
     parsePermissions() {
-      const perms = this.roles.permissions
+      const perms = this.roleData.permissions
       const result = perms.reduce((acc, perm) => {
         return {
           ...acc,
@@ -61,23 +81,23 @@ export default {
         }
       }, {})
       perms.map(perm => {
-        const noTail = perm.name.substring(0, perm.name.lastIndexOf('.'))
+        const noTail = perm.name.substring(0, perm.name.lastIndexOf("."))
         const target = get(result, noTail)
-        const { depends_on, default_sub_permissions } = perm
+        const {depends_on, default_sub_permissions} = perm
         target.depends_on = depends_on
         target.default_sub_permissions = default_sub_permissions
       })
-      console.log(result)
+      this.perms = result
     },
     uuid() {
       return this.$faker().random.uuid()
     },
     edit(id) {
-      console.log('editing resource ', id)
+      console.log("editing resource ", id)
       this.resourceStatus.isEditing = id
     },
     remove(id) {
-      console.log('removing resource ', id)
+      console.log("removing resource ", id)
       this.resourceStatus.isRemoving = id
       this.resourceStatus.isEditing = null
     },
@@ -86,11 +106,19 @@ export default {
     }
   },
   computed: {
+    resources() {
+      return Object.entries(this.perms)
+    },
+    resourcesMap() {
+      return this.resources.map((resource, value) => {
+        return {}
+      })
+    },
     resourceStyle() {
       return function(id) {
         return {
-          'panel-info': id !== this.resourceStatus.isEditing,
-          'panel-warning': id === this.resourceStatus.isEditing
+          "panel-info": id !== this.resourceStatus.isEditing,
+          "panel-warning": id === this.resourceStatus.isEditing
           // "panel-danger": resource.id === this.resourceStatus.isRemoving
         }
       }
