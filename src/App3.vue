@@ -1,6 +1,7 @@
 <template>
   <div>
     <form-factory
+      theme="bootstrap"
       :schema="schema"
       v-model="model"
       >

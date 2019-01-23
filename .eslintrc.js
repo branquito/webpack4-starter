@@ -3,14 +3,14 @@ module.exports = {
     browser: true,
     es6: true
   },
-  extends: "eslint:recommended",
+  extends: 'eslint:recommended',
   parserOptions: {
-    sourceType: "module"
+    sourceType: 'module'
   },
   rules: {
-    indent: ["error", 2],
-    "linebreak-style": ["error", "unix"],
-    quotes: ["error", "double"],
-    semi: ["error", "never"]
+    indent: ['error', 2],
+    'linebreak-style': ['error', 'unix'],
+    quotes: ['error', 'single'],
+    semi: ['error', 'never']
   }
 }

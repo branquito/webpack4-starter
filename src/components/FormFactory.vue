@@ -12,6 +12,15 @@ import elFactory from './functional/elFactory.vue'
 import { set } from 'lodash'
 export default {
   components: { elFactory },
+  provide: {
+    themes: {
+      bootstrap: {
+        input: 'form-control',
+        button: 'btn btn-primary'
+      }
+    },
+    theme: 'bootstrap'
+  },
   props: {
     value: {
       type: Object
@@ -33,9 +42,6 @@ export default {
       // console.log({ ctrlName })
       set(this.value, binding, newValue)
     }
-  },
-  data() {
-    return {}
   }
 }
 </script>

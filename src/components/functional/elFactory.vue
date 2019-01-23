@@ -1,16 +1,7 @@
 <script>
-import inputFactory from "./inputFactory.js"
+import { inputFactory, buttonFactory, labelFactory } from './factories'
 export default {
-  data() {
-    return {
-      typeDefs: {
-        input: {
-          type: "text"
-        },
-        button: {}
-      }
-    }
-  },
+  inject: ['theme', 'themes'],
   props: {
     control: {
       type: Array,
@@ -21,47 +12,34 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      typeDefs: {
+        input: {
+          type: 'text'
+        },
+        button: {}
+      }
+    }
+  },
   computed: {
     knownTypes() {
       return Object.keys(this.typeDefs)
     }
   },
   methods: {
-    createElmnt(type, h) {
-      const methodName = "make" + type[0].toUpperCase().concat(type.slice(1))
-
-      let opts
+    makeElmnt(type, def, h) {
       switch (type) {
-        case "input":
-          opts = inputFactory(this)
-          break
+        case 'input':
+          return inputFactory(this, h)
+        case 'button':
+          return buttonFactory(this, h)
         default:
-          console.error(
-            `Sorry I don't know how to render ${type.toUpperCase()}`
-          )
-      }
-      /*
-      * Call method that knows how to render this type of element
-      */
-      if (this[methodName]) {
-        return this[methodName].call(this, type, opts, h)
+          console.warn(`Sorry I don't know how to render ${type.toUpperCase()}`)
       }
     },
-    makeInput(type, opts, h) {
-      return h(type, opts)
-    },
-    createLabel(h, label) {
-      return h("p", [
-        h(
-          "label",
-          {
-            style: {
-              color: "#444"
-            }
-          },
-          label
-        )
-      ])
+    createLabel(h) {
+      return labelFactory(this, h)
     }
   },
   render: function(createElement) {
@@ -75,17 +53,14 @@ export default {
     if (!this.knownTypes.includes(elmntType)) return
 
     return createElement(
-      "div",
+      'div',
       {
         style: {
-          backgroundColor: "#f1f0ee",
-          padding: "1em"
+          backgroundColor: '#f1f0ee',
+          padding: '1em'
         }
       },
-      [
-        def.label ? this.createLabel(createElement, def.label) : "", // optionally create label
-        this.createElmnt(elmntType, createElement)
-      ]
+      [def.label ? this.createLabel(createElement) : '', this.makeElmnt(elmntType, def, createElement)]
     )
   }
 }
