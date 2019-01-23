@@ -24,8 +24,8 @@ const options = ctx => {
   }
 }
 
-const makeInput = (ctx, h) => {
+const make = (ctx, h) => {
   return h('input', options(ctx))
 }
 
-export default makeInput
+export default make

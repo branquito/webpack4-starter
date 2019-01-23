@@ -6,9 +6,9 @@ const options = ctx => {
   }
 }
 
-const makeLabel = (ctx, h) => {
+const make = (ctx, h) => {
   const [, def] = ctx.control
   return h('p', [h('label', options(ctx), def.label)])
 }
 
-export default makeLabel
+export default make

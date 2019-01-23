@@ -24,7 +24,25 @@ export default {
         user: {
           name: 'james bond',
           pass: 'my passw',
-          age: 44
+          age: 44,
+          team: {
+            selected: 3,
+            options: [
+              { id: 1, name: 'team A' },
+              { id: 2, name: 'team B' },
+              { id: 3, name: 'team C' },
+              { id: 4, name: 'team D' }
+            ]
+          },
+          timeline: {
+            selected: 3,
+            options: [
+              { id: 1, name: 'history A' },
+              { id: 2, name: 'history B' },
+              { id: 3, name: 'history C' },
+              { id: 4, name: 'history D' }
+            ]
+          }
         }
       }
     }

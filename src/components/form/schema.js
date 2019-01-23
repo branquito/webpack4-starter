@@ -15,8 +15,19 @@ export default {
     model: 'user.age',
     label: 'Your age:'
   },
-  submit: {
+  range: {
+    type: 'select',
+    model: 'user.team.selected',
+    options: 'user.team.options'
+  },
+  timeline: {
+    type: 'select',
+    model: 'user.timeline.selected',
+    options: 'user.timeline.options'
+  },
+  action: {
     type: 'button',
+    inputType: 'submit',
     text: 'Click me!'
   }
 }

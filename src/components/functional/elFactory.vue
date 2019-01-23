@@ -1,5 +1,5 @@
 <script>
-import { inputFactory, buttonFactory, labelFactory } from './factories'
+import { inputFactory, buttonFactory, labelFactory, selectFactory } from './factories'
 export default {
   inject: ['theme', 'themes'],
   props: {
@@ -18,7 +18,8 @@ export default {
         input: {
           type: 'text'
         },
-        button: {}
+        button: {},
+        select: {}
       }
     }
   },
@@ -34,6 +35,8 @@ export default {
           return inputFactory(this, h)
         case 'button':
           return buttonFactory(this, h)
+        case 'select':
+          return selectFactory(this, h)
         default:
           console.warn(`Sorry I don't know how to render ${type.toUpperCase()}`)
       }

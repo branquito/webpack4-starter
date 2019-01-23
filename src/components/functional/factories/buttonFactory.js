@@ -11,22 +11,15 @@ const options = ctx => {
     },
     domProps: {
       value: def.model ? get(model, def.model) : '',
-      type: def.inputType || 'text'
+      type: def.inputType || ''
     },
-    on: {
-      // input: function(event) {
-      //   ctx.$emit('input', event.target.value, {
-      //     ctrlName,
-      //     binding: def.model
-      //   })
-      // }
-    }
+    on: {}
   }
 }
 
-const makeButton = (ctx, h) => {
+const make = (ctx, h) => {
   const [, def] = ctx.control
   return h('button', options(ctx), def.text)
 }
 
-export default makeButton
+export default make

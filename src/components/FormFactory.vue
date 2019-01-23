@@ -9,7 +9,7 @@
 
 <script>
 import elFactory from './functional/elFactory.vue'
-import { set } from 'lodash'
+import { set, isObject } from 'lodash'
 export default {
   components: { elFactory },
   provide: {
@@ -38,7 +38,7 @@ export default {
   methods: {
     updateModel(newValue, instanceData) {
       const { ctrlName, binding } = instanceData
-      // console.log({ newValue, binding })
+      console.log({ newValue, binding })
       // console.log({ ctrlName })
       set(this.value, binding, newValue)
     }
