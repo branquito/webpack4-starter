@@ -1,15 +1,21 @@
 <template>
-  <div>
-    <form-factory
-      theme="bootstrap"
-      :schema="schema"
-      v-model="model"
-      @submit="act"
-      >
-      <!-- possible to insert some custom element here, outside of form creation logic -->
-      <img src="https://placeimg.com/100/100/any" alt="">
-    </form-factory>
-    <pre>{{ model }}</pre>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <form-factory
+           theme="bootstrap"
+           :schema="schema"
+           v-model="model"
+           @submit="act"
+           >
+           <!-- possible to insert some custom element here, outside of form creation logic -->
+          <img src="https://placeimg.com/100/100/any" alt="">
+        </form-factory>
+      </div>
+      <div class="col-md-6">
+        <pre>{{ model }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 <script>

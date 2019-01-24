@@ -21,7 +21,8 @@ export default {
     themes: {
       bootstrap: {
         input: 'form-control',
-        button: 'btn btn-primary'
+        button: 'btn btn-primary',
+        dropdown: 'dropdown'
       }
     },
     theme: 'bootstrap'
