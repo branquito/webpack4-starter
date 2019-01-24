@@ -6,25 +6,25 @@
         :control="control"
         :model="value"
         @input="updateModel"
-        @submit="reemit($event, ...arguments)"
+        @submit="reemit(...arguments)"
         ></el-factory>
     </template>
   </div>
 </template>
 
 <script>
-import elFactory from "./functional/elFactory.vue"
-import {set, isObject} from "lodash"
+import elFactory from './functional/elFactory.vue'
+import { set, isObject } from 'lodash'
 export default {
-  components: {elFactory},
+  components: { elFactory },
   provide: {
     themes: {
       bootstrap: {
-        input: "form-control",
-        button: "btn btn-primary"
+        input: 'form-control',
+        button: 'btn btn-primary'
       }
     },
-    theme: "bootstrap"
+    theme: 'bootstrap'
   },
   props: {
     value: {
@@ -41,12 +41,12 @@ export default {
     }
   },
   methods: {
-    reemit(event, ...args) {
-      this.$emit("submit", event, ...args)
+    reemit(...args) {
+      this.$emit('submit', ...args)
     },
     updateModel(newValue, instanceData) {
-      const {ctrlName, binding} = instanceData
-      console.log({newValue, binding})
+      const { ctrlName, binding } = instanceData
+      console.log({ newValue, binding })
       // console.log({ ctrlName })
       set(this.value, binding, newValue)
     }

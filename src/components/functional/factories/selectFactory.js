@@ -1,4 +1,5 @@
 import { isPlainObject, get } from 'lodash'
+import { normalize } from '../helpers.js'
 
 const options = ctx => {
   const [ctrlName, def] = ctx.control
@@ -14,7 +15,8 @@ const options = ctx => {
     },
     on: {
       input: function(event) {
-        ctx.$emit('input', event.target.value, {
+        let ivalue = normalize(event.target.value)
+        ctx.$emit('input', ivalue, {
           ctrlName,
           binding: def.model
         })
