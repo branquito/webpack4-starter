@@ -30,6 +30,11 @@ const switchState = state => {
   return state === "none" ? "block" : "none"
 }
 
+const isActive = (option, model, def) => {
+  let o = isPlainObject(option) ? option.id : option
+  return get(model, def.model) === o
+}
+
 const make = (ctx, h) => {
   const {model, shared} = ctx
   const [ctrlName, def] = ctx.control
@@ -59,7 +64,9 @@ const make = (ctx, h) => {
             {
               class: [
                 "dropdown-item",
-                {active: get(model, def.model) === option.id}
+                {
+                  active: isActive(option, model, def)
+                }
               ],
               style: itemStyle,
               attrs: {
