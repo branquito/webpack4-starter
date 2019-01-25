@@ -19,15 +19,15 @@
   </div>
 </template>
 <script>
-import FormFactory from './components/FormFactory.vue'
-import schema from './components/form/schema.js'
+import FormFactory from "./components/FormFactory.vue"
+import schema from "./components/form/schema.js"
 export default {
-  name: 'app3',
-  components: { FormFactory },
+  name: "app3",
+  components: {FormFactory},
   methods: {
     act(...args) {
       const [event, ...rest] = args
-      const { binding, model, ctrlName } = rest[0]
+      const {binding, model, ctrlName} = rest[0]
       console.table(JSON.parse(JSON.stringify(model)))
       // if (typeof this[method] !== 'function') return
       // this[args[1].binding](...args)
@@ -38,16 +38,16 @@ export default {
       schema,
       model: {
         user: {
-          name: 'james bond',
-          pass: 'my passw',
+          name: "james bond",
+          pass: "my passw",
           age: 44,
           team: {
             selected: 2,
-            options: [{ id: 1, name: 'team A' }, { id: 2, name: 'team B' }]
+            options: [{id: 1, name: "team A"}, {id: 2, name: "team B"}]
           },
           timeline: {
-            selected: 1,
-            options: [{ id: 1, name: 'history A' }, { id: 2, name: 'history B' }]
+            selected: "history A",
+            options: ["history A", "history B"]
           }
         }
       }
@@ -55,3 +55,8 @@ export default {
   }
 }
 </script>
+<style>
+.dropdown-item.active {
+  background: lightblue;
+}
+</style>

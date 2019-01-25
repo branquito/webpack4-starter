@@ -1,7 +1,13 @@
 <script>
-import { inputFactory, buttonFactory, labelFactory, selectFactory, dropdownFactory } from './factories'
+import {
+  inputFactory,
+  buttonFactory,
+  labelFactory,
+  selectFactory,
+  dropdownFactory
+} from "./factories"
 export default {
-  inject: ['theme', 'themes'],
+  inject: ["theme", "themes"],
   props: {
     control: {
       type: Array,
@@ -14,9 +20,12 @@ export default {
   },
   data() {
     return {
+      shared: {
+        dropdownState: "none"
+      },
       typeDefs: {
         input: {
-          type: 'text'
+          type: "text"
         },
         button: {},
         select: {},
@@ -32,13 +41,13 @@ export default {
   methods: {
     makeElmnt(type, def, h) {
       switch (type) {
-        case 'input':
+        case "input":
           return inputFactory(this, h)
-        case 'button':
+        case "button":
           return buttonFactory(this, h)
-        case 'select':
+        case "select":
           return selectFactory(this, h)
-        case 'dropdown':
+        case "dropdown":
           return dropdownFactory(this, h)
         default:
           console.warn(`Sorry I don't know how to render ${type.toUpperCase()}`)
@@ -59,14 +68,17 @@ export default {
     if (!this.knownTypes.includes(elmntType)) return
 
     return createElement(
-      'div',
+      "div",
       {
         style: {
-          backgroundColor: '#f1f0ee',
-          padding: '1em'
+          backgroundColor: "#f1f0ee",
+          padding: "1em"
         }
       },
-      [def.label ? this.createLabel(createElement) : '', this.makeElmnt(elmntType, def, createElement)]
+      [
+        def.label ? this.createLabel(createElement) : "",
+        this.makeElmnt(elmntType, def, createElement)
+      ]
     )
   }
 }
