@@ -53,7 +53,7 @@ export default {
       schema_dogs,
       dogModel: {
         breeds: {
-          multiSelectValue: [],
+          selected: [],
           options: ['Akita', 'Beagle', 'Yorkshire Terrier', 'Australian Cattle Dog']
         }
       },
