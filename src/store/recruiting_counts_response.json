@@ -1,0 +1,85 @@
+{
+  "data": {
+    "dimensions": {
+      "Candidate Created By": {
+        "[Candidate Created By].Full Name": "Candidate Created By"
+      },
+      "Candidates": {
+        "[Candidates].Candidate Id": "reports.[Candidates].Candidate Id"
+      },
+      "Contact Job Categories": {
+        "[Contact Job Categories].Name": "reports.[Contact Job Categories].Name"
+      },
+      "Contact Types": {
+        "[Contact Types].Name": "Contact Type",
+        "[Contact Types].Type Id": "reports.[Contact Types].Type Id"
+      },
+      "Current Companies": {
+        "[Current Companies].Company Id": "reports.[Current Companies].Company Id",
+        "[Current Companies].Company Type": "Current Company Type",
+        "[Current Companies].Company": "Current Company"
+      },
+      "Date": {
+        "[Date].Date": "reports.[Date].Date",
+        "[Date].[monthly].Year": "Year",
+        "[Date].[monthly].Quarter": "reports.[Date].[monthly].Quarter",
+        "[Date].[monthly].Month": "Month"
+      },
+      "Employment Types": {
+        "[Employment Types].Type Id": "reports.[Employment Types].Type Id",
+        "[Employment Types].Employment Type": "Employment Type"
+      },
+      "End Companies": {
+        "[End Companies].Company Id": "reports.[End Companies].Company Id",
+        "[End Companies].Company Type": "reports.[End Companies].Company Type",
+        "[End Companies].Company": "End Company"
+      },
+      "End Contacts": {
+        "[End Contacts].Contact Id": "reports.[End Contacts].Contact Id",
+        "[End Contacts].Full Name": "End Contact"
+      },
+      "Job Categories": {
+        "[Job Categories].Job Category": "reports.[Job Categories].Job Category"
+      },
+      "Job Functions": {
+        "[Job Functions].Job Function": "Job Function"
+      },
+      "Job Req Created By": {
+        "[Job Req Created By].Full Name": "Job Req Created By"
+      },
+      "Job Req Record Owner": {
+        "[Job Req Record Owner].Full Name": "Job Req Record Owner"
+      },
+      "Job Req Reports To": {
+        "[Job Req Reports To].Full Name": "reports.[Job Req Reports To].Full Name"
+      },
+      "Job Req Types": {
+        "[Job Req Types].Type Id": "reports.[Job Req Types].Type Id",
+        "[Job Req Types].Name": "Job Req Type"
+      },
+      "Job Reqs": {
+        "[Job Reqs].Job Req Id": "Job Req Id",
+        "[Job Reqs].Position": "Position"
+      },
+      "Ordering Companies": {
+        "[Ordering Companies].Company Id": "reports.[Ordering Companies].Company Id",
+        "[Ordering Companies].Company Type": "reports.[Ordering Companies].Company Type",
+        "[Ordering Companies].Company": "Ordering Company"
+      },
+      "Ordering Contacts": {
+        "[Ordering Contacts].Contact Id": "reports.[Ordering Contacts].Contact Id",
+        "[Ordering Contacts].Full Name": "Ordering Contact"
+      }
+    },
+    "measures": [
+      "Candidates Created",
+      "Candidates Removed",
+      "Candidates Started Interviewing",
+      "Offers Made",
+      "Placed",
+      "Job Reqs Created",
+      "Job Reqs Closed"
+    ],
+    "hidden_filters": ["candidate_created_date", "candidate_removed_date"]
+  }
+}

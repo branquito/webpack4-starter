@@ -1,0 +1,396 @@
+{
+  "data": {
+    "metrics": {
+      "candidate-stage": {
+        "type": "candidate-stage",
+        "name": "Current Candidate Stage",
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Contact Types].Name": "Contact Type",
+          "[Current Companies].Company": "Current Company",
+          "[Employment Types].Employment Type": "Employment Type",
+          "[Job Reqs].Position": "Position",
+          "[Ordering Companies].Company": "Ordering Company"
+        },
+        "columns": {
+          "[Candidate Status].Stage": "Candidate Stage"
+        },
+        "filters": [],
+        "measures": ["Candidates Count"],
+        "chart_types": ["column", "bar", "pie", "scatter", "sunburst"]
+      },
+      "candidate-status": {
+        "type": "candidate-status",
+        "name": "Current Candidate Status",
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Ordering Companies].Company": "Ordering Company",
+          "[Employment Types].Employment Type": "Employment Type",
+          "[Contact Types].Name": "Contact Type",
+          "[Current Companies].Company": "Current Company",
+          "[Job Reqs].Position": "Position"
+        },
+        "columns": {
+          "[Candidate Status].Status": "Candidate Status"
+        },
+        "filters": [],
+        "measures": ["Candidates Count"],
+        "chart_types": ["column", "bar", "scatter", "pie"]
+      },
+      "candidate-type": {
+        "type": "candidate-type",
+        "name": "Current Candidate Type",
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Ordering Companies].Company": "Ordering Company",
+          "[Employment Types].Employment Type": "Employment Type",
+          "[Contact Types].Name": "Contact Type",
+          "[Job Req Status].Stage": "Job Req Stage",
+          "[Current Companies].Company": "Current Company",
+          "[Job Reqs].Position": "Position"
+        },
+        "columns": {
+          "[Contact Types].Name": "Contact Type"
+        },
+        "filters": [],
+        "measures": ["Candidates Count"],
+        "chart_types": ["column", "bar", "scatter", "pie"]
+      },
+      "jobreq-type": {
+        "type": "jobreq-type",
+        "name": "Current Job Req Type",
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Ordering Companies].Company": "Ordering Company",
+          "[Ordering Contacts].Full Name": "Ordering Contact",
+          "[Employment Types].Employment Type": "Employment Type"
+        },
+        "columns": {
+          "[Job Req Types].Name": "Job Req Type"
+        },
+        "filters": [],
+        "measures": ["Jobs Count"],
+        "chart_types": ["column", "bar", "scatter", "pie"]
+      },
+      "jobreq-stage": {
+        "type": "jobreq-stage",
+        "name": "Job Req Stage",
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Ordering Companies].Company": "Ordering Company",
+          "[Ordering Contacts].Full Name": "Ordering Contact",
+          "[Employment Types].Employment Type": "Employment Type"
+        },
+        "columns": {
+          "[Job Req Status].Stage": "Job Req Stage"
+        },
+        "filters": [],
+        "measures": ["Jobs Count"],
+        "chart_types": ["column", "bar", "scatter", "pie"]
+      },
+      "jobreq-count": {
+        "type": "jobreq-count",
+        "name": "Total Job Reqs Progress",
+        "cube": "Recruiting Counts",
+        "rows": {
+          "[Ordering Companies].Company": "Ordering Company",
+          "[Ordering Contacts].Full Name": "Ordering Contact",
+          "[Job Req Created By].Full Name": "Job Req Created By",
+          "[Job Req Record Owner].Full Name": "Job Req Record Owner",
+          "[Job Req Types].Name": "Job Req Type"
+        },
+        "columns": {
+          "[Date].[monthly].Year": "Year"
+        },
+        "filters": [],
+        "measures": ["Job Reqs Created", "Job Reqs Closed"],
+        "chart_types": ["area", "line", "column", "bar", "scatter"]
+      },
+      "candidate-count": {
+        "type": "candidate-count",
+        "name": "Total Candidates Progress",
+        "cube": "Recruiting Counts",
+        "rows": {
+          "[Ordering Companies].Company": "Ordering Company",
+          "[Ordering Contacts].Full Name": "Ordering Contact",
+          "[Job Req Record Owner].Full Name": "Job Req Record Owner",
+          "[Job Req Types].Name": "Job Req Type",
+          "[Job Reqs].Position": "Position"
+        },
+        "columns": {
+          "[Date].[monthly].Year": "Year"
+        },
+        "filters": [],
+        "measures": [
+          "Candidates Created",
+          "Candidates Removed",
+          "Candidates Started Interviewing",
+          "Offers Made",
+          "Placed"
+        ],
+        "chart_types": ["area", "line", "column", "bar", "scatter"]
+      }
+    },
+    "effectiveness": {
+      "candidate-status-change": {
+        "type": "candidate-status-change",
+        "name": "Candidate Status Change",
+        "cube": "Recruiting Candidates Timeline",
+        "rows": {
+          "[Ordering Companies].Company": "Ordering Company",
+          "[Employment Types].Employment Type": "Employment Type",
+          "[Contact Types].Name": "Contact Type",
+          "[Job Reqs].Position": "Position"
+        },
+        "columns": {
+          "[Statuses].Status": "reports.[Statuses].Status"
+        },
+        "filters": [],
+        "measures": ["Candidates Reached Status"],
+        "chart_types": ["column", "bar", "pie", "funnel", "scatter"]
+      },
+      "candidate-pipeline": {
+        "type": "candidate-pipeline",
+        "name": "Candidate Pipeline Metrics",
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Job Reqs].Position": "Position"
+        },
+        "columns": [],
+        "filters": [],
+        "measures": [
+          "Total Offers",
+          "Accepted Offers",
+          "Declined Offers",
+          "Pending Offers",
+          "Passed Interviews",
+          "Pending Interviews",
+          "Interviews In Progress",
+          "Failed Interviews"
+        ],
+        "chart_types": ["column", "bar", "funnel"]
+      }
+    },
+    "efficiency": {
+      "candidate-status-duration": {
+        "type": "candidate-status-duration",
+        "name": "Candidate Status Duration",
+        "cube": "Recruiting Candidates Timeline",
+        "rows": {
+          "[Ordering Companies].Company": "Ordering Company"
+        },
+        "columns": {
+          "[Statuses].Status": "reports.[Statuses].Status"
+        },
+        "filters": [],
+        "measures": ["Days In Status"],
+        "chart_types": ["column", "bar", "scatter"]
+      },
+      "candidates-timeline": {
+        "type": "candidates-timeline",
+        "name": "Candidates Timeline",
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Ordering Companies].Company": "Ordering Company",
+          "[Job Reqs].Position": "Position"
+        },
+        "columns": [],
+        "filters": [],
+        "measures": [
+          "Time To Become Candidate (Days)",
+          "Time To Source (Days)",
+          "Time To First Interview (Days)",
+          "Time Interviewing (Days)",
+          "Time To First Offer (Days)",
+          "Time Created To Hired (Days)",
+          "Time Created To Start (Days)",
+          "Time Open To Hire (Days)"
+        ],
+        "chart_types": ["column", "bar", "scatter", "sunburst"]
+      },
+      "time-to-fill": {
+        "type": "time-to-fill",
+        "name": "Average Time to Fill Report",
+        "cube": "Recruiting Pipeline",
+        "rows": {
+          "[Job Reqs].Position": "Position"
+        },
+        "columns": [],
+        "filters": [],
+        "measures": [
+          "Time To Source",
+          "Time To Hire",
+          "Time To Process And Select",
+          "Time To Interview And Assess",
+          "Days Open"
+        ],
+        "chart_types": ["column", "bar", "scatter"]
+      }
+    },
+    "finance": {
+      "compensation": {
+        "type": "compensation",
+        "name": "Contacts Compensations Report",
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Job Reqs].Position": "Position",
+          "[Contacts].Full Name": "Contact"
+        },
+        "columns": [],
+        "filters": [],
+        "measures": ["Yearly Pay Rate"],
+        "chart_types": ["column", "bar", "pie", "scatter", "sunburst"]
+      }
+    },
+    "custom": {
+      "1": {
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Candidate Created By].Full Name": "Candidate Created By"
+        },
+        "columns": {
+          "[Candidate Status].Status": "Candidate Status"
+        },
+        "measures": ["Candidates Count", "Placed", "Failed Interviews"],
+        "chartType": "column",
+        "filters": [],
+        "id": 1,
+        "name": "custom 1",
+        "created_by": 1,
+        "parameters": {
+          "cube": "Candidates Pipeline",
+          "rows": {
+            "[Candidate Created By].Full Name": "Candidate Created By"
+          },
+          "columns": {
+            "[Candidate Status].Status": "Candidate Status"
+          },
+          "measures": ["Candidates Count", "Placed", "Failed Interviews"],
+          "chartType": "column",
+          "filters": []
+        },
+        "created_at": "2019-02-04 13:57:31",
+        "updated_at": "2019-02-04 13:57:31",
+        "deleted_at": null
+      },
+      "2": {
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Candidate Created By].Full Name": "Candidate Created By"
+        },
+        "columns": {
+          "[Candidate Created Date].[monthly].Quarter": "Candidate Created Quarter",
+          "[Candidate Status].Status": "Candidate Status"
+        },
+        "measures": ["Candidates Count"],
+        "chartType": "column",
+        "id": 2,
+        "name": "custom 1",
+        "created_by": 1,
+        "parameters": {
+          "cube": "Candidates Pipeline",
+          "rows": {
+            "[Candidate Created By].Full Name": "Candidate Created By"
+          },
+          "columns": {
+            "[Candidate Created Date].[monthly].Quarter": "Candidate Created Quarter",
+            "[Candidate Status].Status": "Candidate Status"
+          },
+          "measures": ["Candidates Count"],
+          "chartType": "column"
+        },
+        "created_at": "2019-02-06 11:41:56",
+        "updated_at": "2019-02-06 11:41:56",
+        "deleted_at": null
+      },
+      "3": {
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Candidate Created By].Full Name": "Candidate Created By"
+        },
+        "columns": {
+          "[Candidate Created Date].[monthly].Quarter": "Candidate Created Quarter",
+          "[Candidate Status].Status": "Candidate Status"
+        },
+        "measures": ["Time To Source (Days)", "Time To First Interview (Days)"],
+        "chartType": "column",
+        "id": 3,
+        "name": "custom 1 copy",
+        "created_by": 1,
+        "parameters": {
+          "cube": "Candidates Pipeline",
+          "rows": {
+            "[Candidate Created By].Full Name": "Candidate Created By"
+          },
+          "columns": {
+            "[Candidate Created Date].[monthly].Quarter": "Candidate Created Quarter",
+            "[Candidate Status].Status": "Candidate Status"
+          },
+          "measures": ["Time To Source (Days)", "Time To First Interview (Days)"],
+          "chartType": "column"
+        },
+        "created_at": "2019-02-06 11:59:24",
+        "updated_at": "2019-02-06 11:59:24",
+        "deleted_at": null
+      },
+      "4": {
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Candidate Created By].Full Name": "Candidate Created By"
+        },
+        "columns": {
+          "[Candidate Status].Status": "Candidate Status"
+        },
+        "measures": ["Candidates Count"],
+        "chartType": "column",
+        "id": 4,
+        "name": "custom 1 copy",
+        "created_by": 1,
+        "parameters": {
+          "cube": "Candidates Pipeline",
+          "rows": {
+            "[Candidate Created By].Full Name": "Candidate Created By"
+          },
+          "columns": {
+            "[Candidate Status].Status": "Candidate Status"
+          },
+          "measures": ["Candidates Count"],
+          "chartType": "column"
+        },
+        "created_at": "2019-02-06 12:03:53",
+        "updated_at": "2019-02-06 12:03:53",
+        "deleted_at": null
+      },
+      "5": {
+        "cube": "Candidates Pipeline",
+        "rows": {
+          "[Candidate Created By].Full Name": "Candidate Created By"
+        },
+        "columns": {
+          "[Candidate Status].Status": "Candidate Status"
+        },
+        "measures": ["Time To Become Candidate (Days)"],
+        "chartType": "column",
+        "filters": [],
+        "id": 5,
+        "name": "my report preset A",
+        "created_by": 1,
+        "parameters": {
+          "cube": "Candidates Pipeline",
+          "rows": {
+            "[Candidate Created By].Full Name": "Candidate Created By"
+          },
+          "columns": {
+            "[Candidate Status].Status": "Candidate Status"
+          },
+          "measures": ["Time To Become Candidate (Days)"],
+          "chartType": "column",
+          "filters": []
+        },
+        "created_at": "2019-02-06 12:17:15",
+        "updated_at": "2019-02-06 14:08:39",
+        "deleted_at": null
+      }
+    }
+  }
+}
