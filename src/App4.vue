@@ -7,8 +7,8 @@
             v-model="initialMeasures"
             :options="{ group: 'measures' }"
             class="drag-area selected-options measures"
-            @start="highlight('measures')"
-            @end="clearStyles()"
+            @start="noop"
+            @end="noop"
             >
             <li
             v-for="measure in initialMeasures"
@@ -27,8 +27,8 @@
             :options="{ group: 'measures', filter: '.no-drag' }"
             :class="{ 'no-drag': !customize }"
             class="drag-area selected-options measures"
-            @start="highlight('measures')"
-            @end="clearStyles()"
+            @start="noop"
+            @end="noop"
             >
             <li
             v-for="measure in selectedMeasures"
@@ -41,9 +41,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6"></div>
-      <div class="col-md-6">
-        <pre>{{ user }}</pre>
+      <div class="col-md-12">
         <pre>{{ response }}</pre>
       </div>
     </div>
@@ -55,7 +53,6 @@ import draggable from 'vuedraggable'
 export default {
   name: 'app3',
   components: { draggable },
-  methods: {},
   data() {
     return {
       user: null,
@@ -94,7 +91,8 @@ export default {
     ...mapState(['response'])
   },
   methods: {
-    ...mapActions(['getCube'])
+    ...mapActions(['getCube']),
+    noop() {}
   }
 }
 </script>

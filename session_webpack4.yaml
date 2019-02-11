@@ -7,7 +7,7 @@ windows:
     - npm run start
 - window_name: vim
   panes:
-    - vim
+    - vim -c 'OpenSession reports-improvement'
 - window_name: tig
   layout: main-vertical
   panes:
