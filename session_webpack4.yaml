@@ -1,0 +1,18 @@
+session_name: webpack4fun
+start_directory: ~/@own/webpack4-starter
+windows:
+- window_name: compilers
+  layout: tiled
+  panes:
+    - npm run start
+- window_name: vim
+  panes:
+    - vim
+- window_name: tig
+  layout: main-vertical
+  panes:
+    - tig --all
+    - git status
+- window_name: ranger
+  panes:
+    - ranger
