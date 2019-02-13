@@ -11,7 +11,7 @@
                  :id="block.group"
                  v-model="block.dimensions"
                  :options="{ group: 'groupA' }"
-                 class="drag-area selected-options groupA"
+                 class="drag-area"
                  @start="noop"
                  @end="noop"
                  >
@@ -37,9 +37,8 @@
                 v-model="selectedRows"
                 :move="moveFn"
                 id="rows"
-                :options="{ group: 'groupA', filter: '.no-drag' }"
-                :class="{ 'no-drag': !customize }"
-                class="drag-area selected-options groupA"
+                :options="{ group: 'groupA' }"
+                class="drag-area"
                 @start="findTargetGroupInPool"
                 @end="unapplyStyles"
                 >
@@ -64,9 +63,8 @@
                 v-model="selectedColumns"
                 :move="moveFn"
                 id="cols"
-                :options="{ group: 'groupA', filter: '.no-drag' }"
-                :class="{ 'no-drag': !customize }"
-                class="drag-area selected-options groupA"
+                :options="{ group: 'groupA' }"
+                class="drag-area"
                 @start="findTargetGroupInPool"
                 @end="unapplyStyles"
                 >
@@ -100,7 +98,6 @@ export default {
   data() {
     return {
       user: null,
-      customize: true,
       initialDraggableItems: [],
       selectedRows: [],
       selectedColumns: [],
@@ -125,7 +122,7 @@ export default {
         block: 'start'
       })
       pool.style.backgroundColor = '#ffffe0'
-      pool.style.border = '3px solid red'
+      pool.style.border = '2px dotted red'
     },
     fnOnMove(event) {
       console.log({
