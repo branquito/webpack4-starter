@@ -1,5 +1,5 @@
 session_name: webpack4fun
-start_directory: ~/@own/webpack4-starter
+start_directory: ~/@ownprojects/webpack4from0
 windows:
 - window_name: compilers
   layout: tiled
