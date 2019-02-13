@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <ul class="list-group">
+        <ul ref="pool" class="list-group">
           <template v-for="block in initialDraggableItems">
             <p class="group-name" :id="block.group"><strong>{{ block.group }}</strong></p>
             <draggable
@@ -34,14 +34,15 @@
             :options="{ group: 'groupA', filter: '.no-drag' }"
             :class="{ 'no-drag': !customize }"
             class="drag-area selected-options groupA"
-            @start="noop"
-            @end="noop"
+            @start="findTargetGroup"
+            @end="unapplyStyles"
             >
             <li
             v-for="item in selectedRows"
+            :data-group="item.group"
             :key="item.title"
             class="list-group-item">
-              {{ item.title }} (group: <span class="group-label">{{ item.group }}</span>)
+              {{ item.title }} <span class="label label-danger"><small>{{ item.group }}</small></span>
             </li>
           </draggable>
         </ul>
@@ -49,7 +50,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <pre>{{ response }}</pre>
+        <!-- <pre>{{ response }}</pre> -->
       </div>
     </div>
   </div>
@@ -81,6 +82,23 @@ export default {
   methods: {
     ...mapActions(["getCube"]),
     noop() {},
+    unapplyStyles(event) {
+      const poolTarget = this.$refs.pool.querySelector(
+        `[id='${event.item.dataset.group}']`
+      )
+      poolTarget.style.backgroundColor = ""
+    },
+    findTargetGroup(event) {
+      console.log({targetGroup: event.item.dataset.group})
+      const poolTarget = this.$refs.pool.querySelector(
+        `[id='${event.item.dataset.group}']`
+      )
+      poolTarget.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      })
+      poolTarget.style.backgroundColor = "#ffffe0"
+    },
     fnOnMove(event) {
       console.log({
         draggedContext: event.draggedContext,
@@ -131,14 +149,13 @@ export default {
   padding: 0.3em 0.3em;
 }
 .list-group {
-  max-height: 340px;
+  max-height: 440px;
   overflow-y: scroll;
 }
 .group-name {
   padding: 1em 0;
 }
-.group-label {
-  color: #bbb;
-  font-style: italic;
+.label {
+  font-size: 9px !important;
 }
 </style>
