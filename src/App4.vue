@@ -40,7 +40,7 @@
                 :options="{ group: 'groupA', filter: '.no-drag' }"
                 :class="{ 'no-drag': !customize }"
                 class="drag-area selected-options groupA"
-                @start="findTargetGroup"
+                @start="findTargetGroupInPool"
                 @end="unapplyStyles"
                 >
                 <li
@@ -48,7 +48,7 @@
                 :data-group="item.group"
                 :key="item.title"
                 class="list-group-item">
-                  {{ item.title }} <span class="label label-danger"><small>{{ item.group }}</small></span>
+                  {{ item.title }} <span class="label label-danger">{{ item.group }}</span>
                 </li>
               </draggable>
             </ul>
@@ -67,7 +67,7 @@
                 :options="{ group: 'groupA', filter: '.no-drag' }"
                 :class="{ 'no-drag': !customize }"
                 class="drag-area selected-options groupA"
-                @start="findTargetGroup"
+                @start="findTargetGroupInPool"
                 @end="unapplyStyles"
                 >
                 <li
@@ -117,42 +117,46 @@ export default {
   },
   methods: {
     ...mapActions(['getCube']),
-    noop() {},
-    unapplyStyles(event) {
-      const poolTarget = this.$refs.pool.querySelector(`[id='${event.item.dataset.group}']`)
-      poolTarget.style.backgroundColor = ''
-      poolTarget.style.border = ''
-    },
-    findTargetGroup(event) {
+    findTargetGroupInPool(event) {
       console.log({ targetGroup: event.item.dataset.group })
-      const poolTarget = this.$refs.pool.querySelector(`[id='${event.item.dataset.group}']`)
-      poolTarget.scrollIntoView({
+      const pool = this.$refs.pool.querySelector(`[id='${event.item.dataset.group}']`)
+      pool.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
       })
-      poolTarget.style.backgroundColor = '#ffffe0'
-      poolTarget.style.border = '3px solid red'
+      pool.style.backgroundColor = '#ffffe0'
+      pool.style.border = '3px solid red'
     },
     fnOnMove(event) {
       console.log({
-        draggedContext: event.draggedContext,
-        relatedContext: event.relatedContext,
-        dragged: event.dragged,
-        related: event.related
-      })
-      console.log({
         related_id: event.relatedContext.component.$el.getAttribute('id')
       })
-      if (['rows', 'cols'].includes(event.relatedContext.component.$el.getAttribute('id'))) return true
-      let fromGroup = event.draggedContext.element.group
-      let toGroup = has(event.relatedContext, ['element', 'group'])
-        ? event.relatedContext.element.group
-        : event.relatedContext.component.$el.getAttribute('id') !== fromGroup
-          ? event.relatedContext.component.$el.getAttribute('id')
+
+      let { relatedContext, draggedContext, dragged, related } = event
+
+      console.log({
+        draggedContext,
+        relatedContext,
+        dragged,
+        related
+      })
+
+      if (['rows', 'cols'].includes(relatedContext.component.$el.getAttribute('id'))) return true
+      let fromGroup = draggedContext.element.group
+      let toGroup = has(relatedContext, ['element', 'group'])
+        ? relatedContext.element.group
+        : relatedContext.component.$el.getAttribute('id') !== fromGroup
+          ? relatedContext.component.$el.getAttribute('id')
           : false
-      console.log(fromGroup, toGroup)
+
+      console.log({ fromGroup, toGroup })
       if (toGroup && fromGroup !== toGroup) return false
       return true
+    },
+    unapplyStyles(event) {
+      const pool = this.$refs.pool.querySelector(`[id='${event.item.dataset.group}']`)
+      pool.style.backgroundColor = ''
+      pool.style.border = ''
     },
     initDraggableItems() {
       return Object.entries(this.response.dimensions).map(([group, values]) => {
@@ -171,7 +175,8 @@ export default {
           // values: values
         }
       })
-    }
+    },
+    noop() {}
   }
 }
 </script>
@@ -197,6 +202,6 @@ export default {
   border-radius: 3px;
 }
 .label {
-  font-size: 9px !important;
+  font-weight: normal;
 }
 </style>
