@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <ul ref="pool" class="list-group">
           <template v-for="block in initialDraggableItems">
             <div class="block-group" :id="block.group">
@@ -26,10 +26,10 @@
           </template>
         </ul>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <pre>Selected items</pre>
+            selected rows
           </div>
           <div class="panel-body">
             <ul class="list-group">
@@ -45,6 +45,33 @@
                 >
                 <li
                 v-for="item in selectedRows"
+                :data-group="item.group"
+                :key="item.title"
+                class="list-group-item">
+                  {{ item.title }} <span class="label label-danger"><small>{{ item.group }}</small></span>
+                </li>
+              </draggable>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">selected columns</div>
+          <div class="panel-body">
+            <ul class="list-group">
+              <draggable
+                v-model="selectedColumns"
+                :move="moveFn"
+                id="cols"
+                :options="{ group: 'groupA', filter: '.no-drag' }"
+                :class="{ 'no-drag': !customize }"
+                class="drag-area selected-options groupA"
+                @start="findTargetGroup"
+                @end="unapplyStyles"
+                >
+                <li
+                v-for="item in selectedColumns"
                 :data-group="item.group"
                 :key="item.title"
                 class="list-group-item">
@@ -76,6 +103,7 @@ export default {
       customize: true,
       initialDraggableItems: [],
       selectedRows: [],
+      selectedColumns: [],
       moveFn: this.fnOnMove
     }
   },
@@ -115,7 +143,7 @@ export default {
       console.log({
         related_id: event.relatedContext.component.$el.getAttribute('id')
       })
-      if (event.relatedContext.component.$el.getAttribute('id') === 'rows') return true
+      if (['rows', 'cols'].includes(event.relatedContext.component.$el.getAttribute('id'))) return true
       let fromGroup = event.draggedContext.element.group
       let toGroup = has(event.relatedContext, ['element', 'group'])
         ? event.relatedContext.element.group
