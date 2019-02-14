@@ -14,6 +14,7 @@
                  class="drag-area"
                  @start="noop"
                  @end="noop"
+                 @change="listAltered"
                  >
                  <li
                  v-for="item in block.dimensions"
@@ -41,6 +42,7 @@
                 class="drag-area"
                 @start="findTargetGroupInPool"
                 @end="unapplyStyles"
+                @change="regroupItems('selectedRows')"
                 >
                 <li
                 v-for="item in selectedRows"
@@ -67,6 +69,7 @@
                 class="drag-area"
                 @start="findTargetGroupInPool"
                 @end="unapplyStyles"
+                @change="regroupItems('selectedColumns')"
                 >
                 <li
                 v-for="item in selectedColumns"
@@ -92,6 +95,7 @@
 import { mapState, mapActions } from 'vuex'
 import draggable from 'vuedraggable'
 import { has } from 'lodash'
+import uniqid from 'uniqid'
 export default {
   name: 'app3',
   components: { draggable },
@@ -114,9 +118,48 @@ export default {
   },
   methods: {
     ...mapActions(['getCube']),
-    findTargetGroupInPool(event) {
-      console.log({ targetGroup: event.item.dataset.group })
-      const pool = this.$refs.pool.querySelector(`[id='${event.item.dataset.group}']`)
+    regroupItems(colsOrRows) {
+      let regrouped = this[colsOrRows].reduce((rv, x) => {
+        ;(rv[x.group] = rv[x.group] || []).push(x)
+        return rv
+      }, {})
+      let unfold = Object.keys(regrouped)
+        .reduce((rv, group) => {
+          rv.push(regrouped[group])
+          return rv
+        }, [])
+        .flat()
+      this[colsOrRows] = unfold
+    },
+    listAltered(e) {
+      if (e.moved) {
+        // swap back indexes, so that element stays in same position
+        this.preventSwap(e)
+      }
+    },
+    preventSwap(e) {
+      let { oldIndex, newIndex, element } = e.moved
+      let foundAt = this.findElementById(element.id)
+      let replaceSubject = this.initialDraggableItems[foundAt]
+      let replacement = { ...replaceSubject }
+
+      // re-swap items
+      replacement.dimensions[oldIndex] = replacement.dimensions.splice(
+        newIndex,
+        1,
+        replacement.dimensions[oldIndex]
+      )[0]
+      this.initialDraggableItems.splice(foundAt, 1, replacement)
+    },
+    findElementById(id) {
+      return this.initialDraggableItems.findIndex(draggable => {
+        return draggable.dimensions.some(dimension => {
+          return dimension.id === id
+        })
+      })
+    },
+    findTargetGroupInPool(e) {
+      const pool = this.$refs.pool.querySelector(`[id='${e.item.dataset.group}']`)
       pool.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
@@ -124,20 +167,10 @@ export default {
       pool.style.backgroundColor = '#ffffe0'
       pool.style.border = '2px dotted red'
     },
-    fnOnMove(event) {
-      console.log({
-        related_id: event.relatedContext.component.$el.getAttribute('id')
-      })
+    fnOnMove(e) {
+      let { relatedContext, draggedContext, dragged, related } = e
 
-      let { relatedContext, draggedContext, dragged, related } = event
-
-      console.log({
-        draggedContext,
-        relatedContext,
-        dragged,
-        related
-      })
-
+      // Allow 'rows' & 'cols' to act as drop targets
       if (['rows', 'cols'].includes(relatedContext.component.$el.getAttribute('id'))) return true
       let fromGroup = draggedContext.element.group
       let toGroup = has(relatedContext, ['element', 'group'])
@@ -146,12 +179,11 @@ export default {
           ? relatedContext.component.$el.getAttribute('id')
           : false
 
-      console.log({ fromGroup, toGroup })
       if (toGroup && fromGroup !== toGroup) return false
       return true
     },
-    unapplyStyles(event) {
-      const pool = this.$refs.pool.querySelector(`[id='${event.item.dataset.group}']`)
+    unapplyStyles(e) {
+      const pool = this.$refs.pool.querySelector(`[id='${e.item.dataset.group}']`)
       pool.style.backgroundColor = ''
       pool.style.border = ''
     },
@@ -165,7 +197,8 @@ export default {
               {
                 item: k,
                 title: v,
-                group: group
+                group: group,
+                id: uniqid()
               }
             ]
           }, [])
