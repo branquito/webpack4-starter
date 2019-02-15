@@ -1,5 +1,27 @@
 <template>
   <div class="container">
+    <div class="panel panel-info">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-4">
+            <button
+               @click="prepareRequestPayload"
+               :disabled="disabled"
+               class="btn btn-info">Generate
+            </button>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="control-label">Select Data Source</label>
+              <select v-model="cubeSelect" @change="selectCube" id="cubeSelect" class="form-control" name="cubeSelect">
+                <option value="res1">Recruiting Counts</option>
+                <option value="res2">Candidates Pipeline</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-4">
         <input v-model="searchTerm" class="form-control" type="text" placeholder="Search...">
@@ -19,7 +41,7 @@
                  >
                  <li
                  v-for="item in block.dimensions"
-                 :key="item.title"
+                 :key="item.item"
                  class="list-group-item">
                    {{ item.title }}
                  </li>
@@ -48,7 +70,7 @@
                 <li
                 v-for="item in selectedRows"
                 :data-group="item.group"
-                :key="item.title"
+                :key="item.item"
                 class="list-group-item">
                   {{ item.title }} <span class="label label-danger">{{ item.group }}</span>
                 </li>
@@ -75,7 +97,7 @@
                 <li
                 v-for="item in selectedColumns"
                 :data-group="item.group"
-                :key="item.title"
+                :key="item.item"
                 class="list-group-item">
                   {{ item.title }} <span class="label label-danger"><small>{{ item.group }}</small></span>
                 </li>
@@ -112,6 +134,8 @@ export default {
 
       searchTerm: '',
 
+      cubeSelect: 'res1',
+
       Mark: Mark,
       marker: null // Mark instance
     }
@@ -121,9 +145,8 @@ export default {
   },
   mounted() {
     this.user = this.$store.state.user
-    this.getCube('Recruiting%20Counts')
-    this.initialDraggableItems = this.initDraggableItems()
-    this.filteredDraggableItems = this.initialDraggableItems
+    this.getCube('res1')
+    this.initDraggableItems(this.cubeSelect)
     this.marker = new this.Mark(this.$refs.pool)
   },
   watch: {
@@ -132,7 +155,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['response'])
+    ...mapState(['response']),
+    disabled() {
+      return !(this.selectedRows.length && this.selectedColumns.length)
+    }
   },
   methods: {
     ...mapActions(['getCube']),
@@ -197,7 +223,7 @@ export default {
       const pool = this.$refs.pool.querySelector(`[id='${e.item.dataset.group}']`)
       if (!pool) return
       pool.scrollIntoView({
-        behavior: 'smooth',
+        // behavior: 'smooth',
         block: 'start'
       })
       pool.style.backgroundColor = '#ffffe0'
@@ -224,10 +250,28 @@ export default {
       pool.style.backgroundColor = ''
       pool.style.border = ''
     },
-    initDraggableItems() {
-      return Object.entries(this.response.dimensions).map(([group, values]) => {
+    prepareRequestPayload() {
+      console.log('preparing request payload...')
+      let rows = this.prepareSet('selectedRows')
+      let columns = this.prepareSet('selectedColumns')
+      console.log({ rows, columns })
+    },
+    prepareSet(colsOrRows) {
+      return this[colsOrRows].reduce((rv, item) => {
+        rv = {
+          ...rv,
+          [item.item]: item.title
+        }
+        return rv
+      }, {})
+    },
+    selectCube() {
+      this.initialDraggableItems = this.initDraggableItems(this.cubeSelect)
+    },
+    initDraggableItems(cube) {
+      this.initialDraggableItems = Object.entries(this.response[cube].dimensions).map(([group, values]) => {
         return {
-          group: group,
+          group,
           dimensions: Object.entries(values).reduce((acc, [k, v]) => {
             return [
               ...acc,
@@ -242,6 +286,9 @@ export default {
           // values: values
         }
       })
+      this.filteredDraggableItems = this.initialDraggableItems
+      // reset selected rows & cols
+      this.selectedRows = this.selectedColumns = []
     },
     noop() {}
   }

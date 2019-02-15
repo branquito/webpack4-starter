@@ -1,0 +1,249 @@
+{
+  "data": {
+    "dimensions": {
+      "Candidate Created By": {
+        "[Candidate Created By].Full Name": "Candidate Created By"
+      },
+      "Candidate Created Date": {
+        "[Candidate Created Date].Candidate Created Date": "Candidate Created Date",
+        "[Candidate Created Date].[monthly].Year": "Candidate Created Year",
+        "[Candidate Created Date].[monthly].Quarter": "Candidate Created Quarter",
+        "[Candidate Created Date].[monthly].Month": "Candidate Created Month"
+      },
+      "Candidate Removed Date": {
+        "[Candidate Removed Date].Candidate Removed Date": "Candidate Removed Date",
+        "[Candidate Removed Date].[monthly].Year": "Candidate Removed Year",
+        "[Candidate Removed Date].[monthly].Quarter": "Candidate Removed Quarter",
+        "[Candidate Removed Date].[monthly].Month": "Candidate Removed Month"
+      },
+      "Candidate Status": {
+        "[Candidate Status].Stage": "Candidate Stage",
+        "[Candidate Status].Status": "Candidate Status"
+      },
+      "Candidates": {
+        "[Candidates].Candidate Id": "Candidate Id"
+      },
+      "Citizenship": {
+        "[Citizenship].Citizenship": "Citizenship"
+      },
+      "Closed By": {
+        "[Closed By].Full Name": "Closed By"
+      },
+      "Placement Compensation": {
+        "[Placement Compensation].[Compensations].Salary": "Salary",
+        "[Placement Compensation].[Compensations].Override Salary": "Override Salary",
+        "[Placement Compensation].[Compensations].Bonus 1": "Bonus 1",
+        "[Placement Compensation].[Compensations].Bonus 2": "Bonus 2",
+        "[Placement Compensation].[Compensations].Salary Frequency": "Salary Frequency",
+        "[Placement Compensation].[Compensations].travel": "Travel",
+        "[Placement Compensation].[Compensations].Relocation": "Relocation",
+        "[Placement Compensation].[Compensations].Visa": "Visa",
+        "[Placement Compensation].[Compensations].Margin": "Margin"
+      },
+      "Contact Created By": {
+        "[Contact Created By].Full Name": "Contact Created By"
+      },
+      "Contact Employment Types": {
+        "[Contact Employment Types].Type Id": "Contact Employment Type Id",
+        "[Contact Employment Types].Employment Type": "Contact Employment Type"
+      },
+      "Contact Record Owner": {
+        "[Contact Record Owner].Full Name": "Contact Record Owner"
+      },
+      "Contact Types": {
+        "[Contact Types].Name": "Contact Type",
+        "[Contact Types].Type Id": "Contact Type Id"
+      },
+      "Contacts": {
+        "[Contacts].Full Name": "Contact",
+        "[Contacts].Birth Date": "Contact Birth Date",
+        "[Contacts].Citizenship": "Contact Citizenship",
+        "[Contacts].Created By": "Contact Created By",
+        "[Contacts].Record Owner": "Contact Record Owner",
+        "[Contacts].Home City": "Contact Home City",
+        "[Contacts].Home State": "Contact Home State",
+        "[Contacts].Home Country": "Contact Home Country",
+        "[Contacts].Home Region": "Contact Home Region",
+        "[Contacts].Type": "Contact Type",
+        "[Contacts].Gender": "Contact Gender",
+        "[Contacts].Race": "Contact Race"
+      },
+      "Ordering Departments": {
+        "[Ordering Departments].[Departments].Department": "Department"
+      },
+      "End Departments": {
+        "[End Departments].[Departments].Department": "Department"
+      },
+      "Employment Types": {
+        "[Employment Types].Type Id": "Employment Type Id",
+        "[Employment Types].Employment Type": "Employment Type"
+      },
+      "End Companies": {
+        "[End Companies].Company Id": "End Company Id",
+        "[End Companies].Company Type": "End Company Type",
+        "[End Companies].Company": "End Company"
+      },
+      "End Contacts": {
+        "[End Contacts].Contact Id": "End Contact Id",
+        "[End Contacts].Full Name": "End Contact"
+      },
+      "First Interview Date": {
+        "[First Interview Date].First Interview Date": "First Interview Date",
+        "[First Interview Date].[monthly].Year": "First Interview Year",
+        "[First Interview Date].[monthly].Quarter": "First Interview Quarter",
+        "[First Interview Date].[monthly].Month": "First Interview Month"
+      },
+      "Hire by Date": {
+        "[Hire by Date].Hire by Date": "Hire by Date",
+        "[Hire by Date].[monthly].Year": "Hire by Year",
+        "[Hire by Date].[monthly].Quarter": "Hire by Quarter",
+        "[Hire by Date].[monthly].Month": "Hire by Month"
+      },
+      "Is Email Sent": {
+        "[Is Email Sent].Is Email Sent": "Is Email Sent"
+      },
+      "Is Viewed": {
+        "[Is Viewed].Is Viewed": "Is Viewed"
+      },
+      "Contact Job Categories": {
+        "[Contact Job Categories].[Job Categories].Job Category": "Contact Job Category"
+      },
+      "Job Req Categories": {
+        "[Job Req Categories].[Job Categories].Job Category": "Job Category"
+      },
+      "Job Functions": {
+        "[Job Functions].Job Function": "Job Function"
+      },
+      "Job Projects": {
+        "[Job Projects].Job Project": "Job Project"
+      },
+      "Job Req Created By": {
+        "[Job Req Created By].Full Name": "Job Req Created By"
+      },
+      "Job Req Record Owner": {
+        "[Job Req Record Owner].Full Name": "Job Req Record Owner"
+      },
+      "Job Req Stage": {
+        "[Job Req Stage].Job Req Stage": "Job Req Stage"
+      },
+      "Job Req Status": {
+        "[Job Req Status].Stage": "Job Req Stage",
+        "[Job Req Status].Status": "Job Req Status",
+        "[Job Req Status].Status Id": "Job Req Status Id"
+      },
+      "Job Req Types": {
+        "[Job Req Types].Type Id": "Job Req Type Id",
+        "[Job Req Types].Name": "Job Req Type"
+      },
+      "Job Reqs": {
+        "[Job Reqs].Job Req Id": "Job Req Id",
+        "[Job Reqs].Position": "Position"
+      },
+      "Job Reqs Closed Date": {
+        "[Job Reqs Closed Date].Job Reqs Closed Date": "Job Reqs Closed Date",
+        "[Job Reqs Closed Date].[monthly].Year": "Job Reqs Closed Year",
+        "[Job Reqs Closed Date].[monthly].Quarter": "Job Reqs Closed Quarter",
+        "[Job Reqs Closed Date].[monthly].Month": "Job Reqs Closed Month"
+      },
+      "Job Reqs Open Date": {
+        "[Job Reqs Open Date].Job Reqs Open Date": "Job Reqs Open Date",
+        "[Job Reqs Open Date].[monthly].Year": "Job Reqs Open Year",
+        "[Job Reqs Open Date].[monthly].Quarter": "Job Reqs Open Quarter",
+        "[Job Reqs Open Date].[monthly].Month": "Job Reqs Open Month"
+      },
+      "Job Reqs Reopen Date": {
+        "[Job Reqs Reopen Date].Job Reqs Reopen Date": "Job Reqs Reopen Date",
+        "[Job Reqs Reopen Date].[monthly].Year": "Job Reqs Reopen Year",
+        "[Job Reqs Reopen Date].[monthly].Quarter": "Job Reqs Reopen Quarter",
+        "[Job Reqs Reopen Date].[monthly].Month": "Job Reqs Reopen Month"
+      },
+      "Locations": {
+        "[Locations].State": "State",
+        "[Locations].City": "City",
+        "[Locations].Zip": "Zip",
+        "[Locations].Country": "Country",
+        "[Locations].Region": "Region"
+      },
+      "Offer Date": {
+        "[Offer Date].Offer Date": "Offer Date",
+        "[Offer Date].[monthly].Year": "Offer Date",
+        "[Offer Date].[monthly].Quarter": "Offer Date",
+        "[Offer Date].[monthly].Month": "Offer Date"
+      },
+      "Ordering Companies": {
+        "[Ordering Companies].Company Id": "Ordering Company Id",
+        "[Ordering Companies].Company Type": "Ordering Company Type",
+        "[Ordering Companies].Company": "Ordering Company"
+      },
+      "Ordering Contacts": {
+        "[Ordering Contacts].Contact Id": "Ordering Contact Id",
+        "[Ordering Contacts].Full Name": "Ordering Contact"
+      },
+      "Original Posting Date": {
+        "[Original Posting Date].Job Reqs Open Date": "Original Posting Date",
+        "[Original Posting Date].[monthly].Year": "Original Posting Year",
+        "[Original Posting Date].[monthly].Quarter": "Original Posting Quarter",
+        "[Original Posting Date].[monthly].Month": "Original Posting Month"
+      },
+      "Placement Created At": {
+        "[Placement Created At].Placement Created At": "Placement Created At",
+        "[Placement Created At].[monthly].Year": "Placement Created In Year",
+        "[Placement Created At].[monthly].Quarter": "Placement Created In Quarter",
+        "[Placement Created At].[monthly].Month": "Placement Created In Month"
+      },
+      "Placement End Date": {
+        "[Placement End Date].Placement End Date": "Placement End Date",
+        "[Placement End Date].[monthly].Year": "Placement End Date In Year",
+        "[Placement End Date].[monthly].Quarter": "Placement End Date In Quarter",
+        "[Placement End Date].[monthly].Month": "Placement End Date In Month"
+      },
+      "Placement Start Date": {
+        "[Placement Start Date].Placement Start Date": "Placement Start Date",
+        "[Placement Start Date].[monthly].Year": "Placement Start Date In Year",
+        "[Placement Start Date].[monthly].Quarter": "Placement Start Date In Quarter",
+        "[Placement Start Date].[monthly].Month": "Placement Start Date In Month"
+      },
+      "Placements": {
+        "[Placements].Created By": "Created By",
+        "[Placements].Total Commission": "Total Commission",
+        "[Placements].Referred By": "Referred By"
+      },
+      "Reopened By": {
+        "[Reopened By].Full Name": "Reopened By"
+      },
+      "Report To": {
+        "[Report To].Full Name": "Report To"
+      },
+      "Vendor Recruiters": {
+        "[Vendor Recruiters].Vendor Company": "Vendor Company",
+        "[Vendor Recruiters].Vendor Contact": "Vendor Contact"
+      },
+      "Shifts": {
+        "[Shifts].[Work Shifts].Work Shift": "Work Shift"
+      }
+    },
+    "measures": [
+      "Time To Become Candidate (Days)",
+      "Time To Source (Days)",
+      "Time To First Interview (Days)",
+      "Time Interviewing (Days)",
+      "Time To First Offer (Days)",
+      "Time Created To Hired (Days)",
+      "Time Created To Start (Days)",
+      "Time Open To Hire (Days)",
+      "Total Offers",
+      "Accepted Offers",
+      "Declined Offers",
+      "Pending Offers",
+      "Passed Interviews",
+      "Pending Interviews",
+      "Interviews In Progress",
+      "Failed Interviews",
+      "Placed",
+      "Jobs Count",
+      "Candidates Count",
+      "Yearly Pay Rate"
+    ],
+    "hidden_filters": []
+  }
+}

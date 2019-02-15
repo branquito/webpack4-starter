@@ -4,11 +4,12 @@ axios.defaults.baseURL = 'https://app.renhead.test'
 axios.defaults.headers.common['Authorization'] =
   'Bearer eyJpdiI6IjFvZHJMRWZJNENiUzBZTk1cL0dYa0pRPT0iLCJ2YWx1ZSI6ImxLbU5xTXVxVVFHZnIzVUVRN0c5NjdiOTJkVDNuU0IyR29IRENGK0tIZyt4bEh0MWIrY0xPeUp4U1RVOFlMdlwvIiwibWFjIjoiZjE0YzZiMjJkYjUyNjM5MDk0ZjQ1N2RjMTM5NzcxMjU0N2Y2YzU4ZjVmZTY1YzkyYzIzNTZkMTY3ZjMxM2E0NiJ9'
 
-const mockResponse = require('./recruiting_counts_response.json')
+const mockResponse1 = require('./recruiting_counts_response.json')
+const mockResponse2 = require('./candidates_pipeline_response.json')
 const reportTypes = require('./report_types.json')
-console.log(reportTypes)
 
-const { measures, dimensions } = mockResponse.data
+const res1data = mockResponse1.data
+const res2data = mockResponse2.data
 
 export default {
   // loadCubes({ state, commit }) {
@@ -19,9 +20,16 @@ export default {
   // },
   getCube({ commit }, cube) {
     commit('addMeasuresDimensions', {
-      cube,
-      measures,
-      dimensions
+      res1: {
+        cube,
+        measures: res1data.measures,
+        dimensions: res1data.dimensions
+      },
+      res2: {
+        cube,
+        measures: res2data.measures,
+        dimensions: res2data.dimensions
+      }
     })
   }
   // getCube({ commit }, cube) {
