@@ -2,8 +2,9 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4">
+        <input v-model="searchTerm" class="form-control" type="text" placeholder="Search...">
         <ul ref="pool" class="list-group">
-          <template v-for="block in initialDraggableItems">
+          <template v-for="block in filteredDraggableItems">
             <div class="block-group" :id="block.group">
               <p class="group-name"><strong>{{ block.group }}</strong></p>
               <draggable
@@ -94,8 +95,9 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import draggable from 'vuedraggable'
-import { has } from 'lodash'
+import { debounce, has } from 'lodash'
 import uniqid from 'uniqid'
+import Mark from 'mark.js'
 export default {
   name: 'app3',
   components: { draggable },
@@ -103,21 +105,54 @@ export default {
     return {
       user: null,
       initialDraggableItems: [],
+      filteredDraggableItems: [],
       selectedRows: [],
       selectedColumns: [],
-      moveFn: this.fnOnMove
+      moveFn: this.fnOnMove,
+
+      searchTerm: '',
+
+      Mark: Mark,
+      marker: null // Mark instance
     }
+  },
+  created() {
+    this.debouncedSearch = debounce(this.searchInPool, 300)
   },
   mounted() {
     this.user = this.$store.state.user
     this.getCube('Recruiting%20Counts')
     this.initialDraggableItems = this.initDraggableItems()
+    this.filteredDraggableItems = this.initialDraggableItems
+    this.marker = new this.Mark(this.$refs.pool)
+  },
+  watch: {
+    searchTerm: function(value) {
+      this.debouncedSearch()
+    }
   },
   computed: {
     ...mapState(['response'])
   },
   methods: {
     ...mapActions(['getCube']),
+    searchInPool() {
+      let term = this.searchTerm
+      this.filteredDraggableItems = this.initialDraggableItems.filter(block => {
+        return (
+          block.dimensions.length === 0 ||
+          block.dimensions.some(dimension => {
+            return dimension.title.toLowerCase().includes(term)
+          })
+        )
+      })
+      this.marker.unmark()
+      this.marker.mark(term, {
+        // filter: function(node, term, totalCounter, counter) {
+        //   return true
+        // }
+      })
+    },
     regroupItems(colsOrRows) {
       let regrouped = this[colsOrRows].reduce((rv, x) => {
         ;(rv[x.group] = rv[x.group] || []).push(x)
@@ -160,6 +195,7 @@ export default {
     },
     findTargetGroupInPool(e) {
       const pool = this.$refs.pool.querySelector(`[id='${e.item.dataset.group}']`)
+      if (!pool) return
       pool.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
@@ -184,6 +220,7 @@ export default {
     },
     unapplyStyles(e) {
       const pool = this.$refs.pool.querySelector(`[id='${e.item.dataset.group}']`)
+      if (!pool) return
       pool.style.backgroundColor = ''
       pool.style.border = ''
     },
