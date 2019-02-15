@@ -31,7 +31,7 @@
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">
-            selected rows
+            selected rows ( <strong>{{ selectedRows.length }}</strong> )
           </div>
           <div class="panel-body">
             <ul class="list-group">
@@ -59,7 +59,7 @@
       </div>
       <div class="col-md-4">
         <div class="panel panel-default">
-          <div class="panel-heading">selected columns</div>
+          <div class="panel-heading">selected columns ( <strong>{{ selectedColumns.length }}</strong> )</div>
           <div class="panel-body">
             <ul class="list-group">
               <draggable
