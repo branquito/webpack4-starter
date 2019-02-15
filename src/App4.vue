@@ -266,19 +266,19 @@ export default {
       }, {})
     },
     selectCube() {
-      this.initialDraggableItems = this.initDraggableItems(this.cubeSelect)
+      this.initDraggableItems(this.cubeSelect)
     },
     initDraggableItems(cube) {
       this.initialDraggableItems = Object.entries(this.response[cube].dimensions).map(([group, values]) => {
         return {
           group,
-          dimensions: Object.entries(values).reduce((acc, [k, v]) => {
+          dimensions: Object.entries(values).reduce((rv, [item, title]) => {
             return [
-              ...acc,
+              ...rv,
               {
-                item: k,
-                title: v,
-                group: group,
+                item,
+                title,
+                group,
                 id: uniqid()
               }
             ]
@@ -286,7 +286,7 @@ export default {
           // values: values
         }
       })
-      this.filteredDraggableItems = this.initialDraggableItems
+      this.filteredDraggableItems = [...this.initialDraggableItems]
       // reset selected rows & cols
       this.selectedRows = this.selectedColumns = []
     },
