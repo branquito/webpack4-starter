@@ -24,6 +24,17 @@
     </div>
     <div class="row">
       <div class="col-md-4">
+        <data-source-pool
+          v-if="response"
+          :dataSource="response[cubeSelect]"
+          :shaper="transformFn"
+          :options="{ group: 'groupA'}"
+          :moveFn="moveFn"
+          ></data-source-pool>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
         <input v-model="searchTerm" class="form-control" type="text" placeholder="Search...">
         <ul ref="pool" class="list-group">
           <template v-for="block in filteredDraggableItems">
@@ -35,8 +46,6 @@
                  v-model="block.dimensions"
                  :options="{ group: 'groupA' }"
                  class="drag-area"
-                 @start="noop"
-                 @end="noop"
                  @change="listAltered"
                  >
                  <li
@@ -115,14 +124,15 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
-import draggable from 'vuedraggable'
-import { debounce, has } from 'lodash'
-import uniqid from 'uniqid'
-import Mark from 'mark.js'
+import {mapState, mapActions} from "vuex"
+import draggable from "vuedraggable"
+import {debounce, has} from "lodash"
+import uniqid from "uniqid"
+import Mark from "mark.js"
+import DataSourcePool from "./components/DataSourcePool.vue"
 export default {
-  name: 'app3',
-  components: { draggable },
+  name: "app3",
+  components: {draggable, DataSourcePool},
   data() {
     return {
       user: null,
@@ -132,9 +142,9 @@ export default {
       selectedColumns: [],
       moveFn: this.fnOnMove,
 
-      searchTerm: '',
+      searchTerm: "",
 
-      cubeSelect: 'res1',
+      cubeSelect: "res1",
 
       Mark: Mark,
       marker: null // Mark instance
@@ -145,8 +155,8 @@ export default {
   },
   mounted() {
     this.user = this.$store.state.user
-    this.getCube('res1')
-    this.initDraggableItems(this.cubeSelect)
+    this.getCube("res1")
+    this.initDraggableItems(this.cubeSelect, this.transformInput)
     this.marker = new this.Mark(this.$refs.pool)
   },
   watch: {
@@ -155,13 +165,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(['response']),
+    ...mapState(["response"]),
     disabled() {
       return !(this.selectedRows.length && this.selectedColumns.length)
     }
   },
   methods: {
-    ...mapActions(['getCube']),
+    ...mapActions(["getCube"]),
     searchInPool() {
       let term = this.searchTerm
       this.filteredDraggableItems = this.initialDraggableItems.filter(block => {
@@ -199,10 +209,10 @@ export default {
       }
     },
     preventSwap(e) {
-      let { oldIndex, newIndex, element } = e.moved
+      let {oldIndex, newIndex, element} = e.moved
       let foundAt = this.findElementById(element.id)
       let replaceSubject = this.initialDraggableItems[foundAt]
-      let replacement = { ...replaceSubject }
+      let replacement = {...replaceSubject}
 
       // re-swap items
       replacement.dimensions[oldIndex] = replacement.dimensions.splice(
@@ -220,41 +230,50 @@ export default {
       })
     },
     findTargetGroupInPool(e) {
-      const pool = this.$refs.pool.querySelector(`[id='${e.item.dataset.group}']`)
+      const pool = this.$refs.pool.querySelector(
+        `[id='${e.item.dataset.group}']`
+      )
       if (!pool) return
       pool.scrollIntoView({
         // behavior: 'smooth',
-        block: 'start'
+        block: "start"
       })
-      pool.style.backgroundColor = '#ffffe0'
-      pool.style.border = '2px dotted red'
+      pool.style.backgroundColor = "#ffffe0"
+      pool.style.border = "2px dotted red"
     },
     fnOnMove(e) {
-      let { relatedContext, draggedContext, dragged, related } = e
+      let {relatedContext, draggedContext, dragged, related} = e
 
       // Allow 'rows' & 'cols' to act as drop targets
-      if (['rows', 'cols'].includes(relatedContext.component.$el.getAttribute('id'))) return true
+      if (
+        ["rows", "cols"].includes(
+          relatedContext.component.$el.getAttribute("id")
+        )
+      )
+        return true
       let fromGroup = draggedContext.element.group
-      let toGroup = has(relatedContext, ['element', 'group'])
+      let toGroup = has(relatedContext, ["element", "group"])
         ? relatedContext.element.group
-        : relatedContext.component.$el.getAttribute('id') !== fromGroup
-          ? relatedContext.component.$el.getAttribute('id')
+        : relatedContext.component.$el.getAttribute("id") !== fromGroup
+          ? relatedContext.component.$el.getAttribute("id")
           : false
 
       if (toGroup && fromGroup !== toGroup) return false
       return true
     },
     unapplyStyles(e) {
-      const pool = this.$refs.pool.querySelector(`[id='${e.item.dataset.group}']`)
+      const pool = this.$refs.pool.querySelector(
+        `[id='${e.item.dataset.group}']`
+      )
       if (!pool) return
-      pool.style.backgroundColor = ''
-      pool.style.border = ''
+      pool.style.backgroundColor = ""
+      pool.style.border = ""
     },
     prepareRequestPayload() {
-      console.log('preparing request payload...')
-      let rows = this.prepareSet('selectedRows')
-      let columns = this.prepareSet('selectedColumns')
-      console.log({ rows, columns })
+      console.log("preparing request payload...")
+      let rows = this.prepareSet("selectedRows")
+      let columns = this.prepareSet("selectedColumns")
+      console.log({rows, columns})
     },
     prepareSet(colsOrRows) {
       return this[colsOrRows].reduce((rv, item) => {
@@ -266,10 +285,10 @@ export default {
       }, {})
     },
     selectCube() {
-      this.initDraggableItems(this.cubeSelect)
+      this.initDraggableItems(this.cubeSelect, this.transformInput)
     },
-    initDraggableItems(cube) {
-      this.initialDraggableItems = Object.entries(this.response[cube].dimensions).map(([group, values]) => {
+    transformFn(dataSource) {
+      return Object.entries(dataSource.dimensions).map(([group, values]) => {
         return {
           group,
           dimensions: Object.entries(values).reduce((rv, [item, title]) => {
@@ -283,9 +302,32 @@ export default {
               }
             ]
           }, [])
-          // values: values
         }
       })
+    },
+    transformInput(cube) {
+      return Object.entries(this.response[cube].dimensions).map(
+        ([group, values]) => {
+          return {
+            group,
+            dimensions: Object.entries(values).reduce((rv, [item, title]) => {
+              return [
+                ...rv,
+                {
+                  item,
+                  title,
+                  group,
+                  id: uniqid()
+                }
+              ]
+            }, [])
+            // values: values
+          }
+        }
+      )
+    },
+    initDraggableItems(cube, shaper) {
+      this.initialDraggableItems = shaper(cube)
       this.filteredDraggableItems = [...this.initialDraggableItems]
       // reset selected rows & cols
       this.selectedRows = this.selectedColumns = []
