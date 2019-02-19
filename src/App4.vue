@@ -184,10 +184,10 @@ export default {
     ...mapActions(["getCube"]),
     presetModels(rowsModel, colsModel) {
       const rowsAndColsModel = rowsModel.concat(colsModel)
-      const rowsAndColsModelIds = rowsAndColsModel.reduce((rv, item) => {
-        rv.push(item.id)
-        return rv
-      }, [])
+      const rowsAndColsModelIds = rowsAndColsModel.reduce(
+        (rv, item) => rv.concat(item.id),
+        []
+      )
       console.log(rowsAndColsModelIds)
       this.debugModels = this.initialDraggableItems.reduce((rv, block) => {
         const {dimensions, ...rest} = block
