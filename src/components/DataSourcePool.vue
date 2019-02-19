@@ -8,7 +8,7 @@
           <draggable
             :move="moveFn"
             :id="block.group"
-            v-model="block.dimensions"
+            v-model="block.items"
             :options="options"
             class="drag-area"
             @start="$emit('start')"
@@ -16,7 +16,7 @@
             @change="$emit('list-altered')"
             >
             <li
-              v-for="item in block.dimensions"
+              v-for="item in block.items"
               :key="item.item"
               class="list-group-item">
               {{ item.title }}
@@ -28,10 +28,10 @@
   </div>
 </template>
 <script>
-import {debounce} from "lodash"
-import draggable from "vuedraggable"
+import { debounce } from 'lodash'
+import draggable from 'vuedraggable'
 export default {
-  components: {draggable},
+  components: { draggable },
   props: {
     dataSource: {
       type: [Object, Array],
@@ -68,14 +68,14 @@ export default {
     init(dataSource, shaper) {
       this.initialItems = shaper(dataSource)
       this.filteredItems = [...this.initialItems]
-      this.$emit("data-init")
+      this.$emit('data-init')
     },
     searchInPool() {
       let term = this.searchTerm
       this.filteredItems = this.initialItems.filter(block => {
         return (
-          block.dimensions.length === 0 ||
-          block.dimensions.some(dimension => {
+          block.items.length === 0 ||
+          block.items.some(dimension => {
             return dimension.title.toLowerCase().includes(term)
           })
         )
@@ -92,7 +92,7 @@ export default {
   },
   data() {
     return {
-      searchTerm: "",
+      searchTerm: '',
       initialItems: [],
       filteredItems: []
     }

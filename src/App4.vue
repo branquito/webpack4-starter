@@ -22,117 +22,121 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-4">
-        <data-source-pool
-          v-if="response"
-          :dataSource="response[cubeSelect]"
-          :shaper="transformFn"
-          :options="{ group: 'groupA'}"
-          :moveFn="moveFn"
-          ></data-source-pool>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <input v-model="searchTerm" class="form-control" type="text" placeholder="Search...">
-        <ul ref="pool" class="list-group">
-          <template v-for="block in filteredDraggableItems">
-            <div class="block-group" :id="block.group">
-              <p class="group-name"><strong>{{ block.group }}</strong></p>
-              <draggable
-                 :move="moveFn"
-                 :id="block.group"
-                 v-model="block.dimensions"
-                 :options="{ group: 'groupA' }"
-                 class="drag-area"
-                 @change="listAltered"
-                 >
-                 <li
+    <!-- <div class="row"> -->
+    <!--   <div class="col&#45;md&#45;4"> -->
+    <!--     <data&#45;source&#45;pool -->
+    <!--       v&#45;if="response" -->
+    <!--       :dataSource="response[cubeSelect]" -->
+    <!--       :shaper="transformFn" -->
+    <!--       :options="{ group: 'groupA'}" -->
+    <!--       :moveFn="moveFn" -->
+    <!--       ></data&#45;source&#45;pool> -->
+    <!--   </div> -->
+    <!-- </div> -->
+    <div class="col-md-4 col-md-offset-2">
+      <input v-model="searchTerm" class="form-control" type="text" placeholder="Search...">
+      <ul ref="pool" class="list-group">
+        <template v-for="block in filteredDraggableItems">
+          <div class="block-group" :id="block.group">
+            <p class="group-name"><strong>{{ block.group }}</strong></p>
+            <draggable
+            :move="moveFn"
+               :id="block.group"
+               v-model="block.dimensions"
+               :options="{ group: 'groupA' }"
+               class="drag-area"
+               @change="listAltered"
+               >
+               <li
                  v-for="item in block.dimensions"
                  :key="item.item"
                  class="list-group-item">
-                   {{ item.title }}
-                 </li>
-              </draggable>
+                 {{ item.title }}
+               </li>
+            </draggable>
+          </div>
+        </template>
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              selected rows ( <strong>{{ selectedRows.length }}</strong> )
             </div>
-          </template>
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            selected rows ( <strong>{{ selectedRows.length }}</strong> )
-          </div>
-          <div class="panel-body">
-            <ul class="list-group">
-              <draggable
-                v-model="selectedRows"
-                :move="moveFn"
-                id="rows"
-                :options="{ group: 'groupA' }"
-                class="drag-area"
-                @start="findTargetGroupInPool"
-                @end="unapplyStyles"
-                @change="regroupItems('selectedRows')"
-                >
-                <li
-                v-for="item in selectedRows"
-                :data-group="item.group"
-                :key="item.item"
-                class="list-group-item">
-                  {{ item.title }} <span class="label label-danger">{{ item.group }}</span>
-                </li>
-              </draggable>
-            </ul>
+            <div class="panel-body">
+              <ul class="list-group">
+                <draggable
+                  v-model="selectedRows"
+                  :move="moveFn"
+                  id="rows"
+                  :options="{ group: 'groupA' }"
+                  class="drag-area"
+                  @start="findTargetGroupInPool"
+                  @end="unapplyStyles"
+                  @change="regroupItems('selectedRows')"
+                  @add="checkIfGroupExists"
+                  >
+                  <li
+                  v-for="item in selectedRows"
+                  :data-group="item.group"
+                  :key="item.item"
+                  class="list-group-item">
+                    {{ item.title }} <span class="label label-danger">{{ item.group }}</span>
+                  </li>
+                </draggable>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">selected columns ( <strong>{{ selectedColumns.length }}</strong> )</div>
-          <div class="panel-body">
-            <ul class="list-group">
-              <draggable
-                v-model="selectedColumns"
-                :move="moveFn"
-                id="cols"
-                :options="{ group: 'groupA' }"
-                class="drag-area"
-                @start="findTargetGroupInPool"
-                @end="unapplyStyles"
-                @change="regroupItems('selectedColumns')"
-                >
-                <li
-                v-for="item in selectedColumns"
-                :data-group="item.group"
-                :key="item.item"
-                class="list-group-item">
-                  {{ item.title }} <span class="label label-danger"><small>{{ item.group }}</small></span>
-                </li>
-              </draggable>
-            </ul>
-          </div>
-        </div>
+        <div class="col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">selected columns ( <strong>{{ selectedColumns.length }}</strong> )</div>
+            <div class="panel-body">
+              <ul class="list-group">
+                <draggable
+                  v-model="selectedColumns"
+                  :move="moveFn"
+                  id="cols"
+                  :options="{ group: 'groupA' }"
+                  class="drag-area"
+                  @start="findTargetGroupInPool"
+                  @end="unapplyStyles"
+                  @change="regroupItems('selectedColumns')"
+                  @add="checkIfGroupExists"
+                  >
+                  <li
+                  v-for="item in selectedColumns"
+                  :data-group="item.group"
+                  :key="item.item"
+                  class="list-group-item">
+                    {{ item.title }} <span class="label label-danger"><small>{{ item.group }}</small></span>
+                  </li>
+                </draggable>
+              </ul>
+            </div> <!-- panel-body -->
+          </div> <!-- panel -->
+        </div> <!-- col-md-6 -->
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <!-- <pre>{{ response }}</pre> -->
+        <pre>{{ response }}</pre>
       </div>
     </div>
   </div>
 </template>
 <script>
-import {mapState, mapActions} from "vuex"
-import draggable from "vuedraggable"
-import {debounce, has} from "lodash"
-import uniqid from "uniqid"
-import Mark from "mark.js"
-import DataSourcePool from "./components/DataSourcePool.vue"
+import { mapState, mapActions } from 'vuex'
+import draggable from 'vuedraggable'
+import { debounce, has } from 'lodash'
+import uniqid from 'uniqid'
+import Mark from 'mark.js'
+import DataSourcePool from './components/DataSourcePool.vue'
 export default {
-  name: "app3",
-  components: {draggable, DataSourcePool},
+  name: 'app3',
+  components: { draggable, DataSourcePool },
   data() {
     return {
       user: null,
@@ -142,9 +146,9 @@ export default {
       selectedColumns: [],
       moveFn: this.fnOnMove,
 
-      searchTerm: "",
+      searchTerm: '',
 
-      cubeSelect: "res1",
+      cubeSelect: 'res1',
 
       Mark: Mark,
       marker: null // Mark instance
@@ -155,7 +159,7 @@ export default {
   },
   mounted() {
     this.user = this.$store.state.user
-    this.getCube("res1")
+    this.getCube('res1')
     this.initDraggableItems(this.cubeSelect, this.transformInput)
     this.marker = new this.Mark(this.$refs.pool)
   },
@@ -165,13 +169,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(["response"]),
+    ...mapState(['response']),
     disabled() {
       return !(this.selectedRows.length && this.selectedColumns.length)
     }
   },
   methods: {
-    ...mapActions(["getCube"]),
+    ...mapActions(['getCube']),
     searchInPool() {
       let term = this.searchTerm
       this.filteredDraggableItems = this.initialDraggableItems.filter(block => {
@@ -182,11 +186,13 @@ export default {
           })
         )
       })
-      this.marker.unmark()
-      this.marker.mark(term, {
-        // filter: function(node, term, totalCounter, counter) {
-        //   return true
-        // }
+      this.$nextTick(() => {
+        this.marker.unmark()
+        this.marker.mark(term, {
+          // filter: function(node, term, totalCounter, counter) {
+          //   return true
+          // }
+        })
       })
     },
     regroupItems(colsOrRows) {
@@ -209,10 +215,10 @@ export default {
       }
     },
     preventSwap(e) {
-      let {oldIndex, newIndex, element} = e.moved
+      let { oldIndex, newIndex, element } = e.moved
       let foundAt = this.findElementById(element.id)
       let replaceSubject = this.initialDraggableItems[foundAt]
-      let replacement = {...replaceSubject}
+      let replacement = { ...replaceSubject }
 
       // re-swap items
       replacement.dimensions[oldIndex] = replacement.dimensions.splice(
@@ -223,57 +229,48 @@ export default {
       this.initialDraggableItems.splice(foundAt, 1, replacement)
     },
     findElementById(id) {
-      return this.initialDraggableItems.findIndex(draggable => {
-        return draggable.dimensions.some(dimension => {
+      return this.initialDraggableItems.findIndex(item => {
+        return item.dimensions.some(dimension => {
           return dimension.id === id
         })
       })
     },
     findTargetGroupInPool(e) {
-      const pool = this.$refs.pool.querySelector(
-        `[id='${e.item.dataset.group}']`
-      )
+      const pool = this.$refs.pool.querySelector(`[id='${e.item.dataset.group}']`)
       if (!pool) return
-      pool.scrollIntoView({
-        // behavior: 'smooth',
-        block: "start"
-      })
-      pool.style.backgroundColor = "#ffffe0"
-      pool.style.border = "2px dotted red"
+      pool.scrollIntoViewIfNeeded(true)
+      pool.style.backgroundColor = '#ffffe0'
+      pool.style.border = '2px dotted red'
     },
     fnOnMove(e) {
-      let {relatedContext, draggedContext, dragged, related} = e
+      return this.canMoveToSameGroup(e)
+    },
+    canMoveToSameGroup(e) {
+      let { relatedContext, draggedContext, related, dragged } = e
 
       // Allow 'rows' & 'cols' to act as drop targets
-      if (
-        ["rows", "cols"].includes(
-          relatedContext.component.$el.getAttribute("id")
-        )
-      )
-        return true
+      if (['rows', 'cols'].includes(relatedContext.component.$el.getAttribute('id'))) return true
       let fromGroup = draggedContext.element.group
-      let toGroup = has(relatedContext, ["element", "group"])
+      let toGroup = has(relatedContext, ['element', 'group'])
         ? relatedContext.element.group
-        : relatedContext.component.$el.getAttribute("id") !== fromGroup
-          ? relatedContext.component.$el.getAttribute("id")
+        : relatedContext.component.$el.getAttribute('id') !== fromGroup
+          ? relatedContext.component.$el.getAttribute('id')
           : false
 
       if (toGroup && fromGroup !== toGroup) return false
       return true
     },
     unapplyStyles(e) {
-      const pool = this.$refs.pool.querySelector(
-        `[id='${e.item.dataset.group}']`
-      )
+      const pool = this.$refs.pool.querySelector(`[id='${e.item.dataset.group}']`)
       if (!pool) return
-      pool.style.backgroundColor = ""
-      pool.style.border = ""
+      pool.style.backgroundColor = ''
+      pool.style.border = ''
     },
     prepareRequestPayload() {
-      console.log("preparing request payload...")
-      let rows = this.prepareSet("selectedRows")
-      let columns = this.prepareSet("selectedColumns")
-      console.log({rows, columns})
+      console.log('preparing request payload...')
+      let rows = this.prepareSet('selectedRows')
+      let columns = this.prepareSet('selectedColumns')
+      console.log({ rows, columns })
     },
     prepareSet(colsOrRows) {
       return this[colsOrRows].reduce((rv, item) => {
@@ -287,8 +284,9 @@ export default {
     selectCube() {
       this.initDraggableItems(this.cubeSelect, this.transformInput)
     },
-    transformFn(dataSource) {
-      return Object.entries(dataSource.dimensions).map(([group, values]) => {
+    // Local transformer implementation
+    transformInput(cube) {
+      return Object.entries(this.response[cube].dimensions).map(([group, values]) => {
         return {
           group,
           dimensions: Object.entries(values).reduce((rv, [item, title]) => {
@@ -302,35 +300,53 @@ export default {
               }
             ]
           }, [])
+          // values: values
         }
       })
     },
-    transformInput(cube) {
-      return Object.entries(this.response[cube].dimensions).map(
-        ([group, values]) => {
-          return {
-            group,
-            dimensions: Object.entries(values).reduce((rv, [item, title]) => {
-              return [
-                ...rv,
-                {
-                  item,
-                  title,
-                  group,
-                  id: uniqid()
-                }
-              ]
-            }, [])
-            // values: values
-          }
-        }
-      )
-    },
     initDraggableItems(cube, shaper) {
       this.initialDraggableItems = shaper(cube)
-      this.filteredDraggableItems = [...this.initialDraggableItems]
+      this.filteredDraggableItems = this.initialDraggableItems
       // reset selected rows & cols
       this.selectedRows = this.selectedColumns = []
+    },
+    transformFn(dataSource) {
+      return Object.entries(dataSource.dimensions).map(([group, values]) => {
+        return {
+          group,
+          items: Object.entries(values).reduce((rv, [item, title]) => {
+            return [
+              ...rv,
+              {
+                item,
+                title,
+                group,
+                id: uniqid()
+              }
+            ]
+          }, [])
+        }
+      })
+    },
+    checkIfGroupExists({ from, to }) {
+      let fromGroup = from.id
+      let targetList = to.id
+      let targetGroups = Array.from(to.children).map(el => el.dataset.group)
+
+      let isDupe = targetGroups.filter(group => group === fromGroup).length > 1
+
+      let foundInPoolAt = this.findGroupInDataPool(fromGroup)
+
+      if (isDupe) {
+        console.log('That group already exists in list.')
+        console.log('Item was taken from data pool at index ', foundInPoolAt)
+        console.log('Item was taken from data pool group', this.initialDraggableItems[foundInPoolAt].group)
+      }
+    },
+    findGroupInDataPool(group) {
+      return this.initialDraggableItems.findIndex(item => {
+        return item.group === group
+      })
     },
     noop() {}
   }
