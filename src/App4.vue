@@ -189,23 +189,20 @@ export default {
         return rv
       }, [])
       console.log(rowsAndColsModelIds)
-      this.debugModels = this.initialDraggableItems
-        .filter(block => {
-          return rowsAndColsModel.some(item => {
-            return item.group === block.group
-          })
-        })
-        .reduce((rv, block) => {
-          const {dimensions, ...rest} = block
-          const newDimensions = dimensions.filter(dimension => {
+      this.debugModels = this.initialDraggableItems.reduce((rv, block) => {
+        const {dimensions, ...rest} = block
+        let newDimensions = [...dimensions]
+        if (rowsAndColsModel.some(item => item.group === block.group)) {
+          newDimensions = dimensions.filter(dimension => {
             return !rowsAndColsModel.includes(dimension.id)
           })
-          rv.push({
-            dimensions: newDimensions,
-            ...rest
-          })
-          return rv
-        }, [])
+        }
+        rv.push({
+          dimensions: newDimensions,
+          ...rest
+        })
+        return rv
+      }, [])
     },
     searchInPool() {
       let term = this.searchTerm
