@@ -3,11 +3,15 @@
     <div class="panel panel-info">
       <div class="panel-body">
         <div class="row">
+          <div class="col-md-4"><pre>{{ debugModels }}</pre></div>
           <div class="col-md-4">
             <button
                @click="prepareRequestPayload"
                :disabled="disabled"
                class="btn btn-info">Generate
+            </button>
+            <button @click="presetModels(selectedRows, selectedColumns)">
+              preset models
             </button>
           </div>
           <div class="col-md-4">
@@ -128,15 +132,15 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
-import draggable from 'vuedraggable'
-import { debounce, has } from 'lodash'
-import uniqid from 'uniqid'
-import Mark from 'mark.js'
-import DataSourcePool from './components/DataSourcePool.vue'
+import {mapState, mapActions} from "vuex"
+import draggable from "vuedraggable"
+import {debounce, has} from "lodash"
+import uniqid from "uniqid"
+import Mark from "mark.js"
+import DataSourcePool from "./components/DataSourcePool.vue"
 export default {
-  name: 'app3',
-  components: { draggable, DataSourcePool },
+  name: "app3",
+  components: {draggable, DataSourcePool},
   data() {
     return {
       user: null,
@@ -146,12 +150,14 @@ export default {
       selectedColumns: [],
       moveFn: this.fnOnMove,
 
-      searchTerm: '',
+      searchTerm: "",
 
-      cubeSelect: 'res1',
+      cubeSelect: "res1",
 
       Mark: Mark,
-      marker: null // Mark instance
+      marker: null, // Mark instance
+
+      debugModels: []
     }
   },
   created() {
@@ -159,7 +165,7 @@ export default {
   },
   mounted() {
     this.user = this.$store.state.user
-    this.getCube('res1')
+    this.getCube("res1")
     this.initDraggableItems(this.cubeSelect, this.transformInput)
     this.marker = new this.Mark(this.$refs.pool)
   },
@@ -169,13 +175,38 @@ export default {
     }
   },
   computed: {
-    ...mapState(['response']),
+    ...mapState(["response"]),
     disabled() {
       return !(this.selectedRows.length && this.selectedColumns.length)
     }
   },
   methods: {
-    ...mapActions(['getCube']),
+    ...mapActions(["getCube"]),
+    presetModels(rowsModel, colsModel) {
+      const rowsAndColsModel = rowsModel.concat(colsModel)
+      const rowsAndColsModelIds = rowsAndColsModel.reduce((rv, item) => {
+        rv.push(item.id)
+        return rv
+      }, [])
+      console.log(rowsAndColsModelIds)
+      this.debugModels = this.initialDraggableItems
+        .filter(block => {
+          return rowsAndColsModel.some(item => {
+            return item.group === block.group
+          })
+        })
+        .reduce((rv, block) => {
+          const {dimensions, ...rest} = block
+          const newDimensions = dimensions.filter(dimension => {
+            return !rowsAndColsModel.includes(dimension.id)
+          })
+          rv.push({
+            dimensions: newDimensions,
+            ...rest
+          })
+          return rv
+        }, [])
+    },
     searchInPool() {
       let term = this.searchTerm
       this.filteredDraggableItems = this.initialDraggableItems.filter(block => {
@@ -215,10 +246,10 @@ export default {
       }
     },
     preventSwap(e) {
-      let { oldIndex, newIndex, element } = e.moved
+      let {oldIndex, newIndex, element} = e.moved
       let foundAt = this.findElementById(element.id)
       let replaceSubject = this.initialDraggableItems[foundAt]
-      let replacement = { ...replaceSubject }
+      let replacement = {...replaceSubject}
 
       // re-swap items
       replacement.dimensions[oldIndex] = replacement.dimensions.splice(
@@ -236,41 +267,50 @@ export default {
       })
     },
     findTargetGroupInPool(e) {
-      const pool = this.$refs.pool.querySelector(`[id='${e.item.dataset.group}']`)
+      const pool = this.$refs.pool.querySelector(
+        `[id='${e.item.dataset.group}']`
+      )
       if (!pool) return
       pool.scrollIntoViewIfNeeded(true)
-      pool.style.backgroundColor = '#ffffe0'
-      pool.style.border = '2px dotted red'
+      pool.style.backgroundColor = "#ffffe0"
+      pool.style.border = "2px dotted red"
     },
     fnOnMove(e) {
       return this.canMoveToSameGroup(e)
     },
     canMoveToSameGroup(e) {
-      let { relatedContext, draggedContext, related, dragged } = e
+      let {relatedContext, draggedContext, related, dragged} = e
 
       // Allow 'rows' & 'cols' to act as drop targets
-      if (['rows', 'cols'].includes(relatedContext.component.$el.getAttribute('id'))) return true
+      if (
+        ["rows", "cols"].includes(
+          relatedContext.component.$el.getAttribute("id")
+        )
+      )
+        return true
       let fromGroup = draggedContext.element.group
-      let toGroup = has(relatedContext, ['element', 'group'])
+      let toGroup = has(relatedContext, ["element", "group"])
         ? relatedContext.element.group
-        : relatedContext.component.$el.getAttribute('id') !== fromGroup
-          ? relatedContext.component.$el.getAttribute('id')
+        : relatedContext.component.$el.getAttribute("id") !== fromGroup
+          ? relatedContext.component.$el.getAttribute("id")
           : false
 
       if (toGroup && fromGroup !== toGroup) return false
       return true
     },
     unapplyStyles(e) {
-      const pool = this.$refs.pool.querySelector(`[id='${e.item.dataset.group}']`)
+      const pool = this.$refs.pool.querySelector(
+        `[id='${e.item.dataset.group}']`
+      )
       if (!pool) return
-      pool.style.backgroundColor = ''
-      pool.style.border = ''
+      pool.style.backgroundColor = ""
+      pool.style.border = ""
     },
     prepareRequestPayload() {
-      console.log('preparing request payload...')
-      let rows = this.prepareSet('selectedRows')
-      let columns = this.prepareSet('selectedColumns')
-      console.log({ rows, columns })
+      console.log("preparing request payload...")
+      let rows = this.prepareSet("selectedRows")
+      let columns = this.prepareSet("selectedColumns")
+      console.log({rows, columns})
     },
     prepareSet(colsOrRows) {
       return this[colsOrRows].reduce((rv, item) => {
@@ -286,23 +326,25 @@ export default {
     },
     // Local transformer implementation
     transformInput(cube) {
-      return Object.entries(this.response[cube].dimensions).map(([group, values]) => {
-        return {
-          group,
-          dimensions: Object.entries(values).reduce((rv, [item, title]) => {
-            return [
-              ...rv,
-              {
-                item,
-                title,
-                group,
-                id: uniqid()
-              }
-            ]
-          }, [])
-          // values: values
+      return Object.entries(this.response[cube].dimensions).map(
+        ([group, values]) => {
+          return {
+            group,
+            dimensions: Object.entries(values).reduce((rv, [item, title]) => {
+              return [
+                ...rv,
+                {
+                  item,
+                  title,
+                  group,
+                  id: uniqid()
+                }
+              ]
+            }, [])
+            // values: values
+          }
         }
-      })
+      )
     },
     initDraggableItems(cube, shaper) {
       this.initialDraggableItems = shaper(cube)
@@ -328,7 +370,7 @@ export default {
         }
       })
     },
-    checkIfGroupExists({ from, to }) {
+    checkIfGroupExists({from, to}) {
       let fromGroup = from.id
       let targetList = to.id
       let targetGroups = Array.from(to.children).map(el => el.dataset.group)
@@ -338,9 +380,12 @@ export default {
       let foundInPoolAt = this.findGroupInDataPool(fromGroup)
 
       if (isDupe) {
-        console.log('That group already exists in list.')
-        console.log('Item was taken from data pool at index ', foundInPoolAt)
-        console.log('Item was taken from data pool group', this.initialDraggableItems[foundInPoolAt].group)
+        console.log("That group already exists in list.")
+        console.log("Item was taken from data pool at index ", foundInPoolAt)
+        console.log(
+          "Item was taken from data pool group",
+          this.initialDraggableItems[foundInPoolAt].group
+        )
       }
     },
     findGroupInDataPool(group) {
