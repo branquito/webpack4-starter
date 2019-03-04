@@ -1,6 +1,7 @@
 <script>
 import classnames from 'classnames'
 export const UiGrid = {
+  name: 'UiGrid',
   props: {
     columnGap: {
       default: 'm',
