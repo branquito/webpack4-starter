@@ -6,13 +6,14 @@ import Vue from 'vue'
 // import AppCalculateRate from './AppCalculateRate.vue'
 // import AppRenderlessTags from "./components/renderless/AppRenderlessTags.vue"
 import AdvancedArchitecture from './advanced_arch/Index.vue'
+import Questions from './questions/Index.vue'
 import AppRenderlessLog from './components/renderless/AppRenderlessLog.vue'
 import store from './store'
 
 new Vue({
   el: '#app_alt4',
   store,
-  render: h => h(AdvancedArchitecture)
+  render: h => h(Questions)
 })
 
 // new Vue({
