@@ -1,21 +1,28 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import actions from './actions.js'
-import getters from './getters.js'
-import mutations from './mutations.js'
+import Vue from "vue"
+import Vuex from "vuex"
+import actions from "./actions.js"
+import getters from "./getters.js"
+import mutations from "./mutations.js"
+
+import questions from "./vuex-questions-module"
+import pathify from "vuex-pathify"
 
 Vue.use(Vuex)
 
 const state = {
-  user: 'branchito',
+  user: "branchito",
   response: null
 }
 
 const store = new Vuex.Store({
+  plugins: [pathify.plugin],
   state,
   actions,
   getters,
-  mutations
+  mutations,
+  modules: {
+    questions
+  }
 })
 
 export default store

@@ -2,6 +2,8 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-4">
+        <input type="text" v-model="questionText">
+        <button @click="addQuestion">Add</button>
         <Search
           :label="'Search in Categories'"
           :source="[{id: 1, text: 'one'}, {id: 2, text: 'two'}]"
@@ -41,9 +43,24 @@
   </div>
 </template>
 <script>
-import QList from './QList.vue'
-import Search from './Search.vue'
+import QList from "./QList.vue"
+import Search from "./Search.vue"
+import {commit, sync} from "vuex-pathify"
 export default {
-  components: { QList, Search }
+  components: {QList, Search},
+  data() {
+    return {
+      questionText: ""
+    }
+  },
+  methods: {
+    addQuestion() {
+      commit("questions/SET_QUESTIONS", this.questionText)
+      this.questionText = ""
+    }
+  },
+  computed: {
+    questions: sync("questions/questions")
+  }
 }
 </script>
