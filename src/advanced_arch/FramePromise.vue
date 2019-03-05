@@ -1,5 +1,5 @@
 <script>
-export const FramePromise = {
+export default {
   props: {
     promise: {
       default: null,
@@ -18,7 +18,6 @@ export const FramePromise = {
     promise: {
       immediate: true,
       async handler() {
-        console.log('this.promise', this.promise)
         if (!this.promise) return
 
         try {
@@ -60,41 +59,4 @@ export const FramePromise = {
     return h('div', {}, children)
   }
 }
-export const FrameApi = {
-  props: {
-    endpoint: {
-      type: Function,
-      required: true
-    },
-    args: {
-      type: Array,
-      default: () => []
-    },
-    immediate: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      response: undefined
-    }
-  },
-  created() {
-    if (this.immediate) this.query(this.args)
-  },
-  methods: {
-    query(...params) {
-      this.response = this.endpoint.apply(this, ...params)
-    }
-  },
-  render(h) {
-    const children = this.$scopedSlots.default({
-      query: this.query,
-      response: this.response
-    })
-    return h('div', {}, children)
-  }
-}
-export default FramePromise
 </script>

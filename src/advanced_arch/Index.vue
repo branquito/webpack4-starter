@@ -1,29 +1,27 @@
 <template>
   <FrameApi immediate :endpoint="getArticleList" :args="['arg1', 'arg2']">
-  <template slot-scope="{ response }">
-    <FramePromise
-            :promise="response">
-    <template
-            slot-scope="{ data: articles, status: { error, pending }}">
-      <p v-if="pending">Loading...</p>
-      <p v-else-if="error">Error loading... Please try again.</p>
-      <article
-         v-else
-         v-for="article in articles">
-        <h2>{{ article.title }}</h2>
-        <p>{{ article.body }}</p>
-      </article>
-    </template>
-    </FramePromise>
+
+  <template
+    slot-scope="{ data: articles, status: { error, loading }, methods: { query } }">
+    <button @click="query([ 'newarg1', 'newarg2' ])">Query</button>
+    <p v-if="loading">Loading...</p>
+    <p v-else-if="error">Error loading... Please try again.</p>
+    <article
+       v-else
+       v-for="article in articles">
+      <h2>{{ article.title }}</h2>
+      <p>{{ article.body }}</p>
+    </article>
+
   </template>
   </FrameApi>
 </template>
 
 <script>
-import { FrameApi, FramePromise } from './FramePromise.vue'
+import FrameApi from './FrameApi.vue'
 export default {
   name: 'Index',
-  components: { FrameApi, FramePromise },
+  components: { FrameApi },
   methods: {
     getArticleList(arg1, arg2) {
       console.log({ arg1, arg2 })
