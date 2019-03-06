@@ -1,0 +1,19 @@
+{
+  "data": {
+    "id": 30,
+    "name": "httpie_questions_list",
+    "is_confidential": false,
+    "questions": {
+      "data": [
+        {
+          "id": 249,
+          "question": "chose A, B or C",
+          "data": null,
+          "type": "select_more",
+          "predefined_answers": null,
+          "answer_required": false
+        }
+      ]
+    }
+  }
+}
