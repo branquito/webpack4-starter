@@ -25,7 +25,7 @@ QuestionFactory.addType('FreeFormQuestion', function createFreeFormQuestion({
 
 QuestionFactory.addType(
   'MultipleChoiceQuestion',
-  function multipleChoiceQuestion({
+  function createMultipleChoiceQuestion({
     question = '',
     options = [],
     usesOther = undefined
