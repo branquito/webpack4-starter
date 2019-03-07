@@ -7,10 +7,8 @@ const QuestionFactory = configurableFactory.default.getInstance(
 /*
  * Types of questions;
  *   - FreeFormQuestion
- *   - MultipleChoiceQuestion
- *   - MultipleChoiceWithOtherQuestion
- *   - SingleChoiceQuestion
- *   - SingleChoiceWithOtherQuestion
+ *   - MultipleChoiceQuestion /with OTHER
+ *   - SingleChoiceQuestion /with OTHER
  *   - YesNoQuestion
  */
 
@@ -20,68 +18,45 @@ QuestionFactory.addType('FreeFormQuestion', function createFreeFormQuestion({
   return {
     question,
     answer: '',
+    __cmp: 'FreeFormQuestion',
     __type: 'FreeFormQuestion'
   }
 })
 
 QuestionFactory.addType(
   'MultipleChoiceQuestion',
-  function multipleChoiceQuestion({ question = '', options = [] } = {}) {
-    return {
-      question,
-      options,
-      picked: [],
-      specificRequired: false,
-      __type: 'MultipleChoiceQuestion'
-    }
-  }
-)
-
-QuestionFactory.addType(
-  'MultipleChoiceWithOtherQuestion',
-  function createMultipleChoiceWithOtherQuestion({
+  function multipleChoiceQuestion({
     question = '',
-    options = []
+    options = [],
+    usesOther = undefined
   } = {}) {
     return {
       question,
       options,
       picked: [],
-      usesOther: false,
-      other: '',
       specificRequired: false,
-      __type: 'MultipleChoiceWithOtherQuestion'
+      __cmp: 'MultipleChoiceQuestion',
+      __type: `MultipleChoiceQuestion${(usesOther && 'Other') || ''}`,
+      ...usesOther
     }
   }
 )
 
 QuestionFactory.addType(
   'SingleChoiceQuestion',
-  function createSingleChoiceQuestion({ question = '', options = [] } = {}) {
-    return {
-      question,
-      options,
-      picked: '',
-      specificRequired: false,
-      __type: 'SingleChoiceQuestion'
-    }
-  }
-)
-
-QuestionFactory.addType(
-  'SingleChoiceWithOtherQuestion',
-  function createSingleChoiceWithOtherQuestion({
+  function createSingleChoiceQuestion({
     question = '',
-    options = []
+    options = [],
+    usesOther = undefined
   } = {}) {
     return {
       question,
       options,
       picked: '',
-      usesOther: false,
-      other: '',
       specificRequired: false,
-      __type: 'SingleChoiceWithOtherQuestion'
+      __cmp: 'SingleChoiceQuestion',
+      __type: `SingleChoiceQuestion${(usesOther && 'Other') || ''}`,
+      ...usesOther
     }
   }
 )
@@ -94,6 +69,7 @@ QuestionFactory.addType('YesNoQuestion', function createYesNoQuestion({
     options: ['Yes', 'No'],
     picked: '',
     specificRequired: false,
+    __cmp: 'YesNoQuestion',
     __type: 'YesNoQuestion'
   }
 })

@@ -1,14 +1,15 @@
 <script>
-import FreeFormQuestion from './FreeFormQuestion.vue'
 export default {
   functional: true,
   render: function(createElement, { props, data, children }) {
+    const model = props.value
     function makeQuestionOfType() {
-      if (!props.value.__type) {
+      if (!model.__cmp) {
         throw new Error('SmartQuestion type is not defined!')
       }
-      return props.value.__type
+      return model.__cmp // component name is taken from the passed in model, and instance of that type is returned
     }
+    // Create component
     return createElement(makeQuestionOfType(), data, children)
   }
 }

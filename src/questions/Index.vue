@@ -25,17 +25,19 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <select id="" v-model="questionTypeModel">
-          <option v-for="option in questions" :value="option.__type">{{ option.__type }}</option>
+        <select id="" v-model="questionType">
+          <option
+            v-for="option in questions"
+            :value="option.__type"
+            :selected="selectedModel.__type === questionType">{{ option.__type }}</option>
         </select>
-      </div>
-      <div class="col-md-12">
         <p></p>
-        <pre>{{ selectedModel }}</pre>
+        <hr>
+        <p></p>
       </div>
       <div class="col-md-12">
         <template v-for="( model, index ) in questions">
-          <SmartQuestion v-model="model" :key="index"></SmartQuestion>
+          <SmartQuestion v-if="selectedModel && selectedModel.__type === model.__type" v-model="model" :key="index"></SmartQuestion>
         </template>
       </div>
     </div>
@@ -56,27 +58,36 @@ export default {
   components: {
     QList,
     Search,
-    SmartQuestion,
+    SmartQuestion, // this one is functional and smart!
     FreeFormQuestion,
     MultipleChoiceQuestion
   },
   data() {
     return {
-      questionTypeModel: null,
+      questionType: 'FreeFormQuestion',
       questions: [
         QuestionFactory.get('FreeFormQuestion', {
           question: 'My first freeform question'
         }),
         QuestionFactory.get('MultipleChoiceQuestion', {
+          usesOther: {
+            sendOther: false,
+            otherValue: ''
+          }
+        }),
+        QuestionFactory.get('MultipleChoiceQuestion', {
           question: 'Choose one of the answers below',
           options: [
             {
+              id: 1,
               name: 'Choose me, I am the best'
             },
             {
+              id: 2,
               name: 'If you choose him, I will be sad'
             },
             {
+              id: 3,
               name: 'I am your final choice, choose me!'
             }
           ]
@@ -92,7 +103,7 @@ export default {
   },
   methods: {
     byModel(q) {
-      return q.__type == this.questionTypeModel
+      return q.__type == this.questionType
     },
     addQuestion() {
       commit('questions/SET_QUESTIONS', this.question.question)
