@@ -5,7 +5,7 @@ export default {
   mixins: [questionMixin],
   render(h) {
     const children = this.$scopedSlots.default({
-      data: this.value
+      data: this.questionModel
     })
     return h('div', {}, children)
   }

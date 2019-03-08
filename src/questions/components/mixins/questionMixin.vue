@@ -1,7 +1,11 @@
 <script>
 export default {
+  model: {
+    prop: 'questionModel',
+    event: 'input'
+  },
   props: {
-    value: {
+    questionModel: {
       type: Object,
       required: true
     }
@@ -11,7 +15,7 @@ export default {
   },
   methods: {
     submit() {
-      this.$emit('input', this.value)
+      this.$emit('input', this.questionModel)
     }
   }
 }

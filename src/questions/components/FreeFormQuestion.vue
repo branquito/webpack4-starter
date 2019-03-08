@@ -1,5 +1,5 @@
 <template>
-  <QuestionRenderless :value="value" @input="(model) => { $emit('input', model) }">
+  <QuestionRenderless :questionModel="questionModel" @input="(model) => { $emit('input', model) }">
     <template slot-scope="{data: Q}">
       <div class="panel panel-default">
         <div class="panel-heading">

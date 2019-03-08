@@ -3,42 +3,39 @@
     <div class="row">
       <div class="col-xs-4">
         <div class="panel panel-default">
+          <div class="panel-heading">
+            <p>Categories</p>
+          </div>
           <div class="panel-body">
-            <p>categories</p>
           </div>
         </div>
       </div>
       <div class="col-xs-4">
         <div class="panel panel-default">
+          <div class="panel-heading">Questions</div>
           <div class="panel-body">
-            <p>questions</p>
+            <QList @edit-item="editQuestion"></QList>
           </div>
         </div>
       </div>
       <div class="col-xs-4">
         <div class="panel panel-default">
+          <div class="panel-heading">
+            <p>Lists</p>
+          </div>
           <div class="panel-body">
-            <p>lists</p>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <select id="" v-model="questionType">
-          <option
-            v-for="option in questions"
-            :value="option.__type"
-            :selected="selectedModel.__type === questionType">{{ option.__type }}</option>
-        </select>
-        <p></p>
-        <hr>
-        <p></p>
+        <router-view></router-view>
       </div>
+    </div>
+    <div class="row">
       <div class="col-md-12">
-        <template v-for="( model, index ) in questions">
-          <SmartQuestion v-if="selectedModel && selectedModel.__type === model.__type" v-model="model" :key="index"></SmartQuestion>
-        </template>
+          <SmartQuestion v-if="activeModel" v-model="activeModel"></SmartQuestion>
       </div>
     </div>
   </div>
@@ -48,10 +45,11 @@ import Vue from 'vue'
 import QList from './QList.vue'
 import Search from './Search.vue'
 import { commit, sync } from 'vuex-pathify'
-import QuestionFactory from './factories/QuestionFactory.js'
 import SmartQuestion from './components/SmartQuestion.vue'
 import FreeFormQuestion from './components/FreeFormQuestion.vue'
 import MultipleChoiceQuestion from './components/MultipleChoiceQuestion.vue'
+
+import questionsList from './data/questionsList.js'
 
 export default {
   name: 'Index',
@@ -64,50 +62,17 @@ export default {
   },
   data() {
     return {
-      questionType: 'FreeFormQuestion',
-      questions: [
-        QuestionFactory.get('FreeFormQuestion', {
-          question: 'My first freeform question'
-        }),
-        QuestionFactory.get('MultipleChoiceQuestion', {
-          usesOther: {
-            sendOther: false,
-            otherValue: ''
-          }
-        }),
-        QuestionFactory.get('MultipleChoiceQuestion', {
-          question: 'Choose one of the answers below',
-          options: [
-            {
-              id: 1,
-              name: 'Choose me, I am the best'
-            },
-            {
-              id: 2,
-              name: 'If you choose him, I will be sad'
-            },
-            {
-              id: 3,
-              name: 'I am your final choice, choose me!'
-            }
-          ]
-        })
-      ],
-      SmartQuestion
-    }
-  },
-  computed: {
-    selectedModel() {
-      return this.questions.find(this.byModel)
+      questions: questionsList,
+      SmartQuestion,
+      activeModel: undefined
     }
   },
   methods: {
-    byModel(q) {
-      return q.__type == this.questionType
-    },
-    addQuestion() {
-      commit('questions/SET_QUESTIONS', this.question.question)
-      this.question.question = ''
+    // question param is actually a question model
+    editQuestion(question) {
+      this.$router.push({
+        path: `/edit/${question.__id}`
+      })
     }
   }
 }

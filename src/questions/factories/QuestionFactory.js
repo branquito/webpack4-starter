@@ -13,19 +13,22 @@ const QuestionFactory = configurableFactory.default.getInstance(
  */
 
 QuestionFactory.addType('FreeFormQuestion', function createFreeFormQuestion({
-  question = ''
+  question = '',
+  id = null
 } = {}) {
   return {
     question,
     answer: '',
     __cmp: 'FreeFormQuestion',
-    __type: 'FreeFormQuestion'
+    __type: 'FreeFormQuestion',
+    __id: id
   }
 })
 
 QuestionFactory.addType(
   'MultipleChoiceQuestion',
   function createMultipleChoiceQuestion({
+    id = null,
     question = '',
     options = [],
     usesOther = undefined
@@ -37,6 +40,7 @@ QuestionFactory.addType(
       specificRequired: false,
       __cmp: 'MultipleChoiceQuestion',
       __type: `MultipleChoiceQuestion${(usesOther && 'Other') || ''}`,
+      __id: id,
       ...usesOther
     }
   }
@@ -45,6 +49,7 @@ QuestionFactory.addType(
 QuestionFactory.addType(
   'SingleChoiceQuestion',
   function createSingleChoiceQuestion({
+    id = null,
     question = '',
     options = [],
     usesOther = undefined
@@ -56,12 +61,14 @@ QuestionFactory.addType(
       specificRequired: false,
       __cmp: 'SingleChoiceQuestion',
       __type: `SingleChoiceQuestion${(usesOther && 'Other') || ''}`,
+      __id: id,
       ...usesOther
     }
   }
 )
 
 QuestionFactory.addType('YesNoQuestion', function createYesNoQuestion({
+  id = null,
   question = ''
 } = {}) {
   return {
@@ -69,6 +76,7 @@ QuestionFactory.addType('YesNoQuestion', function createYesNoQuestion({
     options: ['Yes', 'No'],
     picked: '',
     specificRequired: false,
+    __id: id,
     __cmp: 'YesNoQuestion',
     __type: 'YesNoQuestion'
   }
