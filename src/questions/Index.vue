@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-xs-4">
+      <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">
             <p>Categories</p>
@@ -10,7 +10,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-4">
+      <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">Questions</div>
           <div class="panel-body">
@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-4">
+      <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">
             <p>Lists</p>

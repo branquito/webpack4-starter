@@ -3,9 +3,10 @@
     <ul class="list-group">
       <li v-for="item in questions" class="list-group-item">
         <div class="question-group">
-          <span class="question-group__question">
+          <div class="question-group__question">
             {{ item.question || '...' }}
-          </span>
+            <span class="label label-info">{{ item.__type }}</span>
+          </div>
           <div class="question-group__controls">
             <button @click="edit(item)" class="btn btn-info btn-xs">
               <i class="glyphicon glyphicon-edit"></i>
@@ -39,10 +40,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.label {
+  font-weight: normal;
+}
 .question-group {
   display: flex;
   &__question {
-    display: block;
     margin-right: auto;
   }
   &__controls {

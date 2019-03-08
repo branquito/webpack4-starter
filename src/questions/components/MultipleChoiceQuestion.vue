@@ -12,10 +12,12 @@
               <p>Q: {{ Q.question }}</p>
               <div v-if="Q.options.length">
                 <template v-for="option in Q.options">
-                  <label>
-                    {{ option.name }}
-                    <input type="checkbox" v-model="Q.picked" :value="option">
-                  </label>
+                  <p>
+                    <label>
+                      {{ option.name }}
+                      <input type="checkbox" v-model="Q.picked" :value="option">
+                    </label>
+                  </p>
                 </template>
               </div>
               <div v-else>No options</div>
