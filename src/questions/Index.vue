@@ -30,12 +30,12 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <router-view></router-view>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-          <SmartQuestion v-if="activeModel" v-model="activeModel"></SmartQuestion>
+        <div class="panel panel-warning">
+          <div class="panel-heading">Edit question:</div>
+          <div class="panel-body">
+            <router-view></router-view>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -45,7 +45,6 @@ import Vue from 'vue'
 import QList from './QList.vue'
 import Search from './Search.vue'
 import { commit, sync } from 'vuex-pathify'
-import SmartQuestion from './components/SmartQuestion.vue'
 import FreeFormQuestion from './components/FreeFormQuestion.vue'
 import MultipleChoiceQuestion from './components/MultipleChoiceQuestion.vue'
 
@@ -56,15 +55,12 @@ export default {
   components: {
     QList,
     Search,
-    SmartQuestion, // this one is functional and smart!
     FreeFormQuestion,
     MultipleChoiceQuestion
   },
   data() {
     return {
-      questions: questionsList,
-      SmartQuestion,
-      activeModel: undefined
+      questions: questionsList
     }
   },
   methods: {
