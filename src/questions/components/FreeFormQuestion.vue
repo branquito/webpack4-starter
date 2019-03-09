@@ -26,11 +26,11 @@
   </QuestionRenderless>
 </template>
 <script>
-import questionMixin from './mixins/questionMixin.vue'
-import QuestionRenderless from './QuestionRenderless.vue'
+import questionMixin from "./mixins/questionMixin.vue"
+import QuestionRenderless from "./QuestionRenderless.vue"
 export default {
-  name: 'FreeFormQuestion',
-  components: { QuestionRenderless },
+  name: "FreeFormQuestion",
+  components: {QuestionRenderless},
   mixins: [questionMixin]
 }
 </script>

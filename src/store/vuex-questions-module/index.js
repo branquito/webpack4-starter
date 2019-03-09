@@ -1,19 +1,24 @@
 import {make} from "vuex-pathify"
+import questionsList from "../../questions/data/questionsList.js"
 
 const state = {
-  questions: []
+  items: questionsList
 }
+const matchId = update => item => item.__id === update.__id
 
 export default {
   namespaced: true,
   state,
   mutations: {
-    SET_QUESTIONS(state, item) {
-      console.log("Setting questions...")
-      state.questions.push(item)
+    SET_ITEMS(state, update) {
+      const at = state.items.findIndex(matchId(update))
+      state.items.splice(at, 1, update)
     }
   },
   actions: {
-    // ...make.actions("questions")
+    ...make.actions("items")
+  },
+  getters: {
+    ...make.getters("items")
   }
 }

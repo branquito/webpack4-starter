@@ -1,15 +1,15 @@
-import Questions from '../Index.vue'
-import SmartQuestion from '../components/SmartQuestion.vue'
+import Questions from "../Index.vue"
+import SmartQuestion from "../components/SmartQuestion.vue"
 
-import questionsList from '../data/questionsList.js'
+import questionsList from "../data/questionsList.js"
 
 export default [
   {
-    path: '/',
+    path: "/",
     component: Questions,
     children: [
       {
-        path: 'edit/:id',
+        path: ":id/edit",
         component: SmartQuestion,
         props: route => {
           const modelFound = questionsList.find(

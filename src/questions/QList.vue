@@ -21,20 +21,21 @@
   </div>
 </template>
 <script>
-import questionsList from './data/questionsList.js'
+import {get} from "vuex-pathify"
 export default {
-  name: 'QuestionsList',
+  name: "QuestionsList",
   data() {
-    return {
-      questions: questionsList
-    }
+    return {}
+  },
+  computed: {
+    questions: get("questions/items")
   },
   methods: {
     remove(item) {
-      this.$emit('remove-item', item)
+      this.$emit("remove-item", item)
     },
     edit(item) {
-      this.$emit('edit-item', item)
+      this.$emit("edit-item", item)
     }
   }
 }

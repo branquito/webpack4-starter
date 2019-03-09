@@ -41,17 +41,14 @@
   </div>
 </template>
 <script>
-import Vue from 'vue'
-import QList from './QList.vue'
-import Search from './Search.vue'
-import { commit, sync } from 'vuex-pathify'
-import FreeFormQuestion from './components/FreeFormQuestion.vue'
-import MultipleChoiceQuestion from './components/MultipleChoiceQuestion.vue'
-
-import questionsList from './data/questionsList.js'
+import Vue from "vue"
+import QList from "./QList.vue"
+import Search from "./Search.vue"
+import FreeFormQuestion from "./components/FreeFormQuestion.vue"
+import MultipleChoiceQuestion from "./components/MultipleChoiceQuestion.vue"
 
 export default {
-  name: 'Index',
+  name: "Index",
   components: {
     QList,
     Search,
@@ -59,15 +56,13 @@ export default {
     MultipleChoiceQuestion
   },
   data() {
-    return {
-      questions: questionsList
-    }
+    return {}
   },
   methods: {
     // question param is actually a question model
     editQuestion(question) {
       this.$router.push({
-        path: `/edit/${question.__id}`
+        path: `/${question.__id}/edit`
       })
     }
   }

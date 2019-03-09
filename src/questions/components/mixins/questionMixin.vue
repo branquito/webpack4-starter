@@ -1,8 +1,9 @@
 <script>
+import {call} from "vuex-pathify"
 export default {
   model: {
-    prop: 'questionModel',
-    event: 'input'
+    prop: "questionModel",
+    event: "input"
   },
   props: {
     questionModel: {
@@ -14,8 +15,10 @@ export default {
     this.cmpName = this.$options.name
   },
   methods: {
+    updateItems: call("questions/setItems"),
     submit() {
-      this.$emit('input', this.questionModel)
+      this.updateItems(this.questionModel)
+      this.$emit("input", this.questionModel)
     }
   }
 }
