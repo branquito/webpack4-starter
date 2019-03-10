@@ -3,7 +3,7 @@
     <template slot-scope="{data: Q}">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <p>{{ cmpName }}</p>
+          <p>{{ cmpName }} in <strong>{{ mode }}</strong> mode</p>
         </div>
         <div class="panel-body">
           <form @submit.prevent="submit">

@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="list-group">
-      <li v-for="item in questions" class="list-group-item">
+      <li v-for="item in items" class="list-group-item">
         <div class="question-group">
           <div class="question-group__question">
             {{ item.question || '...' }}
@@ -21,14 +21,17 @@
   </div>
 </template>
 <script>
-import {get} from "vuex-pathify"
 export default {
   name: "QuestionsList",
+  props: {
+    items: {
+      type: Array,
+      required: false,
+      default: () => []
+    }
+  },
   data() {
     return {}
-  },
-  computed: {
-    questions: get("questions/items")
   },
   methods: {
     remove(item) {

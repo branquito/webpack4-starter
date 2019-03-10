@@ -1,5 +1,5 @@
 <script>
-import {call} from "vuex-pathify"
+import {commit, call} from "vuex-pathify"
 export default {
   model: {
     prop: "questionModel",
@@ -11,14 +11,28 @@ export default {
       required: true
     }
   },
+  computed: {
+    mode() {
+      return this.questionModel.__id ? "edit" : "create"
+    }
+  },
   created() {
     this.cmpName = this.$options.name
   },
   methods: {
     updateItems: call("questions/setItems"),
+    addItem: call("questions/addItem"),
     submit() {
-      this.updateItems(this.questionModel)
-      this.$emit("input", this.questionModel)
+      switch (this.mode) {
+        case "edit":
+          this.updateItems(this.questionModel)
+          this.$emit("input", this.questionModel)
+          break
+        case "create":
+          this.addItem(this.questionModel)
+          this.$emit("input", this.questionModel)
+          break
+      }
     }
   }
 }
