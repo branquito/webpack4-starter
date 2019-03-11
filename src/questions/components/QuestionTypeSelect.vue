@@ -6,7 +6,6 @@
     <option
     v-for="type in types"
     :value="type"
-    :selected="getSelected(type)"
     >{{ type }}</option>
   </select>
 </template>
@@ -21,7 +20,7 @@ export default {
     // Sets the selected option to the one that is currently viewed
     getSelected: {
       type: Function,
-      required: true
+      required: false
     }
   }
 }

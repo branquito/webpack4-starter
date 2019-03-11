@@ -4,7 +4,7 @@ import { lowerCase } from 'lodash'
 export default {
   model: {
     prop: 'questionModel',
-    event: 'input'
+    event: 'change'
   },
   props: {
     questionModel: {
@@ -32,6 +32,7 @@ export default {
   },
   created() {
     this.cmpName = this.$options.name
+    this.$store.commit('questions/ADD_NEW', this.questionModel)
   },
   methods: {
     updateItems: call('questions/setItems'),
@@ -40,12 +41,12 @@ export default {
       switch (this.mode) {
         case 'edit':
           this.updateItems(this.questionModel)
-          this.$emit('input', this.questionModel)
+          this.$emit('change', this.questionModel)
           this.$router.push({ path: '/' })
           break
         case 'create':
           this.addItem(this.questionModel)
-          this.$emit('input', this.questionModel)
+          this.$emit('change', this.questionModel)
           this.$router.push({ path: '/' })
           break
       }

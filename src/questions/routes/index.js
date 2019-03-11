@@ -3,6 +3,7 @@ import SmartQuestion from '../components/SmartQuestion.vue'
 
 import store from '../../store/index.js'
 import QuestionFactory from '../factories/QuestionFactory.js'
+import QuestionTypeSelect from '../components/QuestionTypeSelect.vue'
 
 export default [
   {
@@ -11,11 +12,21 @@ export default [
     children: [
       {
         path: 'create',
-        component: SmartQuestion,
+        component: QuestionTypeSelect,
         props: route => {
           return {
-            questionTypes: QuestionFactory.getAllTypes(true),
-            questionModel: QuestionFactory.get(route.query.type)
+            types: QuestionFactory.getAllTypes(true) // true is for human case
+          }
+        }
+      },
+      {
+        path: 'create/:type',
+        component: SmartQuestion,
+        props: route => {
+          let newModel = QuestionFactory.get(route.params.type)
+          return {
+            questionTypes: QuestionFactory.getAllTypes(true), // true is for human case
+            questionModel: newModel
           }
         }
       },

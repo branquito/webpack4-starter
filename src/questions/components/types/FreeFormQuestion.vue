@@ -1,5 +1,5 @@
 <template>
-  <QuestionRenderless :questionModel="questionModel" @input="(model) => { $emit('input', model) }">
+  <QuestionRenderless :questionModel="questionModel" @change="(model) => { $emit('change', model) }">
     <template slot-scope="{data: Q}">
     <QuestionTypeSelect
           v-if="mode === 'create'"
@@ -16,8 +16,8 @@
           <form @submit.prevent="submit">
             <div class="row">
               <div class="col-xs-6">
-                <p>Q: {{ Q.question }}</p>
-                <textarea v-model="Q.answer"></textarea>
+                <input class="form-control" type="text" v-model="Q.question">
+                <textarea class="form-control" v-model="Q.answer"></textarea>
               </div>
               <div class="col-xs-6"><pre>{{ Q }}</pre></div>
             </div>

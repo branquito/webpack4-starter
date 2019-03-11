@@ -2,7 +2,8 @@ import { make } from 'vuex-pathify'
 import uuid4 from 'uuid4'
 
 const state = {
-  items: []
+  items: [],
+  newItem: {}
 }
 const matchId = update => item => item.__id === update.__id
 
@@ -19,6 +20,12 @@ export default {
     },
     ADD_ITEM(state, item) {
       state.items.push(item)
+    },
+    ADD_NEW(state, item) {
+      state.newItem = item
+    },
+    REMOVE_ITEM(state, item) {
+      state.items = state.items.filter(o => o.__id !== item.__id)
     }
   },
   actions: {

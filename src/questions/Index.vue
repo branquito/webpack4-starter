@@ -19,7 +19,9 @@
           <div class="panel-body">
             <QList
               :items="questions"
-              @edit-item="editQuestionTemplate"></QList>
+              @edit-item="editQuestionTemplate"
+              @remove-item="removeQuestionTemplate"
+              ></QList>
           </div>
         </div>
       </div>
@@ -47,7 +49,7 @@ import FreeFormQuestion from './components/types/FreeFormQuestion.vue'
 import SingleChoiceQuestion from './components/types/SingleChoiceQuestion.vue'
 import MultipleChoiceQuestion from './components/types/MultipleChoiceQuestion.vue'
 import YesNoQuestion from './components/types/YesNoQuestion.vue'
-import { get } from 'vuex-pathify'
+import { commit, get } from 'vuex-pathify'
 import { camelCase } from 'lodash'
 export default {
   name: 'Index',
@@ -72,13 +74,14 @@ export default {
     close() {
       this.show = false
     },
+    // loading question template based on selected type from <select />
     loadQuestionTemplate(type) {
       this.$router.push({
-        path: '/create',
+        path: `/create/${camelCase(type)}`,
         query: { type: camelCase(type) }
       })
     },
-    // question param is actually a question model
+    // arg 'question' is actually a question model
     editQuestionTemplate(question) {
       this.show = true
       this.$router.push({
@@ -91,6 +94,11 @@ export default {
         path: '/create',
         query: { type: 'FreeFormQuestion' }
       })
+    },
+    removeQuestionTemplate(question) {
+      console.log('removing:', question)
+      this.$router.push({ path: '/' })
+      commit('questions/REMOVE_ITEM', question)
     }
   }
 }
