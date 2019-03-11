@@ -34,25 +34,30 @@
       </div>
     </div>
     <modal :show="show" @close="close">
-      <router-view></router-view>
+      <router-view @load-type="loadQuestionTemplate"></router-view>
     </modal>
   </div>
 </template>
 <script>
-import Vue from "vue"
-import Modal from "./Modal.vue"
-import QList from "./QList.vue"
-import Search from "./Search.vue"
-import FreeFormQuestion from "./components/FreeFormQuestion.vue"
-import MultipleChoiceQuestion from "./components/MultipleChoiceQuestion.vue"
-import {get} from "vuex-pathify"
+import Vue from 'vue'
+import Modal from './Modal.vue'
+import QList from './QList.vue'
+import Search from './Search.vue'
+import FreeFormQuestion from './components/types/FreeFormQuestion.vue'
+import SingleChoiceQuestion from './components/types/SingleChoiceQuestion.vue'
+import MultipleChoiceQuestion from './components/types/MultipleChoiceQuestion.vue'
+import YesNoQuestion from './components/types/YesNoQuestion.vue'
+import { get } from 'vuex-pathify'
+import { camelCase } from 'lodash'
 export default {
-  name: "Index",
+  name: 'Index',
   components: {
     QList,
     Search,
     FreeFormQuestion,
+    SingleChoiceQuestion,
     MultipleChoiceQuestion,
+    YesNoQuestion,
     Modal
   },
   data() {
@@ -61,11 +66,17 @@ export default {
     }
   },
   computed: {
-    questions: get("questions/items")
+    questions: get('questions/items')
   },
   methods: {
     close() {
       this.show = false
+    },
+    loadQuestionTemplate(type) {
+      this.$router.push({
+        path: '/create',
+        query: { type: camelCase(type) }
+      })
     },
     // question param is actually a question model
     editQuestionTemplate(question) {
@@ -77,8 +88,8 @@ export default {
     addQuestionTemplate() {
       this.show = true
       this.$router.push({
-        path: "/create",
-        query: {type: "FreeFormQuestion"}
+        path: '/create',
+        query: { type: 'FreeFormQuestion' }
       })
     }
   }

@@ -1,38 +1,52 @@
 <script>
-import {commit, call} from "vuex-pathify"
+import { commit, call } from 'vuex-pathify'
+import { lowerCase } from 'lodash'
 export default {
   model: {
-    prop: "questionModel",
-    event: "input"
+    prop: 'questionModel',
+    event: 'input'
   },
   props: {
     questionModel: {
       type: Object,
       required: true
+    },
+    // All question types, that are registered using QuestionFactory
+    questionTypes: {
+      type: Array,
+      required: false,
+      default: () => []
     }
   },
   computed: {
     mode() {
-      return this.questionModel.__id ? "edit" : "create"
+      return this.questionModel.__id ? 'edit' : 'create'
+    },
+    hasOptions() {
+      const opts = this.questionModel.options
+      return opts && !!opts.length // opts || undefined
     }
   },
   created() {
     this.cmpName = this.$options.name
   },
   methods: {
-    updateItems: call("questions/setItems"),
-    addItem: call("questions/addItem"),
+    updateItems: call('questions/setItems'),
+    addItem: call('questions/addItem'),
     submit() {
       switch (this.mode) {
-        case "edit":
+        case 'edit':
           this.updateItems(this.questionModel)
-          this.$emit("input", this.questionModel)
+          this.$emit('input', this.questionModel)
           break
-        case "create":
+        case 'create':
           this.addItem(this.questionModel)
-          this.$emit("input", this.questionModel)
+          this.$emit('input', this.questionModel)
           break
       }
+    },
+    getActiveQuestionTypeSelection(type) {
+      return lowerCase(this.questionModel.__type) === lowerCase(type)
     }
   }
 }

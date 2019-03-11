@@ -69,12 +69,15 @@ QuestionFactory.addType(
 
 QuestionFactory.addType('YesNoQuestion', function createYesNoQuestion({
   id = null,
-  question = ''
+  question = 'Answer with Yes or No'
 } = {}) {
   return {
     question,
-    options: ['Yes', 'No'],
-    picked: '',
+    options: [
+      { name: 'Yes', value: 1, id: 1 },
+      { name: 'No', value: 0, id: 2 }
+    ],
+    picked: {},
     specificRequired: false,
     __id: id,
     __cmp: 'YesNoQuestion',

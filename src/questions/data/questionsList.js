@@ -5,9 +5,23 @@ export default [
     id: 1,
     question: 'My first freeform question'
   }),
-  QuestionFactory.get('FreeFormQuestion', {
+  QuestionFactory.get('SingleChoiceQuestion', {
     id: 2,
-    question: 'My 2nd freeform question'
+    question: 'My 1st single choice question',
+    options: [
+      {
+        id: 1,
+        name: 'I am radio 1 option'
+      },
+      {
+        id: 2,
+        name: 'I am radio 2 option'
+      },
+      {
+        id: 3,
+        name: 'I am radio 3 option'
+      }
+    ]
   }),
   QuestionFactory.get('MultipleChoiceQuestion', {
     id: 3,
