@@ -34,7 +34,7 @@
       </div>
     </div>
     <modal :show="show" @close="close">
-      <router-view @load-type="loadQuestionTemplate"></router-view>
+      <router-view @load-type="loadQuestionTemplate" @modal-close="show = false"></router-view>
     </modal>
   </div>
 </template>

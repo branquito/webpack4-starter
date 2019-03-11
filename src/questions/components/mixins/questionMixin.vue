@@ -38,12 +38,15 @@ export default {
         case 'edit':
           this.updateItems(this.questionModel)
           this.$emit('input', this.questionModel)
+          this.$router.push({ path: '/' })
           break
         case 'create':
           this.addItem(this.questionModel)
           this.$emit('input', this.questionModel)
+          this.$router.push({ path: '/' })
           break
       }
+      this.$emit('modal-close')
     },
     getActiveQuestionTypeSelection(type) {
       return lowerCase(this.questionModel.__type) === lowerCase(type)

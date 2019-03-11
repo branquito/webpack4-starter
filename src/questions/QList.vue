@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="list-group">
-      <li v-for="item in items" class="list-group-item">
+      <li v-for="item in items" :key="item.__id" class="list-group-item">
         <div class="question-group">
           <div class="question-group__question">
             {{ item.question || '...' }}
@@ -22,7 +22,7 @@
 </template>
 <script>
 export default {
-  name: "QuestionsList",
+  name: 'QuestionsList',
   props: {
     items: {
       type: Array,
@@ -35,10 +35,10 @@ export default {
   },
   methods: {
     remove(item) {
-      this.$emit("remove-item", item)
+      this.$emit('remove-item', item)
     },
     edit(item) {
-      this.$emit("edit-item", item)
+      this.$emit('edit-item', item)
     }
   }
 }
