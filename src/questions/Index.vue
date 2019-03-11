@@ -13,11 +13,13 @@
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading clearfix">Questions
-            <button @click="createQuestion" class="btn btn-default pull-right">
+            <button @click="addQuestionTemplate" class="btn btn-default pull-right">
               <i class="glyphicon glyphicon-plus"></i>
             </button></div>
           <div class="panel-body">
-            <QList :items="questions" @edit-item="editQuestion"></QList>
+            <QList
+              :items="questions"
+              @edit-item="editQuestionTemplate"></QList>
           </div>
         </div>
       </div>
@@ -66,13 +68,13 @@ export default {
       this.show = false
     },
     // question param is actually a question model
-    editQuestion(question) {
+    editQuestionTemplate(question) {
       this.show = true
       this.$router.push({
         path: `/${question.__id}/edit`
       })
     },
-    createQuestion() {
+    addQuestionTemplate() {
       this.show = true
       this.$router.push({
         path: "/create",
