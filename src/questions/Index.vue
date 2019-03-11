@@ -77,8 +77,7 @@ export default {
     // loading question template based on selected type from <select />
     loadQuestionTemplate(type) {
       this.$router.push({
-        path: `/create/${camelCase(type)}`,
-        query: { type: camelCase(type) }
+        path: `/create/${camelCase(type)}`
       })
     },
     // arg 'question' is actually a question model
@@ -91,8 +90,7 @@ export default {
     addQuestionTemplate() {
       this.show = true
       this.$router.push({
-        path: '/create',
-        query: { type: 'FreeFormQuestion' }
+        path: '/create'
       })
     },
     removeQuestionTemplate(question) {
