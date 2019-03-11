@@ -23,7 +23,7 @@
             </div>
             <div class="row buffer">
               <div class="col-md-12">
-                <button type="submit" class="btn btn-warning">Submit</button>
+                <button type="submit" class="btn btn-warning">{{ buttonText }}</button>
               </div>
             </div>
           </form>

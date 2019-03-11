@@ -25,6 +25,9 @@ export default {
     hasOptions() {
       const opts = this.questionModel.options
       return opts && !!opts.length // opts || undefined
+    },
+    buttonText() {
+      return this.mode === 'create' ? 'Create' : 'Update'
     }
   },
   created() {
