@@ -90,7 +90,7 @@ export default {
     addQuestionTemplate() {
       this.show = true
       this.$router.push({
-        path: '/create'
+        path: '/create/freeFormQuestion',
       })
     },
     removeQuestionTemplate(question) {

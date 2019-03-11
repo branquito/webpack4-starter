@@ -6,6 +6,7 @@
     <option
     v-for="type in types"
     :value="type"
+    :selected="getSelected(type)"
     >{{ type }}</option>
   </select>
 </template>
