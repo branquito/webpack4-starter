@@ -1,7 +1,7 @@
 <script>
-import questionMixin from './mixins/questionMixin.vue'
+import questionMixin from "./mixins/questionMixin.vue"
 export default {
-  name: 'QuestionRenderless',
+  name: "QuestionRenderless",
   mixins: [questionMixin],
   render(h) {
     const scope = this
@@ -11,7 +11,7 @@ export default {
         scope.questionModel.options.push(option)
       }
     })
-    return h('div', {}, children)
+    return h("div", {}, children)
   }
 }
 </script>
