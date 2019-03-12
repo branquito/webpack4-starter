@@ -1,8 +1,12 @@
 <script>
-import questionMixin from "./mixins/questionMixin.vue"
 export default {
-  name: "QuestionRenderless",
-  mixins: [questionMixin],
+  name: 'QuestionRenderless',
+  props: {
+    questionModel: {
+      type: Object,
+      required: true
+    }
+  },
   render(h) {
     const scope = this
     const children = this.$scopedSlots.default({
@@ -11,7 +15,7 @@ export default {
         scope.questionModel.options.push(option)
       }
     })
-    return h("div", {}, children)
+    return h('div', {}, children)
   }
 }
 </script>
