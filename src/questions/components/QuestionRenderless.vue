@@ -3,7 +3,7 @@ export default {
   name: 'QuestionRenderless',
   model: {
     prop: 'questionModel',
-    event: 'input'
+    event: 'update'
   },
   props: {
     questionModel: {
@@ -17,8 +17,8 @@ export default {
       data: this.questionModel,
       addOption(option) {
         scope.questionModel.options.push(option)
-        console.log('emit input...')
-        scope.$emit('input', scope.questionModel)
+        console.log('emit update...')
+        scope.$emit('update', scope.questionModel)
       }
     })
     return h('div', {}, children)
