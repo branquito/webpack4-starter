@@ -2,10 +2,6 @@
 import { commit, call } from 'vuex-pathify'
 import { lowerCase } from 'lodash'
 export default {
-  model: {
-    prop: 'questionModel',
-    event: 'change'
-  },
   props: {
     questionModel: {
       type: Object,
@@ -31,7 +27,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit('questions/PRE_CREATE', this.questionModel)
+    // this.$store.commit('questions/PRE_CREATE', this.questionModel)
     this.cmpName = this.$options.name
   },
   methods: {
@@ -41,12 +37,10 @@ export default {
       switch (this.mode) {
         case 'edit':
           this.updateItem(this.questionModel)
-          this.$emit('change', this.questionModel)
           this.$router.push({ path: '/' })
           break
         case 'create':
           this.addItem(this.questionModel)
-          this.$emit('change', this.questionModel)
           this.$router.push({ path: '/' })
           break
       }

@@ -1,6 +1,6 @@
 <template>
-  <QuestionRenderless :question-model="questionModel" @change="(model) => { $emit('change', model) }">
-    <template slot-scope="{data: Q}">
+  <QuestionRenderless :question-model="questionModel" @input="(model) => {$emit('input', model)}">
+    <template slot-scope="{data: Q}" >
     <QuestionTypeSelect
           v-if="mode === 'create'"
           :get-selected="getActiveQuestionTypeSelection"

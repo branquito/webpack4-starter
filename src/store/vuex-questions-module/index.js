@@ -2,8 +2,8 @@ import { make } from 'vuex-pathify'
 import uuid4 from 'uuid4'
 
 const state = {
-  items: [],
-  preCreate: {}
+  items: []
+  // preCreate: {}
 }
 const matchOnId = update => item => item.__id === update.__id
 
@@ -11,9 +11,9 @@ export default {
   namespaced: true,
   state,
   mutations: {
-    PRE_CREATE(state, item) {
-      state.preCreate = item
-    },
+    // PRE_CREATE(state, item) {
+    //   state.preCreate = item
+    // },
     ADD_ITEM(state, item) {
       state.items.push(item)
     },
