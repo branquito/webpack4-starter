@@ -31,8 +31,8 @@ export default {
     }
   },
   created() {
-    this.cmpName = this.$options.name
     this.$store.commit('questions/PRE_CREATE', this.questionModel)
+    this.cmpName = this.$options.name
   },
   methods: {
     updateItem: call('questions/updateItem'),
