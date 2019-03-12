@@ -1,10 +1,10 @@
 <script>
-import {commit, call} from "vuex-pathify"
-import {lowerCase} from "lodash"
+import { commit, call } from 'vuex-pathify'
+import { lowerCase } from 'lodash'
 export default {
   model: {
-    prop: "questionModel",
-    event: "change"
+    prop: 'questionModel',
+    event: 'change'
   },
   props: {
     questionModel: {
@@ -18,43 +18,39 @@ export default {
       default: () => []
     }
   },
-  beforeRouteUpdate(to, from, next) {
-    console.log("changed nested route")
-    next()
-  },
   computed: {
     mode() {
-      return this.questionModel.__id ? "edit" : "create"
+      return this.questionModel.__id ? 'edit' : 'create'
     },
     hasOptions() {
       const opts = this.questionModel.options
       return opts && !!opts.length // opts || undefined
     },
     buttonText() {
-      return this.mode === "create" ? "Create" : "Update"
+      return this.mode === 'create' ? 'Create' : 'Update'
     }
   },
   created() {
     this.cmpName = this.$options.name
-    this.$store.commit("questions/ADD_NEW", this.questionModel)
+    this.$store.commit('questions/PRE_CREATE', this.questionModel)
   },
   methods: {
-    updateItems: call("questions/setItems"),
-    addItem: call("questions/addItem"),
+    updateItem: call('questions/updateItem'),
+    addItem: call('questions/addItem'),
     submit() {
       switch (this.mode) {
-        case "edit":
-          this.updateItems(this.questionModel)
-          this.$emit("change", this.questionModel)
-          this.$router.push({path: "/"})
+        case 'edit':
+          this.updateItem(this.questionModel)
+          this.$emit('change', this.questionModel)
+          this.$router.push({ path: '/' })
           break
-        case "create":
+        case 'create':
           this.addItem(this.questionModel)
-          this.$emit("change", this.questionModel)
-          this.$router.push({path: "/"})
+          this.$emit('change', this.questionModel)
+          this.$router.push({ path: '/' })
           break
       }
-      this.$emit("modal-close")
+      this.$emit('modal-close')
     },
     getActiveQuestionTypeSelection(type) {
       return lowerCase(this.questionModel.__type) === lowerCase(type)

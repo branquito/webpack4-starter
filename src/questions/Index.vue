@@ -71,32 +71,36 @@ export default {
     questions: get('questions/items')
   },
   methods: {
-    close() {
-      this.show = false
+    addQuestionTemplate() {
+      this.show = true
+      this.$router.push({
+        path: '/create/freeFormQuestion'
+      })
     },
-    // loading question template based on selected type from <select />
+    removeQuestionTemplate(question) {
+      this.$router.push({ path: '/' })
+      commit('questions/REMOVE_ITEM', question)
+    },
+    /*
+     * loading question template based on selected type from <select />
+     */
     loadQuestionTemplate(type) {
       this.$router.push({
         path: `/create/${camelCase(type)}`
       })
     },
-    // arg 'question' is actually a question model
+    /*
+     *  @param question Question type model
+     *  @void
+     */
     editQuestionTemplate(question) {
       this.show = true
       this.$router.push({
         path: `/${question.__id}/edit`
       })
     },
-    addQuestionTemplate() {
-      this.show = true
-      this.$router.push({
-        path: '/create/freeFormQuestion',
-      })
-    },
-    removeQuestionTemplate(question) {
-      console.log('removing:', question)
-      this.$router.push({ path: '/' })
-      commit('questions/REMOVE_ITEM', question)
+    close() {
+      this.show = false
     }
   }
 }

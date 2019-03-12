@@ -1,12 +1,11 @@
 <template>
   <select
-    id="selectQuestionType"
     @change="$emit('load-type', $event.target.value)"
     >
     <option
-    v-for="type in types"
-    :value="type"
-    :selected="getSelected(type)"
+      v-for="type in types"
+      :value="type"
+      :selected="getSelected(type)"
     >{{ type }}</option>
   </select>
 </template>
@@ -18,10 +17,15 @@ export default {
       required: true,
       default: () => []
     },
-    // Sets the selected option to the one that is currently viewed
+    /*
+     * Preselect current view
+     */
     getSelected: {
       type: Function,
-      required: false
+      required: false,
+      default: () => {
+        return () => {}
+      }
     }
   }
 }
