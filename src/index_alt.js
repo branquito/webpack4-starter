@@ -24,6 +24,14 @@ const routes = [...questionsRoutes]
 const router = new VueRouter({
   routes
 })
+const create = p => p.includes('/create')
+const clearModelWhenNotSwitchingQuestionTypes = (to, from, next) => {
+  if (create(from.path) && !create(to.path)) {
+    store.dispatch('questions/clearModel')
+  }
+  next()
+}
+router.beforeEach(clearModelWhenNotSwitchingQuestionTypes)
 
 new Vue({
   el: '#app_alt4',
