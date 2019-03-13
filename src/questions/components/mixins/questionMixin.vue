@@ -7,7 +7,7 @@ export default {
       type: Object,
       required: true
     },
-    // All question types, that are registered using QuestionFactory
+    // All available question types, registered using QuestionFactory
     questionTypes: {
       type: Array,
       required: false,

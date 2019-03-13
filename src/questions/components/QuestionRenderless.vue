@@ -11,15 +11,17 @@ export default {
       required: true
     }
   },
+  methods: {
+    addOption(option) {
+      this.questionModel.options.push(option)
+      this.$emit('update', this.questionModel)
+    }
+  },
   render(h) {
     const scope = this
     const children = this.$scopedSlots.default({
       data: this.questionModel,
-      addOption(option) {
-        scope.questionModel.options.push(option)
-        console.log('emit update...')
-        scope.$emit('update', scope.questionModel)
-      }
+      addOption: this.addOption
     })
     return h('div', {}, children)
   }

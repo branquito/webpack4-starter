@@ -1,5 +1,5 @@
 <template>
-  <QuestionRenderless :question-model="questionModel" @update="(model) => {$emit('update', model)}">
+  <QuestionRenderless :questionModel="questionModel" @update="(model) => {$emit('update', model)}">
     <template slot-scope="{data: Q}" >
     <QuestionTypeSelect
           v-if="mode === 'create'"
@@ -24,6 +24,13 @@
             <div class="row buffer">
               <div class="col-md-12">
                 <button type="submit" class="btn btn-warning">{{ buttonText }}</button>
+              </div>
+            </div>
+            <div class="row buffer">
+              <div class="col-md-12">
+                <p>PREVIEW</p>
+                <label for="questionInput">Question:</label>
+                <input id="questionInput" class="form-control" type="text" disabled :value="Q.question">
               </div>
             </div>
           </form>
