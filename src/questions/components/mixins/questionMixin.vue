@@ -27,12 +27,11 @@ export default {
     }
   },
   created() {
-    // this.$store.commit('questions/PRE_CREATE', this.questionModel)
     this.cmpName = this.$options.name
   },
   methods: {
     updateItem: call('questions/updateItem'),
-    addItem: call('questions/addItem'),
+    saveItem: call('questions/saveItem'),
     submit() {
       switch (this.mode) {
         case 'edit':
@@ -40,7 +39,7 @@ export default {
           this.$router.push({ path: '/' })
           break
         case 'create':
-          this.addItem(this.questionModel)
+          this.saveItem(this.questionModel)
           this.$router.push({ path: '/' })
           break
       }

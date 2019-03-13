@@ -3,8 +3,7 @@ import uuid4 from 'uuid4'
 import QuestionFactory from '../../questions/factories/QuestionFactory.js'
 
 const state = {
-  items: [],
-  model: {}
+  items: []
 }
 const matchOnId = update => item => item.__id === update.__id
 
@@ -15,39 +14,54 @@ export default {
     ADD_ITEM(state, item) {
       state.items.push(item)
     },
+
     UPDATE_ITEM(state, update) {
       const at = state.items.findIndex(matchOnId(update))
       if (!at < 0) {
         state.items.splice(at, 1, update)
       }
     },
+
     REMOVE_ITEM(state, item) {
       state.items = state.items.filter(o => o.__id !== item.__id)
     },
-    STORE_MODEL(state, model) {
-      state.model = model
+
+    SWITCH_MODEL(state, model) {
+      const idx = state.items.findIndex(item => item.__id === null)
+      if (!(idx < 0)) {
+        state.items.splice(idx, 1, model)
+      } else {
+        state.items.push(model)
+      }
+    },
+
+    SAVE_ITEM(state, model) {
+      const safeId = uuid4()
+      state.items.splice(state.items.findIndex(item => item.__id === null), 1, {
+        ...model,
+        __id: safeId
+      })
     }
   },
+
   actions: {
-    addItem({ commit }, item) {
-      // assing some random ID on creation...
-      const safeId = uuid4()
-      item.__id = safeId
-      // store item
-      commit('ADD_ITEM', item)
+    storeModel({ commit, dispatch }, type) {
+      const model = QuestionFactory.get(type)
+      commit('SWITCH_MODEL', model)
     },
+
+    saveItem({ commit, state }, model) {
+      commit('SAVE_ITEM', model)
+    },
+
     updateItem({ commit }, item) {
       commit('UPDATE_ITEM', item)
-    },
-    storeModel({ commit }, type) {
-      const model = QuestionFactory.get(type)
-      commit('STORE_MODEL', model)
     }
   },
   getters: {
     ...make.getters('items'),
     getModel: state => {
-      return state.model
+      return state.items.find(item => item.__id === null)
     }
   }
 }
