@@ -18,7 +18,7 @@ export default [
           let newModel = QuestionFactory.get(route.params.type)
           return {
             questionTypes: QuestionFactory.getAllTypes(true), // true is for Human Case
-            questionModel: newModel
+            questionModel: store.getters['questions/getModel']
           }
         }
       },

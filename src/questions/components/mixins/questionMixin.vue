@@ -1,6 +1,6 @@
 <script>
 import { commit, call } from 'vuex-pathify'
-import { lowerCase } from 'lodash'
+import { lowerCase, camelCase } from 'lodash'
 export default {
   props: {
     questionModel: {

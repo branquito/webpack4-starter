@@ -71,8 +71,9 @@ export default {
     questions: get('questions/items')
   },
   methods: {
-    addQuestionTemplate() {
+    async addQuestionTemplate() {
       this.show = true
+      await this.$store.dispatch('questions/storeModel', 'freeFormQuestion')
       this.$router.push({
         path: '/create/freeFormQuestion'
       })
@@ -85,6 +86,7 @@ export default {
      * loading question template based on selected type from <select />
      */
     loadQuestionTemplate(type) {
+      this.$store.dispatch('questions/storeModel', camelCase(type))
       this.$router.push({
         path: `/create/${camelCase(type)}`
       })

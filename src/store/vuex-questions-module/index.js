@@ -1,9 +1,10 @@
 import { make } from 'vuex-pathify'
 import uuid4 from 'uuid4'
+import QuestionFactory from '../../questions/factories/QuestionFactory.js'
 
 const state = {
-  items: []
-  // preCreate: {}
+  items: [],
+  model: {}
 }
 const matchOnId = update => item => item.__id === update.__id
 
@@ -11,9 +12,6 @@ export default {
   namespaced: true,
   state,
   mutations: {
-    // PRE_CREATE(state, item) {
-    //   state.preCreate = item
-    // },
     ADD_ITEM(state, item) {
       state.items.push(item)
     },
@@ -25,20 +23,31 @@ export default {
     },
     REMOVE_ITEM(state, item) {
       state.items = state.items.filter(o => o.__id !== item.__id)
+    },
+    STORE_MODEL(state, model) {
+      state.model = model
     }
   },
   actions: {
     addItem({ commit }, item) {
       // assing some random ID on creation...
-      item.__id = uuid4()
+      const safeId = uuid4()
+      item.__id = safeId
       // store item
       commit('ADD_ITEM', item)
     },
     updateItem({ commit }, item) {
       commit('UPDATE_ITEM', item)
+    },
+    storeModel({ commit }, type) {
+      const model = QuestionFactory.get(type)
+      commit('STORE_MODEL', model)
     }
   },
   getters: {
-    ...make.getters('items')
+    ...make.getters('items'),
+    getModel: state => {
+      return state.model
+    }
   }
 }
