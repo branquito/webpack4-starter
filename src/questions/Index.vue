@@ -102,6 +102,10 @@ export default {
       })
     },
     close() {
+      this.$router.push({
+        path: '/'
+      })
+      this.$store.dispatch('questions/clearModel')
       this.show = false
     }
   }

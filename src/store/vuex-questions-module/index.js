@@ -35,6 +35,10 @@ export default {
       }
     },
 
+    CLEAR_MODEL(state) {
+      state.items = state.items.filter(item => item.__id !== null)
+    },
+
     SAVE_ITEM(state, model) {
       const safeId = uuid4()
       state.items.splice(state.items.findIndex(item => item.__id === null), 1, {
@@ -48,6 +52,10 @@ export default {
     storeModel({ commit, dispatch }, type) {
       const model = QuestionFactory.get(type)
       commit('SWITCH_MODEL', model)
+    },
+
+    clearModel({ commit }) {
+      commit('CLEAR_MODEL')
     },
 
     saveItem({ commit, state }, model) {

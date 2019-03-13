@@ -15,7 +15,6 @@ export default [
         path: 'create/:type',
         component: SmartQuestion,
         props: route => {
-          let newModel = QuestionFactory.get(route.params.type)
           return {
             questionTypes: QuestionFactory.getAllTypes(true), // true is for Human Case
             questionModel: store.getters['questions/getModel']
