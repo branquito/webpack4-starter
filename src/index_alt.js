@@ -24,9 +24,9 @@ const routes = [...questionsRoutes]
 const router = new VueRouter({
   routes
 })
-const create = p => p.includes('/create')
+const hasCreateIn = path => path.includes('/create')
 const clearModelWhenNotSwitchingQuestionTypes = (to, from, next) => {
-  if (create(from.path) && !create(to.path)) {
+  if (hasCreateIn(from.path) && !hasCreateIn(to.path)) {
     store.dispatch('questions/clearModel')
   }
   next()
