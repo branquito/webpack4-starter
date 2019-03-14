@@ -45,6 +45,9 @@ export default {
         ...model,
         __id: safeId
       })
+    },
+    dnd(state, result) {
+      state.items = result
     }
   },
 
@@ -65,6 +68,7 @@ export default {
     updateItem({ commit }, item) {
       commit('UPDATE_ITEM', item)
     }
+    // DND
   },
   getters: {
     ...make.getters('items'),

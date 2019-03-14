@@ -21,6 +21,7 @@
               :items="questions"
               @edit-item="editQuestionTemplate"
               @remove-item="removeQuestionTemplate"
+              @drop="onDrop('Qlist', $event)"
               ></QList>
           </div>
         </div>
@@ -31,6 +32,13 @@
             <p>Lists</p>
           </div>
           <div class="panel-body">
+            <Container
+              @drop="onDrop('Glist', $event)"
+              group-name="question-card">
+            <Draggable v-for="( listItem, index ) in listItems" :key="index">
+              <li class="list-group-item"><pre>{{ listItem.__cmp }}</pre></li>
+            </Draggable>
+            </Container>
           </div>
         </div>
       </div>
@@ -51,6 +59,7 @@ import MultipleChoiceQuestion from './components/types/MultipleChoiceQuestion.vu
 import YesNoQuestion from './components/types/YesNoQuestion.vue'
 import { commit, get } from 'vuex-pathify'
 import { camelCase } from 'lodash'
+import { Container, Draggable } from 'vue-smooth-dnd'
 export default {
   name: 'Index',
   components: {
@@ -60,17 +69,47 @@ export default {
     SingleChoiceQuestion,
     MultipleChoiceQuestion,
     YesNoQuestion,
-    Modal
+    Modal,
+    Container,
+    Draggable
   },
   data() {
     return {
-      show: false
+      show: false,
+      listItems: []
     }
   },
   computed: {
     questions: get('questions/items')
   },
   methods: {
+    applyDrag(items, dropResult) {
+      const { removedIndex, addedIndex, payload } = dropResult
+      if (removedIndex === null && addedIndex === null) return items
+
+      const result = [...items]
+      let itemToAdd = payload
+
+      const exists = items.some(item => item.__id === payload.__id)
+      if (exists) return result
+
+      if (removedIndex !== null) {
+        itemToAdd = result.splice(removedIndex, 1)[0]
+      }
+
+      if (addedIndex !== null) {
+        result.splice(addedIndex, 0, itemToAdd) // Add child at this specific index
+      }
+      return result
+    },
+    onDrop(source, dropResult) {
+      if (source === 'Qlist') return false
+      if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
+        if (dropResult.removedIndex === null) {
+          this.listItems = this.applyDrag(this.listItems, dropResult)
+        }
+      }
+    },
     async addQuestionTemplate() {
       this.show = true
       await this.$store.dispatch('questions/storeModel', 'freeFormQuestion')
