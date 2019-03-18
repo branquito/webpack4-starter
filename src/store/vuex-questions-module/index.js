@@ -4,7 +4,8 @@ import QuestionFactory from '../../questions/factories/QuestionFactory.js'
 const state = {
   items: []
 }
-const matchOnId = update => item => item.__id === update.__id
+
+const matchOnId = param => item => item.__id === param.__id
 
 export default {
   namespaced: true,
@@ -21,8 +22,8 @@ export default {
       }
     },
 
-    REMOVE_ITEM(state, item) {
-      state.items = state.items.filter(o => o.__id !== item.__id)
+    REMOVE_ITEM(state, remove) {
+      state.items = state.items.filter(item => item.__id !== remove.__id)
     },
 
     SWITCH_MODEL(state, model) {
@@ -44,9 +45,6 @@ export default {
         ...model,
         __id: safeId
       })
-    },
-    dnd(state, result) {
-      state.items = result
     }
   },
 
@@ -67,10 +65,11 @@ export default {
     updateItem({ commit }, item) {
       commit('UPDATE_ITEM', item)
     }
-    // DND
   },
+
   getters: {
     items: state => state.items,
+
     getModel: state => {
       return state.items.find(item => item.__id === null)
     }

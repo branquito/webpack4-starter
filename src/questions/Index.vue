@@ -127,7 +127,7 @@ export default {
 
     removeQuestionTemplate(question) {
       this.$router.push({ path: '/' })
-      commit('questions/REMOVE_ITEM', question)
+      this.$store.commit('questions/REMOVE_ITEM', question)
     },
 
     /*
