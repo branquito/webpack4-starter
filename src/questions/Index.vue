@@ -35,8 +35,8 @@
             <Container
               @drop="onDrop('Glist', $event)"
               group-name="question-card">
-            <Draggable v-for="( listItem, index ) in listItems" :key="index">
-              <li class="list-group-item"><pre>{{ listItem.__cmp }}</pre></li>
+            <Draggable v-for="( {__cmp, __id, question}, index ) in listItems" :key="index">
+              <li class="list-group-item"><pre>{{ {cmp: __cmp, question, __id } }}</pre></li>
             </Draggable>
             </Container>
           </div>

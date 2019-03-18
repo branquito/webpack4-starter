@@ -20,6 +20,7 @@
               <div class="input-group">
                 <input class="form-control" type="text" v-model="optionName">
                 <span class="input-group-btn">
+                  <a @click="addOption({name: 'Ivan'})">dodaj</a>
                   <button
                     :disabled="optionName === ''"
                     @click.prevent="addOption({name: `option ${optionName}`})"
