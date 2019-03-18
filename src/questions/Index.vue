@@ -4,7 +4,9 @@
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">
+            <button @click="addQuestionToList('test question')">Add to list</button>
             <p>Categories</p>
+            {{ lists }}
           </div>
           <div class="panel-body">
           </div>
@@ -60,7 +62,12 @@ import MultipleChoiceQuestion from './components/types/MultipleChoiceQuestion.vu
 import YesNoQuestion from './components/types/YesNoQuestion.vue'
 import { camelCase } from 'lodash'
 import { Container, Draggable } from 'vue-smooth-dnd'
-import { mapGetters } from 'vuex'
+import { mapGetters, createNamespacedHelpers } from 'vuex'
+
+import { mapQuestionFields } from '../store'
+const { mapMutations: mapQuestionMutations } = createNamespacedHelpers(
+  'questions'
+)
 export default {
   name: 'Index',
   components: {
@@ -81,9 +88,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('questions', { questions: 'items' })
+    ...mapGetters('questions', { questions: 'items' }),
+    ...mapQuestionFields(['lists'])
   },
   methods: {
+    ...mapQuestionMutations({
+      addQuestionToList: 'ADD_ITEM_TO_LIST'
+    }),
     applyDrag(items, dropResult) {
       const { removedIndex, addedIndex, payload } = dropResult
       if (removedIndex === null && addedIndex === null) return items

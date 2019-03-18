@@ -1,8 +1,10 @@
 import uuid4 from 'uuid4'
 import QuestionFactory from '../../questions/factories/QuestionFactory.js'
+import { getField, updateField } from 'vuex-map-fields'
 
 const state = {
-  items: []
+  items: [],
+  lists: ['abc']
 }
 
 const matchOnId = param => item => item.__id === param.__id
@@ -11,6 +13,7 @@ export default {
   namespaced: true,
   state,
   mutations: {
+    updateField,
     ADD_ITEM(state, item) {
       state.items.push(item)
     },
@@ -45,6 +48,10 @@ export default {
         ...model,
         __id: safeId
       })
+    },
+
+    ADD_ITEM_TO_LIST(state, item) {
+      state.lists.push(item)
     }
   },
 
@@ -68,6 +75,7 @@ export default {
   },
 
   getters: {
+    getField,
     items: state => state.items,
 
     getModel: state => {

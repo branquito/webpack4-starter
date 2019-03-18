@@ -6,6 +6,7 @@ import mutations from './mutations.js'
 
 import questions from './vuex-questions-module'
 import VuexPersist from 'vuex-persist'
+import { createHelpers } from 'vuex-map-fields'
 
 Vue.use(Vuex)
 
@@ -18,6 +19,11 @@ const state = {
   user: 'branchito',
   response: null
 }
+
+export const { mapFields: mapQuestionFields } = createHelpers({
+  getterType: 'questions/getField',
+  mutationType: 'questions/updateField'
+})
 
 const store = new Vuex.Store({
   plugins: [vuexLocalStorage.plugin],
