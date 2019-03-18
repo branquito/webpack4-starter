@@ -10,7 +10,7 @@ export default [
     path: '/',
     component: Questions,
     children: [
-      // Creating Question Type
+      // Question Type CREATE
       {
         path: 'create/:type',
         component: SmartQuestion,
@@ -21,7 +21,7 @@ export default [
           }
         }
       },
-      // Editing Question Type
+      // Question Type EDIT
       {
         path: ':id/edit',
         component: SmartQuestion,

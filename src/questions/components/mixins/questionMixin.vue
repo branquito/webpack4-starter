@@ -33,12 +33,12 @@ export default {
     ...mapActions('questions', ['updateItem', 'saveItem']),
     submit() {
       switch (this.mode) {
-        case 'edit':
-          this.updateItem(this.questionModel)
-          this.$router.push({ path: '/' })
-          break
         case 'create':
           this.saveItem(this.questionModel)
+          this.$router.push({ path: '/' })
+          break
+        case 'edit':
+          this.updateItem(this.questionModel)
           this.$router.push({ path: '/' })
           break
       }
