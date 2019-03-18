@@ -1,37 +1,43 @@
 <template>
-  <div>
-    <Container :get-child-payload="getChildPayload" @drop="$emit('drop', $event)" group-name="question-card">
+  <div id="stackName">
+    <Container
+      :get-child-payload="getChildPayload"
+      @drop="$emit('drop', stackName, $event)"
+      :group-name="groupName"
+      drag-class="opacity-ghost"
+      >
       <Draggable v-for="item in items" :key="item.__id">
-        <li class="draggable-item list-group-item">
-          <div class="question-group">
-            <div class="question-group__question">
-              {{ item.question || '...' }}
-              <span class="label label-info">{{ item.__type }}</span>
-            </div>
-            <div class="question-group__controls">
-              <button @click="edit(item)" class="btn btn-info btn-xs">
-                <i class="glyphicon glyphicon-edit"></i>
-              </button>
-              <button @click="remove(item)" class="btn btn-danger btn-xs">
-                <i class="glyphicon glyphicon-remove-circle"></i>
-              </button>
-            </div>
-          </div>
-        </li>
+        <QListItem
+          @remove="remove"
+          @edit="edit"
+          :item="item"
+        ></QListItem>
       </Draggable>
     </Container>
   </div>
 </template>
 <script>
 import { Container, Draggable } from 'vue-smooth-dnd'
+import QListItem from './QListItem.vue'
 export default {
   name: 'QuestionsList',
-  components: { Container, Draggable },
+  components: { Container, Draggable, QListItem },
   props: {
     items: {
       type: Array,
       required: false,
       default: () => []
+    },
+    stackName: {
+      type: String,
+      required: false
+    },
+    /*
+     *  Proxy for Container groupName property
+     */
+    groupName: {
+      type: String,
+      required: false
     }
   },
   data() {
@@ -54,16 +60,8 @@ export default {
 .label {
   font-weight: normal;
 }
-.question-group {
-  display: flex;
-  &__question {
-    margin-right: auto;
-  }
-  &__controls {
-    flex: 0;
-    button {
-      margin-bottom: 0.3rem;
-    }
-  }
+.opacity-ghost {
+  transform: rotate(5deg);
+  transition: transform 0.1s;
 }
 </style>

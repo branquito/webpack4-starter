@@ -19,9 +19,11 @@
           <div class="panel-body">
             <QList
               :items="questions"
+              stack-name="QList"
+              group-name="question-cards"
               @edit-item="editQuestionTemplate"
               @remove-item="removeQuestionTemplate"
-              @drop="onDrop('Qlist', $event)"
+              @drop="onDrop"
               ></QList>
           </div>
         </div>
@@ -32,13 +34,12 @@
             <p>Lists</p>
           </div>
           <div class="panel-body">
-            <Container
-              @drop="onDrop('Glist', $event)"
-              group-name="question-card">
-            <Draggable v-for="( {__cmp, __id, question}, index ) in listItems" :key="index">
-              <li class="list-group-item"><pre>{{ {cmp: __cmp, question, __id } }}</pre></li>
-            </Draggable>
-            </Container>
+            <QList
+               :items="listItems"
+               stack-name="Glist"
+               group-name="question-cards"
+               @drop="onDrop"
+            ></QList>
           </div>
         </div>
       </div>
@@ -91,7 +92,10 @@ export default {
       let itemToAdd = payload
 
       const exists = items.some(item => item.__id === payload.__id)
-      if (exists) return result
+      if (exists) {
+        alert(`same id already in use ${payload.__id}`)
+        return result
+      }
 
       if (removedIndex !== null) {
         itemToAdd = result.splice(removedIndex, 1)[0]
@@ -102,7 +106,9 @@ export default {
       }
       return result
     },
-    onDrop(source, dropResult) {
+
+    onDrop(source, ...args) {
+      const dropResult = args[0]
       if (source === 'Qlist') return false
       if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
         if (dropResult.removedIndex === null) {
@@ -110,6 +116,7 @@ export default {
         }
       }
     },
+
     async addQuestionTemplate() {
       this.show = true
       await this.$store.dispatch('questions/storeModel', 'freeFormQuestion')
@@ -117,10 +124,12 @@ export default {
         path: '/create/freeFormQuestion'
       })
     },
+
     removeQuestionTemplate(question) {
       this.$router.push({ path: '/' })
       commit('questions/REMOVE_ITEM', question)
     },
+
     /*
      * loading question template based on selected type from <select />
      */
@@ -130,6 +139,7 @@ export default {
         path: `/create/${camelCase(type)}`
       })
     },
+
     /*
      *  @param question Question type model
      *  @void
@@ -140,6 +150,7 @@ export default {
         path: `/${question.__id}/edit`
       })
     },
+
     close() {
       this.$router.push({
         path: '/'
