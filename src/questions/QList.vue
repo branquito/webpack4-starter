@@ -1,27 +1,28 @@
 <template>
-  <div id="stackName">
+  <div :id="stackName">
     <Container
       :get-child-payload="getChildPayload"
       @drop="$emit('drop', stackName, $event)"
       :group-name="groupName"
-      drag-class="opacity-ghost"
+      class="list-group"
+      tag="ul"
       >
-      <Draggable v-for="item in items" :key="item.__id">
+      <template v-for="item in items">
         <QListItem
           @remove="$emit('remove-item', item)"
           @edit="$emit('edit-item', item)"
           :item="item"
         ></QListItem>
-      </Draggable>
+      </template>
     </Container>
   </div>
 </template>
 <script>
-import { Container, Draggable } from 'vue-smooth-dnd'
+import { Container } from 'vue-smooth-dnd'
 import QListItem from './QListItem.vue'
 export default {
   name: 'QuestionsList',
-  components: { Container, Draggable, QListItem },
+  components: { Container, QListItem },
   props: {
     items: {
       type: Array,
@@ -53,9 +54,5 @@ export default {
 <style lang="scss" scoped>
 .label {
   font-weight: normal;
-}
-.opacity-ghost {
-  transform: rotate(5deg);
-  transition: transform 0.1s;
 }
 </style>

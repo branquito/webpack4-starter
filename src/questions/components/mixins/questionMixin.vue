@@ -1,6 +1,6 @@
 <script>
-import { commit, call } from 'vuex-pathify'
 import { lowerCase, camelCase } from 'lodash'
+import { mapActions } from 'vuex'
 export default {
   props: {
     questionModel: {
@@ -30,8 +30,7 @@ export default {
     this.cmpName = this.$options.name
   },
   methods: {
-    updateItem: call('questions/updateItem'),
-    saveItem: call('questions/saveItem'),
+    ...mapActions('questions', ['updateItem', 'saveItem']),
     submit() {
       switch (this.mode) {
         case 'edit':

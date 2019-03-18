@@ -58,9 +58,9 @@ import FreeFormQuestion from './components/types/FreeFormQuestion.vue'
 import SingleChoiceQuestion from './components/types/SingleChoiceQuestion.vue'
 import MultipleChoiceQuestion from './components/types/MultipleChoiceQuestion.vue'
 import YesNoQuestion from './components/types/YesNoQuestion.vue'
-import { commit, get } from 'vuex-pathify'
 import { camelCase } from 'lodash'
 import { Container, Draggable } from 'vue-smooth-dnd'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Index',
   components: {
@@ -81,7 +81,7 @@ export default {
     }
   },
   computed: {
-    questions: get('questions/items')
+    ...mapGetters('questions', { questions: 'items' })
   },
   methods: {
     applyDrag(items, dropResult) {

@@ -5,7 +5,6 @@ import getters from './getters.js'
 import mutations from './mutations.js'
 
 import questions from './vuex-questions-module'
-import pathify from 'vuex-pathify'
 import VuexPersist from 'vuex-persist'
 
 Vue.use(Vuex)
@@ -21,7 +20,7 @@ const state = {
 }
 
 const store = new Vuex.Store({
-  plugins: [pathify.plugin, vuexLocalStorage.plugin],
+  plugins: [vuexLocalStorage.plugin],
   state,
   actions,
   getters,

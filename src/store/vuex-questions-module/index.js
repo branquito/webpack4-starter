@@ -1,4 +1,3 @@
-import { make } from 'vuex-pathify'
 import uuid4 from 'uuid4'
 import QuestionFactory from '../../questions/factories/QuestionFactory.js'
 
@@ -71,7 +70,7 @@ export default {
     // DND
   },
   getters: {
-    ...make.getters('items'),
+    items: state => state.items,
     getModel: state => {
       return state.items.find(item => item.__id === null)
     }
