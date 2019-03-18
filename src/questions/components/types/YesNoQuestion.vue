@@ -12,33 +12,35 @@
         <div class="panel-heading">
           <p>{{ cmpName }} in <strong>{{ mode }}</strong> mode</p>
         </div>
-      </div>
-      <div class="panel-body">
-        <form @submit.prevent="submit">
-          <div class="row">
-            <div class="col-xs-6">
-              <p>Question: {{ Q.question }}</p>
-
-              <div v-if="hasOptions">
-                <template v-for="option in Q.options">
-                  <p>
-                    <label>
-                      {{ option.name }}
-                      <input type="radio" v-model="Q.picked" :value="option" name="yesno">
-                    </label>
-                  </p>
-                </template>
+        <div class="panel-body">
+          <form @submit.prevent="submit">
+            <div class="row">
+              <div class="col-xs-6">
+                <input
+                  class="form-control"
+                  v-model="Q.question"
+                  placeholder="Type your question here"></input>
+                <div v-if="hasOptions">
+                  <template v-for="option in Q.options">
+                    <p>
+                      <label>
+                        {{ option.name }}
+                        <input type="radio" v-model="Q.picked" :value="option" name="yesno">
+                      </label>
+                    </p>
+                  </template>
+                </div>
+                <div v-else>No options</div>
               </div>
-              <div v-else>No options</div>
+              <div class="col-xs-6">Picked: <pre>{{ Q.picked }}</pre></div>
             </div>
-            <div class="col-xs-6">Picked: <pre>{{ Q.picked }}</pre></div>
-          </div>
-          <div class="row buffer">
-            <div class="col-md-12">
-              <button type="submit" class="btn btn-warning">{{ buttonText }}</button>
+            <div class="row buffer">
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-warning">{{ buttonText }}</button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </template>
   </QuestionRenderless>

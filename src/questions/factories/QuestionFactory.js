@@ -69,7 +69,7 @@ QuestionFactory.addType(
 
 QuestionFactory.addType('YesNoQuestion', function createYesNoQuestion({
   id = null,
-  question = 'Answer with Yes or No'
+  question = ''
 } = {}) {
   return {
     question,

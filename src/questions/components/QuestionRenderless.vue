@@ -11,9 +11,14 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      option: ''
+    }
+  },
   methods: {
     addOption(option) {
-      this.questionModel.options.push(option)
+      this.questionModel.options.push(this.option)
       this.$emit('update', this.questionModel)
     }
   },
@@ -21,7 +26,16 @@ export default {
     const scope = this
     const children = this.$scopedSlots.default({
       data: this.questionModel,
-      addOption: this.addOption
+      option: this.option,
+      addOption: this.addOption,
+      inputAttrs: {
+        value: this.option
+      },
+      inputEvents: {
+        input: e => {
+          this.option = e.target.value
+        }
+      }
     })
     return h('div', {}, children)
   }

@@ -8,8 +8,8 @@
       >
       <Draggable v-for="item in items" :key="item.__id">
         <QListItem
-          @remove="remove"
-          @edit="edit"
+          @remove="$emit('remove-item', item)"
+          @edit="$emit('edit-item', item)"
           :item="item"
         ></QListItem>
       </Draggable>
@@ -46,12 +46,6 @@ export default {
   methods: {
     getChildPayload(index) {
       return this.items[index]
-    },
-    remove(item) {
-      this.$emit('remove-item', item)
-    },
-    edit(item) {
-      this.$emit('edit-item', item)
     }
   }
 }

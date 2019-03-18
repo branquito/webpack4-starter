@@ -1,6 +1,6 @@
 <template>
   <QuestionRenderless :questionModel="questionModel" @input="(model) => { $emit('input', model) }">
-  <template slot-scope="{data: Q, addOption}">
+  <template slot-scope="{data: Q, option, addOption, inputAttrs, inputEvents}">
     <QuestionTypeSelect
           v-if="mode === 'create'"
           :get-selected="getActiveQuestionTypeSelection"
@@ -18,12 +18,10 @@
             <div class="col-xs-6">
               <p>Question: {{ Q.question }}</p>
               <div class="input-group">
-                <input class="form-control" type="text" v-model="optionName">
+                <input class="form-control" type="text" v-bind="inputAttrs" v-on="inputEvents">
                 <span class="input-group-btn">
-                  <a @click="addOption({name: 'Ivan'})">dodaj</a>
                   <button
-                    :disabled="optionName === ''"
-                    @click.prevent="addOption({name: `option ${optionName}`})"
+                    @click.prevent="addOption({name: `${option}`})"
                     class="btn btn-default">+</button>
                 </span>
               </div><!-- /input-group -->
@@ -31,7 +29,7 @@
                 <template v-for="option in Q.options">
                   <p>
                     <label>
-                      {{ option.name }}
+                      {{ option }}
                       <input type="checkbox" v-model="Q.picked" :value="option">
                     </label>
                   </p>
@@ -59,11 +57,6 @@ import QuestionRenderless from '../QuestionRenderless.vue'
 export default {
   name: 'MultipleChoiceQuestion',
   components: { QuestionRenderless, QuestionTypeSelect },
-  mixins: [questionMixin],
-  data() {
-    return {
-      optionName: ''
-    }
-  }
+  mixins: [questionMixin]
 }
 </script>
