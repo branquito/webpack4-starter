@@ -4,9 +4,10 @@
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <button @click="addQuestionToList('test question')">Add to list</button>
             <p>Categories</p>
+            <pre>
             {{ lists }}
+            </pre>
           </div>
           <div class="panel-body">
           </div>
@@ -33,15 +34,23 @@
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">
+            <button @click="addList" class="btn btn-default pull-right">
+              <i class="glyphicon glyphicon-plus"></i>
+            </button>
             <p>Lists</p>
           </div>
           <div class="panel-body">
-            <QList
-               :items="listItems"
-               stack-name="Glist"
-               group-name="question-cards"
-               @drop="onDrop"
-            ></QList>
+            <div v-for="list in lists" class="panel panel-default">
+              <div class="panel-heading">{{ list.name }}</div>
+              <div class="panel-body">
+                <QList
+                   :items="list.questions"
+                   :stack-name="list.name"
+                   group-name="question-cards"
+                   @drop="onDrop"
+                   ></QList>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -64,10 +73,16 @@ import { camelCase } from 'lodash'
 import { Container, Draggable } from 'vue-smooth-dnd'
 import { mapGetters, createNamespacedHelpers } from 'vuex'
 
-import { mapQuestionFields } from '../store'
+import { mapQuestionFields, mapQuestionListFields } from '../store'
+
 const { mapMutations: mapQuestionMutations } = createNamespacedHelpers(
   'questions'
 )
+const { mapMutations: mapQuestionListMutations } = createNamespacedHelpers(
+  'questions/lists'
+)
+const { mapActions: mapQuestionActions } = createNamespacedHelpers('questions')
+
 export default {
   name: 'Index',
   components: {
@@ -83,18 +98,22 @@ export default {
   },
   data() {
     return {
-      show: false,
-      listItems: []
+      show: false
     }
   },
   computed: {
     ...mapGetters('questions', { questions: 'items' }),
-    ...mapQuestionFields(['lists'])
+    ...mapQuestionListFields({ lists: 'items' })
   },
   methods: {
     ...mapQuestionMutations({
-      addQuestionToList: 'ADD_ITEM_TO_LIST'
+      removeQuestion: 'remove'
     }),
+    ...mapQuestionListMutations({
+      addQuestionToList: 'addItemToList',
+      setQuestionList: 'setList'
+    }),
+    ...mapQuestionActions(['storeModel', 'cancel', 'saveItem', 'updateItem']),
     applyDrag(items, dropResult) {
       const { removedIndex, addedIndex, payload } = dropResult
       if (removedIndex === null && addedIndex === null) return items
@@ -123,14 +142,19 @@ export default {
       if (source === 'Qlist') return false
       if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
         if (dropResult.removedIndex === null) {
-          this.listItems = this.applyDrag(this.listItems, dropResult)
+          const foundListModel = this.lists.find(list => list.name === source)
+
+          let list = [...foundListModel.questions]
+          list = this.applyDrag(list, dropResult)
+
+          this.setQuestionList({ foundListModel, list })
         }
       }
     },
 
     async addQuestionTemplate() {
       this.show = true
-      await this.$store.dispatch('questions/storeModel', 'freeFormQuestion')
+      await this.storeModel('freeFormQuestion')
       this.$router.push({
         path: '/create/freeFormQuestion'
       })
@@ -138,14 +162,14 @@ export default {
 
     removeQuestionTemplate(question) {
       this.$router.push({ path: '/' })
-      this.$store.commit('questions/REMOVE_ITEM', question)
+      this.removeQuestion(question)
     },
 
     /*
      * loading question template based on selected type from <select />
      */
     loadQuestionTemplate(type) {
-      this.$store.dispatch('questions/storeModel', camelCase(type))
+      this.storeModel(camelCase(type))
       this.$router.push({
         path: `/create/${camelCase(type)}`
       })
@@ -167,6 +191,10 @@ export default {
         path: '/'
       })
       this.show = false
+    },
+
+    addList() {
+      this.addQuestionToList()
     }
   }
 }

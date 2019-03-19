@@ -25,6 +25,11 @@ export const { mapFields: mapQuestionFields } = createHelpers({
   mutationType: 'questions/updateField'
 })
 
+export const { mapFields: mapQuestionListFields } = createHelpers({
+  getterType: 'questions/lists/getField',
+  mutationType: 'questions/lists/updateField'
+})
+
 const store = new Vuex.Store({
   plugins: [vuexLocalStorage.plugin],
   state,

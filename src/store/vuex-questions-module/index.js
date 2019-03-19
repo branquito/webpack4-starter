@@ -1,10 +1,15 @@
 import uuid4 from 'uuid4'
 import QuestionFactory from '../../questions/factories/QuestionFactory.js'
+
 import { getField, updateField } from 'vuex-map-fields'
 
+/*
+ * Question lists
+ */
+import lists from './lists'
+
 const state = {
-  items: [],
-  lists: ['abc']
+  items: []
 }
 
 const matchOnId = param => item => item.__id === param.__id
@@ -14,22 +19,22 @@ export default {
   state,
   mutations: {
     updateField,
-    ADD_ITEM(state, item) {
-      state.items.push(item)
-    },
 
-    UPDATE_ITEM(state, update) {
+    update(state, update) {
       const at = state.items.findIndex(matchOnId(update))
       if (!at < 0) {
         state.items.splice(at, 1, update)
       }
     },
 
-    REMOVE_ITEM(state, remove) {
+    remove(state, remove) {
       state.items = state.items.filter(item => item.__id !== remove.__id)
     },
 
-    SWITCH_MODEL(state, model) {
+    /*
+    * Switches model while in creation mode
+    */
+    switch(state, model) {
       const idx = state.items.findIndex(item => item.__id === null)
       if (!(idx < 0)) {
         state.items.splice(idx, 1, model)
@@ -38,39 +43,41 @@ export default {
       }
     },
 
-    CLEAR_MODEL(state) {
+    /*
+     * Clears model, on cancel/ESC
+     */
+    clearModel(state) {
       state.items = state.items.filter(item => item.__id !== null)
     },
 
-    SAVE_ITEM(state, model) {
+    /*
+    * Saves question
+    */
+    save(state, model) {
       const safeId = uuid4()
       state.items.splice(state.items.findIndex(item => item.__id === null), 1, {
         ...model,
         __id: safeId
       })
-    },
-
-    ADD_ITEM_TO_LIST(state, item) {
-      state.lists.push(item)
     }
   },
 
   actions: {
     storeModel({ commit, dispatch }, type) {
       const model = QuestionFactory.get(type)
-      commit('SWITCH_MODEL', model)
+      commit('switch', model)
     },
 
     clearModel({ commit }) {
-      commit('CLEAR_MODEL')
+      commit('clearModel')
     },
 
     saveItem({ commit, state }, model) {
-      commit('SAVE_ITEM', model)
+      commit('save', model)
     },
 
     updateItem({ commit }, item) {
-      commit('UPDATE_ITEM', item)
+      commit('update', item)
     }
   },
 
@@ -81,5 +88,8 @@ export default {
     getModel: state => {
       return state.items.find(item => item.__id === null)
     }
+  },
+  modules: {
+    lists: lists
   }
 }
