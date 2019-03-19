@@ -16,7 +16,7 @@ export default {
   state,
   mutations: {
     updateField,
-    addItemToList(state, item) {
+    addList(state, item) {
       const list = createList({ name: uuid4() })
       state.items.push(createList(list))
     },

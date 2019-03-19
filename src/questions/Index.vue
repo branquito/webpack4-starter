@@ -34,7 +34,7 @@
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <button @click="addList" class="btn btn-default pull-right">
+            <button @click="addNewList" class="btn btn-default pull-right">
               <i class="glyphicon glyphicon-plus"></i>
             </button>
             <p>Lists</p>
@@ -110,7 +110,7 @@ export default {
       removeQuestion: 'remove'
     }),
     ...mapQuestionListMutations({
-      addQuestionToList: 'addItemToList',
+      addNewList: 'addList',
       setQuestionList: 'setList'
     }),
     ...mapQuestionActions(['storeModel', 'cancel', 'saveItem', 'updateItem']),
@@ -191,10 +191,6 @@ export default {
         path: '/'
       })
       this.show = false
-    },
-
-    addList() {
-      this.addQuestionToList()
     }
   }
 }
