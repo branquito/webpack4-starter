@@ -4,7 +4,7 @@
       :get-child-payload="getChildPayload"
       @drop="$emit('drop', stackName, $event)"
       :group-name="groupName"
-      class="list-group"
+      class="list-reset"
       tag="ul"
       >
       <template v-for="item in items">

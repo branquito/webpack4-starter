@@ -1,54 +1,66 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <p>Categories</p>
-            <pre>
-            {{ lists }}
-            </pre>
-          </div>
-          <div class="panel-body">
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading clearfix">Questions
-            <button @click="addQuestionTemplate" class="btn btn-default pull-right">
-              <i class="glyphicon glyphicon-plus"></i>
-            </button></div>
-          <div class="panel-body">
-            <QList
-              :items="questions"
-              stack-name="QList"
-              group-name="question-cards"
-              @edit-item="editQuestionTemplate"
-              @remove-item="removeQuestionTemplate"
-              @drop="onDrop"
-              ></QList>
+  <div class="container mx-auto">
+    <div class="flex flex-row -mx-2 mb-4">
+      <div class="flex-1 max-w-xs px-2">
+        <div class="box-wrapper bg-grey-lighter border border-rn-grey-light p-3a text-xs">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="font-medium">Categories</h4>
+            </div>
+            <div class="panel-body">
+              <pre class="debug text-rn-grey-dark">
+                {{ lists }}
+              </pre>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <button @click="addNewList" class="btn btn-default pull-right">
-              <i class="glyphicon glyphicon-plus"></i>
-            </button>
-            <p>Lists</p>
+      <div class="flex-1 px-2">
+        <div class="box-wrapper bg-rn-grey-lighter border border-rn-grey-light p-3a">
+          <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+              <h4 class="font-medium">
+                Create different types of questions
+              </h4>
+              <p>Create or edit questions, choose the type, define suggested and preferred answers here.</p>
+              <button
+                @click="addQuestionTemplate"
+                class="border border-rn-teal-darker bg-rn-teal-darker px-3 py-2 text-white text-xs">Add Question
+              </button>
+            </div>
+            <div class="panel-body">
+              <QList
+                  :items="questions"
+                  stack-name="QList"
+                  group-name="question-cards"
+                  @edit-item="editQuestionTemplate"
+                  @remove-item="removeQuestionTemplate"
+                  @drop="onDrop"
+                  ></QList>
+            </div>
           </div>
-          <div class="panel-body">
-            <div v-for="list in lists" class="panel panel-default">
-              <div class="panel-heading">{{ list.name }}</div>
-              <div class="panel-body">
-                <QList
-                   :items="list.questions"
-                   :stack-name="list.name"
-                   group-name="question-cards"
-                   @drop="onDrop"
-                   ></QList>
+        </div>
+      </div>
+      <div class="flex-1 px-2">
+        <div class="box-wrapper bg-rn-grey-lighter border border-rn-grey-light p-3a">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="font-medium">Group questions into question lists</h4>
+              <button @click="addNewList"
+                class="border border-rn-teal-darker bg-rn-teal-darker px-3 py-2 text-white text-xs">Add List
+              </button>
+            </div>
+            <div class="panel-body">
+              <div v-for="list in lists" class="panel panel-default">
+                <div class="panel-heading">{{ list.name }}</div>
+                <div class="panel-body">
+                  <QList
+                     :items="list.questions"
+                     :stack-name="list.name"
+                     group-name="question-cards"
+                     @drop="onDrop"
+                     ></QList>
+                </div>
               </div>
             </div>
           </div>
@@ -144,10 +156,12 @@ export default {
         if (dropResult.removedIndex === null) {
           const foundListModel = this.lists.find(list => list.name === source)
 
-          let list = [...foundListModel.questions]
-          list = this.applyDrag(list, dropResult)
+          if (foundListModel) {
+            let list = [...foundListModel.questions]
+            list = this.applyDrag(list, dropResult)
 
-          this.setQuestionList({ foundListModel, list })
+            this.setQuestionList({ foundListModel, list })
+          }
         }
       }
     },
@@ -195,3 +209,7 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.debug {
+}
+</style>

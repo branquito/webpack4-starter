@@ -16,6 +16,7 @@ import SmartQuestion from './questions/components/SmartQuestion.vue'
 import questionsRoutes from './questions/routes'
 
 import VueRouter from 'vue-router'
+import './styles/base.css'
 
 Vue.use(VueRouter)
 
