@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --mode development --progress --hot --open --hide-modules",
+    "start":
+      "webpack-dev-server --mode development --progress --hot --open --hide-modules",
     "dev": "webpack --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "generate-icons": "vsvg -s ./svg-icons -t ./src/compiled-icons"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +35,7 @@
     "vue": "^2.5.17",
     "vue-loader": "^15.4.2",
     "vue-save-state": "^1.2.0",
+    "vue-svgicon": "^3.2.4",
     "vue-template-compiler": "^2.5.17",
     "vuedraggable": "^2.17.0",
     "webpack": "^4.27.1",

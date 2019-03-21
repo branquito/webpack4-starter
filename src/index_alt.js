@@ -14,12 +14,18 @@ import Questions from './questions/Index.vue'
 import SmartQuestion from './questions/components/SmartQuestion.vue'
 
 import questionsRoutes from './questions/routes'
+import VueSVGIcon from 'vue-svgicon'
 
 import VueRouter from 'vue-router'
 import './styles/base.css'
 
 Vue.use(VueRouter)
+Vue.use(VueSVGIcon, {
+  defaultWidth: '1em',
+  defaultHeight: '1em'
+})
 
+import './compiled-icons'
 const routes = [...questionsRoutes]
 
 const router = new VueRouter({

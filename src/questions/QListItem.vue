@@ -11,8 +11,12 @@
       </div>
       <div class="question-group__controls">
         <rn-label :text="item.__type"></rn-label>
-        <button @click="$emit('edit', item)" class="">E</button>
-        <button @click="$emit('remove', item)" class="">R</button>
+        <button @click="$emit('edit', item)" class="">
+          <svgicon icon="pen" color="#888"></svgicon>
+        </button>
+        <button @click="$emit('remove', item)" class="">
+          <svgicon icon="delete" color="#f00"></svgicon>
+        </button>
       </div>
     </div>
   </div>
