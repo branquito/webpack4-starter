@@ -1,5 +1,5 @@
 <template>
-  <span class="w-1 bg-rn-grey-darker text-white px-2 py-1 text-xxs rounded-sm">{{ text }}</span>
+  <span class="w-full bg-rn-grey-darker text-white px-2 py-1 text-xxs rounded-sm">{{ text }}</span>
 </template>
 <script>
 export default {

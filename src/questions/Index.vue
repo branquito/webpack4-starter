@@ -1,68 +1,66 @@
 <template>
-  <div class="container mx-auto">
-    <div class="flex flex-row -mx-2 mb-4">
-      <div class="flex-1 max-w-xs px-2">
+  <div class="container mx-auto mt-4">
+    <div class="flex flex-wrap -mx-2 mb-4">
+      <div class="w-full lg:w-1/5 mb-2 px-2">
+        <h2 class="font-normal text-2xl m-2">Tags</h2>
         <div class="box-wrapper bg-grey-lighter border border-rn-grey-light p-3a text-xs">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="font-medium">Categories</h4>
-            </div>
-            <div class="panel-body">
-              <pre class="debug text-rn-grey-dark">
-                {{ lists }}
-              </pre>
-            </div>
-          </div>
+          <pre class="debug text-rn-grey-dark">
+             {{ lists }}
+          </pre>
         </div>
       </div>
-      <div class="flex-1 px-2">
-        <div class="box-wrapper bg-rn-grey-lighter border border-rn-grey-light p-3a">
-          <div class="panel panel-default">
-            <div class="panel-heading clearfix">
-              <h4 class="font-medium">
-                Create different types of questions
-              </h4>
-              <p>Create or edit questions, choose the type, define suggested and preferred answers here.</p>
-              <button
-                @click="addQuestionTemplate"
-                class="border border-rn-teal-darker bg-rn-teal-darker px-3 py-2 text-white text-xs">Add Question
-              </button>
-            </div>
-            <div class="panel-body">
-              <QList
-                  :items="questions"
-                  stack-name="QList"
-                  group-name="question-cards"
-                  @edit-item="editQuestionTemplate"
-                  @remove-item="removeQuestionTemplate"
-                  @drop="onDrop"
-                  ></QList>
-            </div>
-          </div>
+      <div class="w-full lg:w-2/5 mb-2 px-2">
+        <h2 class="font-normal text-2xl m-2">Questions</h2>
+        <div class="box-wrapper bg-rn-grey-lighter border border-rn-grey-light p-3a mb-3">
+          <h4 class="font-medium">
+            Create different types of questions
+          </h4>
+          <p class="text-sm my-2">Create or edit questions, choose the type, define suggested and preferred answers here.</p>
+          <RnButton
+            addon="add"
+            theme="rn-default"
+            is-rounded
+            @click="addQuestionTemplate"
+            class="mt-2">Add Question</RnButton>
         </div>
+
+        <Search :source="questions" by="__id">
+        <template slot="results" slot-scope="{results}">
+          <pre>{{ results }}</pre>
+        </template>
+        </Search>
+        <QList
+          :items="questions"
+          stack-name="QList"
+          group-name="question-cards"
+          @edit-item="editQuestionTemplate"
+          @remove-item="removeQuestionTemplate"
+          @drop="onDrop"
+          ></QList>
+
       </div>
-      <div class="flex-1 px-2">
+      <div class="w-full lg:w-2/5 px-2">
+        <h2 class="font-normal text-2xl m-2">Question Lists</h2>
         <div class="box-wrapper bg-rn-grey-lighter border border-rn-grey-light p-3a">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="font-medium">Group questions into question lists</h4>
-              <button @click="addNewList"
-                class="border border-rn-teal-darker bg-rn-teal-darker px-3 py-2 text-white text-xs">Add List
-              </button>
-            </div>
-            <div class="panel-body">
-              <div v-for="list in lists" class="panel panel-default">
-                <div class="panel-heading">{{ list.name }}</div>
-                <div class="panel-body">
-                  <QList
-                     :items="list.questions"
-                     :stack-name="list.name"
-                     group-name="question-cards"
-                     @drop="onDrop"
-                     ></QList>
-                </div>
-              </div>
-            </div>
+          <h4 class="font-medium">Group questions into question lists</h4>
+          <p class="text-sm my-2">Group your questions in lists that you can use for different Job reqs.</p>
+          <RnButton
+            addon="add"
+            theme="rn-default"
+            is-rounded
+            @click="addNewList"
+            class="mt-2"
+            >Add List</RnButton>
+        </div>
+        <div v-for="list in lists" class="panel panel-default">
+          <div class="">
+            {{ list.name }}
+            <QList
+                :items="list.questions"
+                :stack-name="list.name"
+                group-name="question-cards"
+                @drop="onDrop"
+                ></QList>
           </div>
         </div>
       </div>
@@ -77,6 +75,7 @@ import Vue from 'vue'
 import Modal from './Modal.vue'
 import QList from './QList.vue'
 import Search from './Search.vue'
+import RnButton from './components/Button.vue'
 import FreeFormQuestion from './components/types/FreeFormQuestion.vue'
 import SingleChoiceQuestion from './components/types/SingleChoiceQuestion.vue'
 import MultipleChoiceQuestion from './components/types/MultipleChoiceQuestion.vue'
@@ -100,6 +99,7 @@ export default {
   components: {
     QList,
     Search,
+    RnButton,
     FreeFormQuestion,
     SingleChoiceQuestion,
     MultipleChoiceQuestion,

@@ -10,6 +10,7 @@
  * @import "tailwindcss/preflight";
  */
 @tailwind preflight;
+
 html,
 body {
   box-sizing: border-box;

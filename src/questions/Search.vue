@@ -3,7 +3,7 @@
     <div class="form-group">
         <label>
           {{ label }}
-          <input v-model="term" placeholder="Search..." class="form-control" type="text">
+          <input v-model="term" placeholder="Search..." class="border rounded rounded-sm leading-normal" type="text">
         </label>
       </div>
     <slot name="results" v-bind="{ results }"></slot>
@@ -16,11 +16,16 @@ export default {
   props: {
     label: {
       type: String,
-      default: 'Search here'
+      default: ''
     },
     source: {
       type: Array,
       required: true
+    },
+    by: {
+      type: String,
+      required: false,
+      default: 'id'
     }
   },
   created() {
@@ -35,9 +40,16 @@ export default {
   methods: {
     search() {
       console.log(`Searching... for ${this.term}`)
-      this.results = this.source.filter(
-        entry => this.term !== '' && entry.text.indexOf(this.term) !== -1
-      )
+      if (this.source[0][this.by]) {
+        this.results = this.source
+          .filter(
+            entry =>
+              this.term !== '' && entry[this.by].indexOf(this.term) !== -1
+          )
+          .map(entry => entry[this.by])
+      } else {
+        console.warn(`${this.by} not found in ${this.source[0]}`)
+      }
     }
   },
   watch: {

@@ -4,14 +4,16 @@
       :key="item.__id"
       tag="li"
   >
-  <div class="question-group">
-    <div class="question-group__question">
-      {{ item.question || '...' }}
-      <rn-label :text="item.__type"></rn-label>
-    </div>
-    <div class="question-group__controls">
-      <button @click="$emit('remove', item)" class="">edit</button>
-      <button @click="$emit('remove', item)" class="">remove</button>
+  <div class="box-wrapper bg-rn-grey-lighter border border-rn-grey-light p-3a mb-3">
+    <div class="question-group">
+      <div class="question-group__question">
+        {{ item.question || '...' }}
+      </div>
+      <div class="question-group__controls">
+        <rn-label :text="item.__type"></rn-label>
+        <button @click="$emit('edit', item)" class="">E</button>
+        <button @click="$emit('remove', item)" class="">R</button>
+      </div>
     </div>
   </div>
   </Draggable>
@@ -30,16 +32,18 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+li {
+  overflow: visible;
+}
 .question-group {
   display: flex;
   &__question {
+    flex-shrink: 1;
     margin-right: auto;
   }
   &__controls {
-    flex: 0;
-    button {
-      margin-bottom: 0.3rem;
-    }
+    display: flex;
+    align-items: center;
   }
 }
 </style>
