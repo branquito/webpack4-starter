@@ -41,7 +41,7 @@
       </div>
       <div class="w-full lg:w-2/5 px-2">
         <h2 class="font-normal text-2xl m-2">Question Lists</h2>
-        <div class="box-wrapper bg-rn-grey-lighter border border-rn-grey-light p-3a">
+        <div class="box-wrapper bg-rn-grey-lighter border border-rn-grey-light p-3a mb-3">
           <h4 class="font-medium">Group questions into question lists</h4>
           <p class="text-sm my-2">Group your questions in lists that you can use for different Job reqs.</p>
           <RnButton
@@ -52,6 +52,11 @@
             class="mt-2"
             >Add List</RnButton>
         </div>
+        <Search :source="[]" by="__id">
+        <template slot="results" slot-scope="{results}">
+          <pre>{{ results }}</pre>
+        </template>
+        </Search>
         <div v-for="list in lists" class="panel panel-default">
           <div class="">
             {{ list.name }}

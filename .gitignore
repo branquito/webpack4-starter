@@ -10,3 +10,4 @@ test/
 
 # End of https://www.gitignore.io/api/vuejs
 dist/
+svg-icons/

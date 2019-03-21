@@ -40,7 +40,7 @@ export default {
   methods: {
     search() {
       console.log(`Searching... for ${this.term}`)
-      if (this.source[0][this.by]) {
+      if (this.source.length && this.source[0][this.by]) {
         this.results = this.source
           .filter(
             entry =>
@@ -48,7 +48,11 @@ export default {
           )
           .map(entry => entry[this.by])
       } else {
-        console.warn(`${this.by} not found in ${this.source[0]}`)
+        console.warn(
+          `${
+            this.by
+          } not found in searchable items. Did you specify the key to search on?`
+        )
       }
     }
   },
