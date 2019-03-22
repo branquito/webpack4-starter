@@ -9,14 +9,14 @@
 </template>
 <script>
 export default {
-  props: ["show"],
+  props: ['show'],
   methods: {
     close: function() {
-      this.$emit("close")
+      this.$emit('close')
     }
   },
   mounted: function() {
-    document.addEventListener("keydown", e => {
+    document.addEventListener('keydown', e => {
       if (this.show && e.keyCode == 27) {
         this.close()
       }
@@ -41,7 +41,7 @@ export default {
 }
 
 .modal-container {
-  width: 800px;
+  width: 530px;
   margin: 40px auto 0;
   padding: 20px 30px;
   background-color: #fff;

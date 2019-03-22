@@ -78,8 +78,8 @@ export default {
       {
         class: this.themes[this.theme],
         on: {
-          click: () => {
-            this.$emit('click')
+          click: event => {
+            this.$emit('click', event)
           }
         }
       },

@@ -44,6 +44,10 @@ export default {
       }
       this.$emit('modal-close')
     },
+    cancel() {
+      this.$router.push({ path: '/' })
+      this.$emit('modal-close')
+    },
     getActiveQuestionTypeSelection(type) {
       return lowerCase(this.questionModel.__type) === lowerCase(type)
     }

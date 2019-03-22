@@ -24,7 +24,7 @@
             class="mt-2">Add Question</RnButton>
         </div>
 
-        <Search :source="questions" by="__id">
+        <Search :source="questions" by="question">
         <template slot="results" slot-scope="{results}">
           <pre>{{ results }}</pre>
         </template>

@@ -22,8 +22,21 @@ export default {
       this.$emit('update', this.questionModel)
     }
   },
-  render(h) {
+  render(createElement) {
     const scope = this
+
+    const caption = this.questionModel.__id ? 'Edit' : 'Create New'
+    const title = createElement(
+      'h2',
+      {
+        class: ['font-normal text-2xl']
+      },
+      `${caption} Question`
+    )
+    const separator = createElement('hr', {
+      class: ['border', 'my-6']
+    })
+
     const children = this.$scopedSlots.default({
       data: this.questionModel,
       option: this.option,
@@ -43,7 +56,7 @@ export default {
         }
       }
     })
-    return h('div', {}, children)
+    return createElement('div', {}, [title, separator, ...children])
   }
 }
 </script>

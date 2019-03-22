@@ -14,11 +14,15 @@ const QuestionFactory = configurableFactory.default.getInstance(
 
 QuestionFactory.addType('FreeFormQuestion', function createFreeFormQuestion({
   question = '',
-  id = null
+  id = null,
+  tags = []
 } = {}) {
   return {
     question,
     answer: '',
+    isConfidential: false,
+    addPredefined: false,
+    tags,
     __cmp: 'FreeFormQuestion',
     __type: 'FreeFormQuestion',
     __id: id
@@ -31,12 +35,16 @@ QuestionFactory.addType(
     id = null,
     question = '',
     options = [],
+    tags: [],
     usesOther = undefined
   } = {}) {
     return {
       question,
       options,
       picked: [],
+      isConfidential: false,
+      addPredefined: false,
+      tags,
       specificRequired: false,
       __cmp: 'MultipleChoiceQuestion',
       __type: `MultipleChoiceQuestion${(usesOther && 'Other') || ''}`,
@@ -52,12 +60,16 @@ QuestionFactory.addType(
     id = null,
     question = '',
     options = [],
+    tags = [],
     usesOther = undefined
   } = {}) {
     return {
       question,
       options,
       picked: '',
+      tags,
+      isConfidential: false,
+      addPredefined: false,
       specificRequired: false,
       __cmp: 'SingleChoiceQuestion',
       __type: `SingleChoiceQuestion${(usesOther && 'Other') || ''}`,
@@ -69,7 +81,8 @@ QuestionFactory.addType(
 
 QuestionFactory.addType('YesNoQuestion', function createYesNoQuestion({
   id = null,
-  question = ''
+  question = '',
+  tags = []
 } = {}) {
   return {
     question,
@@ -78,6 +91,9 @@ QuestionFactory.addType('YesNoQuestion', function createYesNoQuestion({
       { name: 'No', value: 0, id: 2 }
     ],
     picked: {},
+    tags,
+    isConfidential: false,
+    addPredefined: false,
     specificRequired: false,
     __id: id,
     __cmp: 'YesNoQuestion',

@@ -6,42 +6,42 @@
           :get-selected="getActiveQuestionTypeSelection"
           :types="questionTypes"
           @load-type="$emit('load-type', $event)"
+          class="mb-6"
           >
     </QuestionTypeSelect>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <p>{{ cmpName }} in <strong>{{ mode }}</strong> mode</p>
-        </div>
-        <div class="panel-body">
-          <form @submit.prevent="submit">
-            <div class="row">
-              <div class="col-xs-6">
-                <input
-                  class="form-control"
-                  v-model="Q.question"
-                  placeholder="Type your question here"></input>
-                <div v-if="hasOptions">
-                  <template v-for="option in Q.options">
-                    <p>
-                      <label>
-                        {{ option.name }}
-                        <input type="radio" v-model="Q.picked" :value="option" name="yesno">
-                      </label>
-                    </p>
-                  </template>
-                </div>
-                <div v-else>No options</div>
-              </div>
-              <div class="col-xs-6">Picked: <pre>{{ Q.picked }}</pre></div>
+    <form class="w-full max-w-full mx-auto" @submit.prevent="submit">
+
+      <FormInput v-model="Q.question" type="text" label="Question"></FormInput>
+
+      <div v-if="hasOptions">
+        <template v-for="option in Q.options">
+          <div class="md:flex md:items-start my-6">
+            <div class="md:w-1/3">
+              <label class="text-sm font-medium text-rn-grey-dark-label">{{ option.name }}</label>
             </div>
-            <div class="row buffer">
-              <div class="col-md-12">
-                <button type="submit" class="btn btn-warning">{{ buttonText }}</button>
-              </div>
+            <div class="md:w-2/3">
+              <input type="radio" v-model="Q.picked" :value="option" name="yesno">
             </div>
-          </form>
-        </div>
+          </div>
+        </template>
       </div>
+      <div v-else>No options</div>
+      <div class="col-xs-6">Picked: <pre class="text-xs bg-yellow-lightest">{{ Q.picked }}</pre></div>
+      <div class="md:w-1/3"></div>
+      <div class="md:w-2/3">
+        <!-- // todo cancel -->
+        <RnButton
+           theme="rn-default"
+           is-rounded
+           @click.prevent="cancel"
+           class="mt-2">Cancel</RnButton>
+        <RnButton
+           theme="rn-default"
+           is-rounded
+           type="submit"
+           class="mt-2">{{ buttonText }}</RnButton>
+      </div>
+    </form>
     </template>
   </QuestionRenderless>
 </template>
@@ -49,9 +49,11 @@
 import QuestionTypeSelect from '../QuestionTypeSelect.vue'
 import questionMixin from '../mixins/questionMixin.vue'
 import QuestionRenderless from '../QuestionRenderless.vue'
+import FormInput from '@/questions/components/FormInput.vue'
+import RnButton from '@/questions/components/Button.vue'
 export default {
   name: 'YesNoQuestion',
-  components: { QuestionRenderless, QuestionTypeSelect },
+  components: { QuestionRenderless, QuestionTypeSelect, FormInput, RnButton },
   mixins: [questionMixin]
 }
 </script>

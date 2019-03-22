@@ -10,12 +10,12 @@
         {{ item.question || '...' }}
       </div>
       <div class="question-group__controls">
-        <rn-label :text="item.__type"></rn-label>
-        <button @click="$emit('edit', item)" class="">
-          <svgicon icon="pen" color="#111"></svgicon>
+        <rn-label :text="item.__type" class="mr-2"></rn-label>
+        <button @click="$emit('edit', item)" class="ml-2">
+          <svgicon icon="renhead/edit" color="#5b5c5c" width="12" height="12"></svgicon>
         </button>
-        <button @click="$emit('remove', item)" class="">
-          <svgicon icon="delete" color="#8b0000"></svgicon>
+        <button @click="$emit('remove', item)" class="ml-2">
+          <svgicon icon="renhead/delete" width="12" height="12" color="#5b5c5c"></svgicon>
         </button>
       </div>
     </div>

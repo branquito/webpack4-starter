@@ -52,6 +52,7 @@ let colors = {
 
   'rn-teal-darker': '#3b565d',
   'rn-teal-darkest': '#31484d',
+  'rn-grey-dark-label': '#373a3c',
 
   black: '#22292f',
   'grey-darkest': '#3d4852',
@@ -653,7 +654,9 @@ module.exports = {
     px: '1px',
     '0': '0',
     '1': '0.25rem',
+    '1px': '1px',
     '2': '0.5rem',
+    '2px': '2px',
     '3': '0.75rem',
     '3a': '0.9375rem', // 15px
     '4': '1rem',
