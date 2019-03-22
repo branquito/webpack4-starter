@@ -35,7 +35,7 @@ QuestionFactory.addType(
     id = null,
     question = '',
     options = [],
-    tags: [],
+    tags = [],
     usesOther = undefined
   } = {}) {
     return {

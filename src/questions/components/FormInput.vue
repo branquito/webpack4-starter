@@ -4,7 +4,12 @@
           <label class="text-sm font-medium text-rn-grey-dark-label">{{ label }}</label>
         </div>
         <div class="md:w-2/3">
-          <input class="border rounded rounded-sm leading-normal" type="text" :value="value" @input="$emit('input', $event.target.value)">
+          <input
+            class="border rounded rounded-sm leading-normal"
+            type="text"
+            :value="value"
+            @input="$emit('input', $event.target.value)"
+            >
         </div>
       </div>
 </template>
