@@ -3,14 +3,15 @@
     ref="button"
     type="button"
     data-style="zoom-in"
-    :class="[sizeClass, colorClass]"
+    :class="['btn', sizeClass, colorClass]"
     @contextmenu.prevent="isConfirming = false"
-    @click="onClick($event)">
+    @click="handleClick">
+    <slot name="loaderActions" v-bind="actions"></slot>
     <span class="ladda-label">
       <template v-if="isConfirming">Confirm</template>
       <i
-        v-if="icon"
-        :class="[ 'fa', iconClasses ]"/>
+        v-if="faIcon"
+        :class="iconClasses"/>
       <slot/>
       <template v-if="isConfirming">?</template>
     </span>
@@ -35,30 +36,25 @@ const hasAllowedValue = allowed => value => allowed.includes(value)
 const hasAllowedSize = hasAllowedValue(allowedSizes)
 const hasAllowedColor = hasAllowedValue(allowedColors)
 
-const prefix = arg => `btn-${arg}`
+const prefix = str => `btn-${str}`
 
 export default {
   props: {
+    faIcon: {
+      type: String,
+      default: null
+    },
     size: {
       type: String,
       validator: hasAllowedSize,
       default: 'sm'
-    },
-    icon: {
-      type: String,
-      validator: value => value.startsWith('fa-'),
-      default: null
     },
     color: {
       type: String,
       validator: hasAllowedColor,
       default: 'primary'
     },
-    loading: {
-      type: Boolean,
-      default: null
-    },
-    shouldConfirm: {
+    confirmable: {
       type: Boolean,
       default: false
     }
@@ -71,43 +67,40 @@ export default {
       isConfirming: false
     }
   },
-  watch: {
-    loading() {
-      if (this.loading) {
-        this.l.start()
-      } else {
-        this.l.stop()
-      }
-    }
-  },
 
   computed: {
-    classes () {
-      return {
-        'btn-icon': !!this.icon && this.btnIcon
+    actions() {
+      if (this.l) {
+        const { start, stop } = this.l
+
+        return {
+          startLoader: start.bind(this.l),
+          stopLoader: stop.bind(this.l)
+        }
       }
     },
     iconClasses () {
       return {
-        [this.icon]: true,
-        small: this.size === 'xs'
+        fa: true,
+        small: this.size === 'xs',
+        [`fa-${this.faIcon}`]: true
       }
     },
+
     colorClass () {
       return prefix(this.color || 'primary')
     },
+
     sizeClass () {
-      if (!this.size) {
-        return 'btn-sm'
-      } else {
-        return prefix(this.size)
-      }
+      return prefix(this.size || 'sm')
     }
   },
 
   mounted () {
-    this.btnIcon = !!this.$slots.default
     this.l = Ladda.create(this.$refs.button)
+    this.$once('hook:beforeDestroy', () => {
+      this.l.remove()
+    })
   },
 
   methods: {
@@ -119,11 +112,11 @@ export default {
         this.$emit('click')
       }
     },
-    onClick (event) {
-      if (this.shouldConfirm) {
+    handleClick (e) {
+      if (this.confirmable) {
         this.onConfirm()
       } else {
-        this.$emit('click', event)
+        this.$emit('click', e)
       }
     }
   }

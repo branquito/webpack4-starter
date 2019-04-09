@@ -4,15 +4,22 @@
       I am Index.vue in improvements
     </h4>
     <VButton
-      color="info"
-      size="lg"
       @click="log"
+      color="info"
+      size="xs"
+      faIcon="hammer"
+      :confirmable="true"
       :style="{color: 'yellow'}"
-      :loading="loading"
-      >Test button</VButton>
+      >
+      <template v-slot:default>I am a Button</template>
+      <p slot="loaderActions" slot-scope="{ startLoader, stopLoader }">
+        <a @click.prevent="startLoader">start loader</a>
+      </p>
+    </VButton>
   </div>
 </template>
 <script>
+
 import VButton from './components/Button.vue'
 
 export default {
@@ -25,8 +32,14 @@ export default {
   },
   methods: {
     log() {
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+      }, 900)
       console.log('I was clicked!')
     }
   }
 }
 </script>
+<style lang="scss">
+</style>
