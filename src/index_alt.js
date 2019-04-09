@@ -13,6 +13,8 @@ import AppQuestions from './questions/App.vue'
 import Questions from './questions/Index.vue'
 import SmartQuestion from './questions/components/SmartQuestion.vue'
 
+import Improvements from './improvements/Index.vue'
+
 import questionsRoutes from './questions/routes'
 import VueSVGIcon from 'vue-svgicon'
 
@@ -45,7 +47,7 @@ new Vue({
   el: '#app_alt4',
   store,
   router,
-  render: h => h(AppQuestions)
+  render: h => h(Improvements)
 })
 
 // new Vue({
